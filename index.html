@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terms and Conditions</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Pop-up styling */
+    #popup {
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+    }
+
+    .popup-box {
+      background: #222;
+      padding: 30px;
+      max-width: 400px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #444;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #0a84ff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    #thinking {
+      display: none;
+      font-size: 2rem;
+      animation: blink 1s infinite;
+      z-index: 1;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    /* DATA TRACKER */
+    #dataBox {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: rgba(0,0,0,0.75);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      width: 280px;
+      z-index: 9999;
+      border: 1px solid #444;
+      backdrop-filter: blur(3px);
+      display: block;
+    }
+
+    #dataBox h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #dataList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #dataList li {
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: fadeIn 0.4s forwards;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .checkbox {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #0a84ff;
+      flex-shrink: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- DATA TRACKER (visible immediately) -->
+<div id="dataBox">
+  <h3>Data Detected (<span id="dataCount">0</span>)</h3>
+  <ul id="dataList"></ul>
+</div>
+
+<!-- TERMS POPUP -->
+<div id="popup">
+  <div class="popup-box">
+    <h2>Terms and Conditions</h2>
+    <p>
+      By continuing, you agree to our Terms & Conditions and consent to the collection of your location data.
+      This data will be used to determine the surveillance environment closest to you.
+    </p>
+    <button onclick="acceptTerms()">Accept</button>
+  </div>
+</div>
+
+<div id="thinking">Thinking…</div>
+
+<script>
+/* -------------------------------------
+   CLEAR OLD DATA AND INIT LOG
+------------------------------------- */
+localStorage.removeItem("dataLog");
+localStorage.setItem("dataLog", JSON.stringify([]));
+
+/* -------------------------------------
+   DATA LOG FUNCTIONS
+------------------------------------- */
+function addLogItem(key, text) {
+  let log = JSON.parse(localStorage.getItem("dataLog")) || [];
+
+  // Only add if key doesn't exist
+  const exists = log.some(e => e.key === key);
+  let finalText = text;
+  if (exists) {
+    finalText = `${text} (_visited: ${new Date().toLocaleString()})`;
+  }
+
+  log.push({ key: key, text: finalText });
+  localStorage.setItem("dataLog", JSON.stringify(log));
+  renderLog();
+}
+
+function renderLog() {
+  const list = document.getElementById("dataList");
+  const count = document.getElementById("dataCount");
+
+  let log = JSON.parse(localStorage.getItem("dataLog")) || [];
+  list.innerHTML = "";
+
+  // Render newest first
+  for (let i = log.length - 1; i >= 0; i--) {
+    let entry = log[i];
+    let li = document.createElement("li");
+
+    let box = document.createElement("div");
+    box.className = "checkbox";
+    box.innerHTML = "✓";
+
+    let text = document.createElement("span");
+    text.textContent = entry.text;
+
+    li.appendChild(box);
+    li.appendChild(text);
+    list.appendChild(li);
+  }
+
+  count.textContent = log.length;
+}
+
+/* -------------------------------------
+   ADD DEVICE INFO ON LOAD
+------------------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderLog();
+  addLogItem("deviceInfo", "Device type: " + navigator.userAgent);
+  addLogItem("viewport", "Viewport: " + window.innerWidth + " × " + window.innerHeight);
+});
+
+/* -------------------------------------
+   TERMS + LOCATION + REDIRECT
+------------------------------------- */
+let locationRequested = false;
+
+function acceptTerms() {
+  addLogItem("termsAccepted", "Terms accepted");
+
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("thinking").style.display = "block";
+
+  if (!locationRequested) {
+    locationRequested = true;
+    requestLocation();
+  }
+}
+
+function requestLocation() {
+  if (!navigator.geolocation) {
+    handleNoLocation("Geolocation not supported.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    success,
+    () => handleNoLocation("Location denied.")
+  );
+}
+
+function handleNoLocation(msg) {
+  document.getElementById("thinking").innerHTML =
+    "Location access is required to continue.<br><br>" +
+    "<small>(" + msg + ")</small>";
+}
+
+function success(position) {
+  const userLat = position.coords.latitude;
+  const userLon = position.coords.longitude;
+
+  addLogItem("location", `Location accessed (${userLat.toFixed(2)}, ${userLon.toFixed(2)})`);
+
+  const NYC = { lat: 40.7128, lon: -74.0060 };
+  const BJ  = { lat: 39.9042, lon: 116.4074 };
+
+  function distance(a, b) {
+    const R = 6371;
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLon = (b.lon - a.lon) * Math.PI / 180;
+    const lat1 = a.lat * Math.PI / 180;
+    const lat2 = b.lat * Math.PI / 180;
+
+    const x = Math.sin(dLat/2)**2 +
+              Math.cos(lat1)*Math.cos(lat2) *
+              Math.sin(dLon/2)**2;
+
+    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+  }
+
+  const dNYC = distance({ lat: userLat, lon: userLon }, NYC);
+  const dBJ  = distance({ lat: userLat, lon: userLon }, BJ);
+
+  const chosen = dNYC < dBJ ? "NYC" : "Beijing";
+
+  addLogItem("redirect", "Redirecting to: " + chosen);
+
+  // Replace thinking text with the redirect message
+  document.getElementById("thinking").textContent = "Redirecting to " + chosen + "...";
+
+  setTimeout(() => {
+    window.location.href = chosen + ".html";
+  }, 1500);
+}
+</script>
+
+</body>
+</html>

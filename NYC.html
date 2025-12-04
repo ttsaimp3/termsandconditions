@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NYC Surveillance</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#111; color:white; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+#dataBox { position: fixed; top:15px; left:15px; background:rgba(0,0,0,0.75); color:white; padding:15px; border-radius:8px; font-size:14px; width:300px; z-index:9999; border:1px solid #444; backdrop-filter:blur(3px); }
+#dataBox h3{margin:0 0 10px;font-size:15px;text-transform:uppercase;letter-spacing:1px;}
+#dataList{list-style:none;padding:0;margin:0;}
+#dataList li{margin-bottom:6px;animation:fadeIn 0.4s forwards; display:flex; align-items:center; gap:6px;}
+.checkbox{width:14px;height:14px;border:1px solid #888;display:flex;align-items:center;justify-content:center;font-size:10px;color:#0a84ff;flex-shrink:0;}
+.airline { color: #FFD700; } /* gold for airline */
+.site { color: #fff; }    
+#dataKey { position: absolute; bottom:5px; right:5px; font-size:11px; opacity:0.8; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+#content{max-width:800px;text-align:center;}
+h1{margin-bottom:20px;} p{line-height:1.5;margin-bottom:20px;}
+#choices{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+button.choice{padding:12px 18px;background:#0a84ff;border:none;color:white;border-radius:5px;cursor:pointer;font-size:14px;}
+.video { margin-top:20px; width:560px; height:315px; max-width:100%; border-radius:8px; }
+#switchCity { position:fixed; top:15px; right:15px; background:rgba(0,0,0,0.5); padding:8px 12px; border-radius:5px; cursor:pointer; font-size:12px; z-index:10000; color:white; transition:0.2s; }
+</style>
+</head>
+<body>
+
+<div id="switchCity" title="Curious about another city's surveillance? Click to teleport!">Explore Beijing</div>
+
+<div id="dataBox">
+  <h3>Data Detected (<span id="dataCount">0</span>)</h3>
+  <ul id="dataList"></ul>
+  <div id="dataKey" style="display:none;"></div>
+</div>
+
+<div id="content">
+  <h1>Welcome to NYC</h1>
+  <p>You have landed at JFK airport. What do you do first?</p>
+  <div id="choices">
+    <button class="choice" onclick="chooseAction(1)">Check my phone (I'm a <strong>Screenaholic</strong>)</button>
+    <button class="choice" onclick="chooseAction(2)">Get some food. I'm starving.</button>
+    <button class="choice" onclick="chooseAction(3)">Go to my New York apartment</button>
+  </div>
+</div>
+
+<script>
+const colorMap = { airline: "airline", site: "site" };
+const logKey = "dataLog";
+
+// switch city button
+document.getElementById("switchCity").addEventListener("click", ()=>{window.location.href="Beijing.html";});
+
+// render log
+function renderLog(){
+  const list = document.getElementById("dataList");
+  const count = document.getElementById("dataCount");
+  const keyDiv = document.getElementById("dataKey");
+  let log = JSON.parse(localStorage.getItem(logKey)) || [];
+  list.innerHTML = "";
+
+  const sourcesUsed = new Set();
+  log.slice().reverse().forEach(entry => {
+    const li = document.createElement("li");
+    const box = document.createElement("div"); box.className="checkbox"; box.innerHTML="✓";
+    const text = document.createElement("span"); text.textContent = entry.text; text.className=colorMap[entry.source]||"site";
+    li.appendChild(box); li.appendChild(text);
+    list.appendChild(li);
+    sourcesUsed.add(entry.source);
+  });
+  count.textContent = log.length;
+
+  if(sourcesUsed.size>1){
+    keyDiv.style.display="block";
+    keyDiv.innerHTML="";
+    if(sourcesUsed.has("site")) keyDiv.innerHTML+="<span class='site'>Site/App data</span> ";
+    if(sourcesUsed.has("airline")) keyDiv.innerHTML+="<span class='airline'>Airline data</span>";
+  } else keyDiv.style.display="none";
+}
+
+// add log item
+function addLogItem(key,text,source="site"){
+  let log = JSON.parse(localStorage.getItem(logKey)) || [];
+  const existing = log.find(e=>e.key===key);
+  let finalText=text;
+  if(existing){ finalText=`${text} (_visited: ${new Date().toLocaleString()})`; }
+  log.push({key:key,text:finalText,source:source,time:new Date().toISOString()});
+  localStorage.setItem(logKey,JSON.stringify(log));
+  renderLog();
+}
+
+// add airline data on page load
+window.addEventListener("DOMContentLoaded",()=>{
+  addLogItem("airline_PNR","Passenger Name Record (name, DOB, contact info, payment, itinerary)","airline");
+  addLogItem("airline_API_SFPD","Advance Passenger Info / Secure Flight Passenger Data","airline");
+  renderLog();
+});
+
+// action choices
+function chooseAction(option){
+  const content=document.getElementById("content");
+  switch(option){
+    case 1:
+      addLogItem("NYC_choice_1","Checked phone at JFK (Screenaholic)", "site");
+      content.innerHTML=`<h1>Oh no! No internet access yet</h1>
+      <p>You must connect to the NYC public Wi-Fi to continue using your phone. Connecting will collect your connection details (date, time, duration), device info (type, OS, MAC address), and usage data (websites visited, apps used) for targeted advertising.</p>
+      <iframe class="video" src="https://www.youtube.com/embed/Eni4GuvMu3s?autoplay=1&mute=1" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div style="margin-top:20px;">
+        <button class="choice" onclick="addNYCWiFiData()">Connect to Wi-Fi</button>
+        <button class="choice" onclick="returnToChoices()">Skip Wi-Fi (choose food or apartment)</button>
+      </div>`;
+      break;
+    case 2:
+      addLogItem("NYC_choice_2","Got some food at JFK","site");
+      content.innerHTML=`<h1>You grabbed some food</h1><p>Enjoying NYC airport food. Minimal data collected from ordering.</p>`;
+      break;
+    case 3:
+      addLogItem("NYC_choice_3","Went straight to NYC apartment","site");
+      content.innerHTML=`<h1>Heading to your NYC apartment</h1><p>Your commute is monitored minimally by GPS and transit systems, depending on transport.</p>`;
+      break;
+  }
+}
+
+// Wi-Fi data
+function addNYCWiFiData(){
+  addLogItem("NYC_wifi","Connected to airport public Wi-Fi: collected connection timestamp, duration, device type, OS, MAC address, and usage data for analytics and targeted ads","site");
+  const content=document.getElementById("content");
+  content.innerHTML=`<h1>Connected!</h1><p>Your phone is now online. Data has been collected.</p>`;
+}
+
+// return to initial choices
+function returnToChoices(){
+  const content=document.getElementById("content");
+  content.innerHTML=`<h1>Welcome to NYC</h1>
+  <p>You have landed at JFK airport. What do you do first?</p>
+  <div id="choices">
+    <button class="choice" onclick="chooseAction(1)">Check my phone (I'm a <strong>Screenaholic</strong>)</button>
+    <button class="choice" onclick="chooseAction(2)">Get some food. I'm starving.</button>
+    <button class="choice" onclick="chooseAction(3)">Go to my New York apartment</button>
+  </div>`;
+}
+</script>
+
+</body>
+</html>
