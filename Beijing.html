@@ -5,35 +5,25 @@
 <title>Beijing Surveillance</title>
 <style>
 body { font-family: Arial, sans-serif; margin:0; background:#111; color:white; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-#dataBox { position: fixed; top:15px; left:15px; background:rgba(0,0,0,0.75); color:white; padding:15px; border-radius:8px; font-family:Arial,sans-serif; font-size:14px; width:280px; z-index:9999; border:1px solid #444; backdrop-filter:blur(3px); }
+#dataBox { position: fixed; top:15px; left:15px; background:rgba(0,0,0,0.75); color:white; padding:15px; border-radius:8px; font-family:Arial,sans-serif; font-size:14px; width:300px; z-index:9999; border:1px solid #444; backdrop-filter:blur(3px); }
 #dataBox h3{margin:0 0 10px;font-size:15px;text-transform:uppercase;letter-spacing:1px;}
 #dataList{list-style:none;padding:0;margin:0;}
 #dataList li{margin-bottom:6px;opacity:0;animation:fadeIn 0.4s forwards; display:flex; align-items:center; gap:6px;}
-.checkbox{width:14px;height:14px;border:1px solid #888;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;}
-.government { color: #FF4500; } /* orange-red for government-collected data */
-.site { color: #fff; }    /* white for site/app data */
+.checkbox{width:14px;height:14px;border:1px solid #888;display:flex;align-items:center;justify-content:center;font-size:10px;color:#0a84ff;flex-shrink:0;}
+.airline { color: #FFD700; } /* gold for airline if needed */
+.site { color: #fff; }
 #dataKey { position: absolute; bottom:5px; right:5px; font-size:11px; opacity:0.8; }
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
 #content{max-width:700px;text-align:center;}
 h1{margin-bottom:20px;} p{line-height:1.5;margin-bottom:20px;}
 #choices{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
 button.choice{padding:12px 18px;background:#0a84ff;border:none;color:white;border-radius:5px;cursor:pointer;font-size:14px;}
+#switchCity{position:fixed;top:15px;right:15px;background:rgba(0,0,0,0.5);padding:8px 12px;border-radius:5px;cursor:pointer;font-size:12px;z-index:10000;color:white;transition:0.2s;}
 </style>
 </head>
 <body>
 
-<div id="switchCity" title="Curious about a different city's surveillance? Click to teleport!" 
-    style="position:fixed; top:15px; right:15px; background:rgba(0,0,0,0.5); padding:8px 12px; border-radius:5px; cursor:pointer; font-size:12px; z-index:10000; color:white; transition:0.2s;">
-    Explore another city
-</div>
-
-<script>
-document.getElementById("switchCity").addEventListener("click", () => {
-    // Optional: clear Data Detected if desired
-    // localStorage.removeItem("dataLog");
-    window.location.href = "index.html"; // main page with NYC/Beijing detection
-});
-</script>
+<div id="switchCity" title="Curious about NYC? Click to switch!">Explore NYC</div>
 
 <div id="dataBox">
   <h3>Data Detected (<span id="dataCount">0</span>)</h3>
@@ -43,40 +33,30 @@ document.getElementById("switchCity").addEventListener("click", () => {
 
 <div id="content">
   <h1>Welcome to Beijing</h1>
-  <p>You have landed at Beijing Capital Airport. What do you do first?</p>
+  <p>You have landed at Beijing Capital International Airport. What do you do first?</p>
   <div id="choices">
-    <button class="choice" onclick="chooseAction(1)">Check my phone (I'm a Screenaholic)</button>
-    <button class="choice" onclick="chooseAction(2)">Grab some food</button>
-    <button class="choice" onclick="chooseAction(3)">Go to my Beijing apartment</button>
+    <button class="choice" onclick="chooseAction(1)">Check my phone (I'm a <strong>Screenaholic</strong>)</button>
+    <button class="choice" onclick="chooseAction(2)">Get some food. I'm starving.</button>
+    <button class="choice" onclick="chooseAction(3)">Go to my Beijing apartment.</button>
   </div>
 </div>
 
 <script>
+document.getElementById("switchCity").addEventListener("click", () => {
+    window.location.href = "NYC.html"; // link to NYC page under new repo
+});
+
+// Initialize log if it doesn't exist
 if (!localStorage.getItem("dataLog")) localStorage.setItem("dataLog", JSON.stringify([]));
 
-const colorMap = {
-  government: "government",
-  site: "site"
-};
-
-// Add Beijing-specific government data on page load
-window.addEventListener("DOMContentLoaded", () => {
-  addLogItem("gov_CCTV", "Public CCTV surveillance footage collected", "government");
-  addLogItem("gov_home_cameras", "Internet-connected home cameras monitored", "government");
-  addLogItem("gov_govtech_projects", "Government-funded tech projects tracking residents", "government");
-  addLogItem("apps_WeChat", "WeChat financial and social data", "site");
-  addLogItem("apps_Alipay", "Alipay transaction data", "site");
-  addLogItem("apps_Xiaohongshu", "Xiaohongshu social media data", "site");
-  addLogItem("apps_Bilibili", "Bilibili activity data", "site");
-  renderLog();
-});
+const colorMap = { airline: "airline", site: "site" };
 
 function addLogItem(key, text, source="site") {
   let log = JSON.parse(localStorage.getItem("dataLog"));
   const existing = log.find(e => e.key === key);
   let finalText = text;
-  if (existing) { finalText = `${text} (_visited: ${new Date().toLocaleString()})`; }
-  log.push({ key: key, text: finalText, source: source, time: new Date().toISOString() });
+  if (existing) finalText = `${text} (_visited: ${new Date().toLocaleString()})`;
+  log.unshift({ key: key, text: finalText, source: source, time: new Date().toISOString() }); // unshift for top
   localStorage.setItem("dataLog", JSON.stringify(log));
   renderLog();
 }
@@ -91,7 +71,7 @@ function renderLog() {
 
   log.forEach(entry => {
     const li = document.createElement("li");
-    const box = document.createElement("div"); box.className="checkbox"; box.innerHTML="✓";
+    const box = document.createElement("div"); box.className = "checkbox"; box.innerHTML="✓";
     const text = document.createElement("span"); 
     text.textContent = entry.text;
     text.className = colorMap[entry.source] || "site";
@@ -102,44 +82,72 @@ function renderLog() {
 
   count.textContent = log.length;
 
-  // Show key if more than one source
   if(sourcesUsed.size > 1){
     keyDiv.style.display = "block";
     keyDiv.innerHTML = "";
     if(sourcesUsed.has("site")) keyDiv.innerHTML += "<span class='site'>Site/App data</span> ";
-    if(sourcesUsed.has("government")) keyDiv.innerHTML += "<span class='government'>Government data</span>";
+    if(sourcesUsed.has("airline")) keyDiv.innerHTML += "<span class='airline'>Airline data</span>";
   } else {
     keyDiv.style.display = "none";
   }
 }
 
-// Beijing interaction buttons
+window.addEventListener("DOMContentLoaded", () => {
+  // Add airline data immediately on page load
+  addLogItem("airline_PNR", "Passenger Name Record (name, DOB, contact info, payment, itinerary)", "airline");
+  addLogItem("airline_API_SFPD", "Advance Passenger Information / Secure Flight Passenger Data", "airline");
+});
+
 function chooseAction(option){
   let description;
   switch(option){
-    case 1: description="Checked phone at Beijing airport (Screenaholic move)"; break;
-    case 2: description="Grabbed some food at Beijing airport"; break;
-    case 3: description="Went straight to Beijing apartment"; break;
+    case 1: 
+      description="Checked phone at Beijing (Screenaholic move)";
+      break;
+    case 2: 
+      description="Got some food at Beijing airport";
+      break;
+    case 3: 
+      description="Went straight to Beijing apartment";
+      break;
   }
   addLogItem("Beijing_choice_"+option, description, "site");
 
   const content=document.getElementById("content");
-  content.innerHTML=`<h1>Action recorded</h1><p>${description}</p><p>Explore Beijing-specific data points below:</p>
-  <div id="choices">
-    <button class="choice" onclick="addBeijingData('CCTV tracking')">CCTV</button>
-    <button class="choice" onclick="addBeijingData('Home camera surveillance')">Home Cameras</button>
-    <button class="choice" onclick="addBeijingData('WeChat collected financial data')">WeChat</button>
-    <button class="choice" onclick="addBeijingData('Alipay collected financial data')">Alipay</button>
-    <button class="choice" onclick="addBeijingData('Xiaohongshu activity logged')">Xiaohongshu</button>
-    <button class="choice" onclick="addBeijingData('Bilibili usage logged')">Bilibili</button>
-  </div>`;
+  if(option===1){
+    content.innerHTML=`
+      <h1>No Internet!</h1>
+      <p>You must connect to the Beijing airport Wi-Fi to continue. Using public Wi-Fi collects device info (type, OS, MAC), connection details (time, duration), and usage patterns (websites/apps) for analytics and targeted advertising.</p>
+      <p>Watch this short video to access the network:</p>
+      <iframe width="320" height="180" src="https://www.youtube.com/embed/Eni4GuvMu3s?rel=0" title="YouTube video" frameborder="0" allowfullscreen></iframe>
+      <br><br>
+      <button class="choice" onclick="addBeijingData('Connected to airport Wi-Fi')">Connect to Wi-Fi</button>
+      <button class="choice" onclick="reloadChoices()">Back</button>
+    `;
+  } else {
+    content.innerHTML=`<h1>Action recorded</h1><p>${description}</p>`;
+    if(option===2) addBeijingData("Food purchased at airport");
+    if(option===3) addBeijingData("Reached apartment");
+  }
 }
 
-function addBeijingData(description){
-  const key="Beijing_"+description.replace(/\s+/g,'_');
-  addLogItem(key, description, "site");
+function addBeijingData(desc){
+  const key="Beijing_"+desc.replace(/\s+/g,'_');
+  addLogItem(key, desc, "site");
 }
 
+function reloadChoices(){
+  const content=document.getElementById("content");
+  content.innerHTML=`
+    <h1>Welcome to Beijing</h1>
+    <p>You have landed at Beijing Capital International Airport. What do you do first?</p>
+    <div id="choices">
+      <button class="choice" onclick="chooseAction(1)">Check my phone (I'm a <strong>Screenaholic</strong>)</button>
+      <button class="choice" onclick="chooseAction(2)">Get some food. I'm starving.</button>
+      <button class="choice" onclick="chooseAction(3)">Go to my Beijing apartment.</button>
+    </div>
+  `;
+}
 </script>
 </body>
 </html>
