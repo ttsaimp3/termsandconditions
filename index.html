@@ -246,37 +246,35 @@ function success(position) {
 
   addLogItem("location", `Location accessed (${userLat.toFixed(2)}, ${userLon.toFixed(2)})`);
 
-  const NYC = { lat: 40.7128, lon: -74.0060 };
-  const BJ  = { lat: 39.9042, lon: 116.4074 };
+  // -------- DEVICE-BASED REDIRECTION --------
+  const ua = navigator.userAgent.toLowerCase();
+  let chosen = "default";
 
-  function distance(a, b) {
-    const R = 6371;
-    const dLat = (b.lat - a.lat) * Math.PI / 180;
-    const dLon = (b.lon - a.lon) * Math.PI / 180;
-    const lat1 = a.lat * Math.PI / 180;
-    const lat2 = b.lat * Math.PI / 180;
-
-    const x = Math.sin(dLat/2)**2 +
-              Math.cos(lat1)*Math.cos(lat2) *
-              Math.sin(dLon/2)**2;
-
-    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+  if (/iphone|ipad|ipod|mac/.test(ua)) {
+    chosen = "apple"; // apple.html
+  } 
+  else if (/android/.test(ua)) {
+    chosen = "android"; // android.html
   }
-
-  const dNYC = distance({ lat: userLat, lon: userLon }, NYC);
-  const dBJ  = distance({ lat: userLat, lon: userLon }, BJ);
-
-  const chosen = dNYC < dBJ ? "NYC" : "Beijing";
+  else if (/windows/.test(ua)) {
+    chosen = "windows"; // windows.html
+  }
+  else if (/linux/.test(ua)) {
+    chosen = "linux"; // linux.html
+  }
+  else {
+    chosen = "other"; // other.html
+  }
 
   addLogItem("redirect", "Redirecting to: " + chosen);
 
-  // Replace thinking text with the redirect message
   document.getElementById("thinking").textContent = "Redirecting to " + chosen + "...";
 
   setTimeout(() => {
     window.location.href = chosen + ".html";
   }, 1500);
 }
+
 </script>
 
 </body>
