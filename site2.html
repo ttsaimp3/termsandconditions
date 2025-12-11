@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terms and Conditions</title>
+<style>
+  body {
+    margin:0; font-family:'Trebuchet MS', sans-serif;
+    background-color:#62001c;
+    color:white; overflow:auto; position:relative;
+    background-image:
+      repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
+    background-size: 5px 5px;
+    min-height: 100vh;
+  }
+    
+  canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
+
+  /* modal */
+  #modalOverlay { 
+    position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.8); display:flex; justify-content:center; 
+    align-items:center; z-index:10; 
+  }
+  
+  #modal { 
+    background: linear-gradient(135deg, #222, #333);
+    padding:40px 30px; border-radius:15px; text-align:center; 
+    max-width:400px; color:white; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  
+  #modal button { 
+    margin-top:20px; padding:12px 25px; border:none; border-radius:8px; 
+    background: linear-gradient(to right, #62001c, #8b0030); 
+    color:white; cursor:pointer; font-size:16px; font-weight:bold;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+  }
+  
+  #modal button:hover { 
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 48, 0.4);
+  }
+
+  /* main content */
+  .main-content { 
+    position:fixed; 
+    top:51%; 
+    left:38%; 
+    transform:translate(-50%, -50%); 
+    width:70vw; 
+    height:70vh; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:1; 
+    text-align:center; 
+    transition: opacity 0.8s ease;
+  }
+  
+  .main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .main-content.show img, .main-content.show .overlay-text { 
+    opacity:1; 
+  }
+  
+  .main-content img { 
+    opacity: 20;
+    width: 400px;
+    border-radius:8px; 
+    transition: opacity 2s ease-in; 
+  }
+  
+  .overlay-text { 
+    position:absolute; 
+    top:18%; 
+    left:27%; 
+    transform:translate(0%, 0%); 
+    width:50vw; 
+    color:white; 
+    font-size:1.2rem; 
+    line-height:1.4; 
+    pointer-events:auto; 
+    text-align: right;
+    opacity: 20;
+    transition: opacity 2s ease-in;
+  }
+  
+  .overlay-text mark { 
+    background:black; 
+    color:white; 
+    padding:0; 
+    border-radius:0; 
+  }
+  
+  .overlay-text a { 
+    color:rgb(0, 157, 18); 
+    text-decoration:underline; 
+    cursor:pointer; 
+  }
+  
+  .overlay-text a:hover {
+    color:rgb(0, 200, 23);
+  }
+
+  /* Data Preferences Container */
+  #dataPreferencesContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    z-index: 5;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(10px);
+    scroll-behavior: smooth;
+  }
+  
+  #dataPreferencesContainer.active {
+    display: flex;
+    animation: fadeIn 0.8s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Progress Steps */
+  .progress-steps {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    gap: 30px;
+  }
+  
+  .step {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+  
+  .step.active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  
+  .step-number {
+    width: 50px;
+    height: 50px;
+    background: rgba(98, 0, 28, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .step.active .step-number {
+    background: linear-gradient(to right, #62001c, #8b0030);
+    border-color: #ff0055;
+  }
+  
+  .step-label {
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  .step.active .step-label {
+    color: #fff;
+  }
+  
+  /* Categories Container */
+  #categoriesContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .category-section {
+    display: none;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .category-section.active {
+    display: block;
+    animation: slideIn 0.5s ease;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .category-header {
+    margin-bottom: 25px;
+  }
+  
+  .category-header h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .category-header p {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Data Items Grid */
+  .data-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .data-item {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .data-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .data-item.selected {
+    border-color: #00ff9d;
+    background: rgba(0, 255, 157, 0.05);
+  }
+  
+  .data-item-toggle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin-right: 15px;
+    flex-shrink: 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .data-item.selected .data-item-toggle {
+    background: #00ff9d;
+    border-color: #00ff9d;
+  }
+  
+  .data-item.selected .data-item-toggle::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .data-item-content {
+    flex: 1;
+  }
+  
+  .data-item-content h3 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+  
+  .data-item-content p {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  /* Quick Select Buttons */
+  .quick-select {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .quick-btn {
+    padding: 8px 15px;
+    background: rgba(98, 0, 28, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family:'Trebuchet MS', sans-serif;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-btn:hover {
+    background: rgba(98, 0, 28, 0.5);
+    color: #fff;
+  }
+  
+  /* Navigation Buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .nav-btn {
+    padding: 12px 25px;
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .nav-btn:hover:not(:disabled) {
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+  }
+  
+  .nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  #nextBtn {
+    background: linear-gradient(to right, #006400, #008000);
+  }
+  
+  #nextBtn:hover:not(:disabled) {
+    background: linear-gradient(to right, #008000, #00a000);
+  }
+  
+  #resultsBtn {
+    background: linear-gradient(to right, #006400, #008000);
+  }
+  
+  #resultsBtn:hover:not(:disabled) {
+    background: linear-gradient(to right, #008000, #00a000);
+  }
+  
+  /* Results Section */
+  .results-content {
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .dissonance-meter {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .meter-value {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #ff0055, #ff0055);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .meter-label {
+    color: #ccc;
+    font-size: 1.1rem;
+  }
+  
+  .meter-bar {
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  
+  .meter-fill {
+    height: 100%;
+    background: linear-gradient(to right, #00ff9d, #ff0055);
+    border-radius: 10px;
+    transition: width 1s ease;
+  }
+  
+  .services-comparison {
+    margin-top: 40px;
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .service-match {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    border-left: 5px solid #00ff9d;
+  }
+  
+  .service-mismatch {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    border-left: 5px solid #ff0055;
+  }
+  
+  .service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .service-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: white;
+    padding: 3px;
+  }
+  
+  .service-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  
+  .match-score {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .good-match {
+    background: rgba(0, 255, 157, 0.2);
+    color: #00ff9d;
+  }
+  
+  .bad-match {
+    background: rgba(255, 0, 85, 0.2);
+    color: #ff0055;
+  }
+  
+  .match-details {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
+  .match-details ul {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+  
+  .match-details li {
+    margin-bottom: 5px;
+  }
+  
+  /* Next Poem Button */
+  #nextPoemBtn {
+  padding: 12px 30px;
+  background: linear-gradient(to right, #00a86b, #00ff9d) !important;
+  color: #111 !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 168, 107, 0.3);
+  letter-spacing: normal;
+  animation: none;
+  display: inline-block;
+}
+
+  #nextPoemBtn:hover {
+  background: linear-gradient(to right, #00ff9d, #4dffb8) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 255, 157, 0.4);
+}
+
+  #nextPoemBtn.visible {
+    display: inline-block !important;
+  }
+
+  #nextPoemBtn {
+    display: none;
+  }
+  
+  @keyframes subtleGlow {
+    from {
+      box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3);
+    }
+    to {
+      box-shadow: 0 5px 25px rgba(0, 102, 204, 0.5);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .data-items-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .progress-steps {
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- particle background -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- pixelated words -->
+<canvas id="wordCanvas"></canvas>
+
+<!-- main content -->
+<div class="main-content">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdI70RHhvxyqanj03ATiyhyLdutLmi1g1gvQ&s" alt="Cognitive Dissonance">
+  <div class="overlay-text">
+    <p><mark>the edges of the walled garden<br>
+      plated by gates and electric fences<br>
+      coated in vague defenses<br><br>
+      protection against the fire, they say<br>
+      broken down in secrecy<br>
+      the gate should know who’s passing<br>
+      thieves know the guards<br>
+      thieves know your big brother<br><br>
+    <a id="enterPreferencesLink" href="#">see your walled garden</a></mark></p>
+  </div>
+</div>
+
+<!-- Data Preferences Container -->
+<div id="dataPreferencesContainer">
+  <div class="progress-steps">
+    <div class="step active" data-step="1">
+      <div class="step-number">1</div>
+      <div class="step-label">Data Collected</div>
+    </div>
+    <div class="step" data-step="2">
+      <div class="step-number">2</div>
+      <div class="step-label">Data Inferred</div>
+    </div>
+    <div class="step" data-step="3">
+      <div class="step-number">3</div>
+      <div class="step-label">Data Shared</div>
+    </div>
+    <div class="step" data-step="4">
+      <div class="step-number">4</div>
+      <div class="step-label">Results</div>
+    </div>
+  </div>
+  
+  <div id="categoriesContainer">
+    <!-- Category 1: Data Collected Directly -->
+    <div class="category-section active" id="category1">
+      <div class="category-header">
+        <h2>Select the data practices you're comfortable with. We'll reveal the cognitive dissonance between your preferences and the services you use.</h2>
+        <p></p>
+      </div>
+      
+      <div class="quick-select">
+        <button class="quick-btn" id="selectAll1">Select All</button>
+        <button class="quick-btn" id="clearAll1">Clear All</button>
+      </div>
+      
+      <div class="data-items-grid" id="dataCollectedGrid">
+        <!-- Data items will be generated here -->
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn1" disabled>
+          <span>←</span> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn1">
+          Next <span>→</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Category 2: Data Inferred -->
+    <div class="category-section" id="category2">
+      <div class="category-header">
+        <h2>What inferences are you comfortable with companies making about you?</h2>
+      </div>
+      
+      <div class="quick-select">
+        <button class="quick-btn" id="selectAll2">Select All</button>
+        <button class="quick-btn" id="clearAll2">Clear All</button>
+      </div>
+      
+      <div class="data-items-grid" id="dataInferredGrid">
+        <!-- Data items will be generated here -->
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn2">
+          <span>←</span> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn2">
+          Next <span>→</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Category 3: Data Shared with Third Parties -->
+    <div class="category-section" id="category3">
+      <div class="category-header">
+        <h2>Who are you comfortable with companies sharing your data with?</h2>
+      </div>
+      
+      <div class="quick-select">
+        <button class="quick-btn" id="selectAll3">Select All</button>
+        <button class="quick-btn" id="clearAll3">Clear All</button>
+      </div>
+      
+      <div class="data-items-grid" id="dataSharedGrid">
+        <!-- Data items will be generated here -->
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn3">
+          <span>←</span> Previous
+        </button>
+        <button class="nav-btn" id="resultsBtn">
+          See Results <span>⚡</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Results Section -->
+<div class="category-section" id="results">
+  <div class="category-header">
+    <h2>The Cognitive Dissonance Revealed</h2>
+  </div>
+  
+  <div class="results-content">
+    <div class="dissonance-meter">
+      <div class="meter-value" id="dissonanceScore">0%</div>
+      <div class="meter-label">Cognitive Dissonance Level</div>
+      <div class="meter-bar">
+        <div class="meter-fill" id="meterFill"></div>
+      </div>
+    </div>
+    
+    <div class="services-comparison">
+      <h3>Services Matching Your Preferences that you use</h3>
+      <div class="services-grid" id="matchingServices">
+        <!-- Services that match will appear here -->
+      </div>
+      
+      <h3 style="margin-top: 40px;">Services NOT Matching Your Preferences that you use</h3>
+      <div class="services-grid" id="mismatchingServices">
+        <!-- Services that don't match will appear here -->
+      </div>
+      
+      <!-- NEW: Add these two sections -->
+      <h3 style="margin-top: 40px;">Services Matching Your Preferences that you don't use</h3>
+      <div class="services-grid" id="nonUsedMatchingServices">
+        <!-- Services that match but user doesn't use will appear here -->
+      </div>
+      
+      <h3 style="margin-top: 40px;">Services NOT Matching Your Preferences that you don't use</h3>
+      <div class="services-grid" id="nonUsedMismatchingServices">
+        <!-- Services that don't match and user doesn't use will appear here -->
+      </div>
+      
+      <!-- Read Next Poem Button - Appears only at bottom of results -->
+      <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.1); text-align: center;">
+        <button id="nextPoemBtn" style="padding: 18px 40px; font-size: 1.2rem; background: linear-gradient(135deg, #0066cc, #0099ff); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3);">
+          Continue to Next Poem →
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="nav-buttons">
+    <button class="nav-btn" id="prevBtn4">
+      <span>←</span> Edit Preferences
+    </button>
+    <button class="nav-btn" id="restartBtn">
+      Start Over
+    </button>
+  </div>
+</div>
+</div>
+
+<script>
+// Company logos
+const companyLogos = {
+  alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
+  alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+  apple: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
+  meta: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+  openai: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+  spotify: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
+  tencent: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
+  tiktok: "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
+  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
+  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940"
+};
+
+// Digital Twin Data
+const companyData = [
+  {
+    id: "alibaba",
+    name: "Alibaba",
+    summary: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
+    dataCollectedDirectly: [
+      "Personal info (name, phone number, address)",
+      "Payment data",
+      "Transaction history",
+      "Device identifiers",
+      "Browsing behavior",
+      "Search history",
+      "Purchase patterns",
+      "App-activity logs"
+    ],
+    dataInferred: [
+      "Creditworthiness",
+      "Purchasing power",
+      "Spending habits",
+      "Behavioral patterns",
+      "Interest categories",
+      "Ad-targeting segments"
+    ],
+    dataFromThirdParties: [
+      "Logistics partners",
+      "Merchants",
+      "Payment processors",
+      "Advertising networks",
+      "Government-verified identity checks (in certain regions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Logistics partners",
+      "Advertising partners",
+      "Data analytics vendors",
+      "Fraud-prevention services",
+      "Cloud service providers"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "alphabet",
+    name: "Alphabet / Google",
+    summary: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Search queries",
+      "Location data (active + passive)",
+      "Browsing history (Chrome sync)",
+      "App usage",
+      "Device identifiers",
+      "Voice recordings (if enabled)",
+      "Emails metadata in Gmail",
+      "YouTube watch history",
+      "Android device telemetry"
+    ],
+    dataInferred: [
+      "Interests",
+      "Behavioral profiles",
+      "Demographic predictions",
+      "Purchasing likelihood",
+      "Movement patterns",
+      "Ad segments"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Sites using Google Analytics",
+      "Apps using Google SDKs",
+      "Merchant partners",
+      "YouTube partners"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers (aggregated/personalized ads)",
+      "Analytics partners",
+      "App developers via APIs",
+      "Cloud partners when relevant",
+      "Legal/government requests"
+    ],
+    thirdPartyCategories: "5–8"
+  },
+  {
+    id: "apple",
+    name: "Apple",
+    summary: "Technology company with a focus on privacy and on-device processing.",
+    dataCollectedDirectly: [
+      "Apple ID info",
+      "Device diagnostics",
+      "App usage",
+      "App Store activity",
+      "iCloud-synced data (if enabled)",
+      "Purchase history",
+      "Siri queries (with privacy filtering)",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Device performance patterns",
+      "App usage trends",
+      "Personalized content preferences (on-device when possible)"
+    ],
+    dataFromThirdParties: [
+      "Optional app integrations",
+      "Apple Pay merchant data",
+      "HealthKit and HomeKit partners (only with permissions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Telecom partners (activation)",
+      "iCloud storage vendors",
+      "Developer APIs (in limited ways)",
+      "Regulatory compliance"
+    ],
+    thirdPartyCategories: "2–5"
+  },
+  {
+    id: "meta",
+    name: "Meta",
+    summary: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, and Threads.",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Contact lists (if granted)",
+      "Social graph",
+      "Messages metadata",
+      "Content you post",
+      "Browsing behavior via Facebook Pixel",
+      "Engagement patterns",
+      "Device/browser data"
+    ],
+    dataInferred: [
+      "Personality traits",
+      "Political tendencies",
+      "Interests",
+      "Relationships",
+      "Purchasing intent",
+      "Behavioral predictions"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Partners using Meta Pixel",
+      "E-commerce integrations",
+      "Business API data from WhatsApp"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics partners",
+      "Business APIs",
+      "Service vendors",
+      "Cloud vendors",
+      "Law enforcement"
+    ],
+    thirdPartyCategories: "8–12"
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    summary: "Software and cloud computing company with enterprise and consumer data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Windows telemetry (varies by settings)",
+      "Office activity",
+      "Cloud-sync files metadata",
+      "Xbox usage",
+      "Browsing data via Edge (if synced)"
+    ],
+    dataInferred: [
+      "Productivity patterns",
+      "Device performance",
+      "Interest categories for ads (less aggressive than Google/Meta)"
+    ],
+    dataFromThirdParties: [
+      "Enterprise vendors",
+      "Developers using Microsoft services",
+      "Data from LinkedIn partners"
+    ],
+    sharesWithThirdParties: [
+      "Enterprise partners",
+      "Cloud infrastructure",
+      "Payment processors",
+      "Analytics vendors",
+      "Ad partners (limited for consumer apps)"
+    ],
+    thirdPartyCategories: "4–7"
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    summary: "AI research and deployment company with focus on language models and AI services.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Prompts you type",
+      "Model responses",
+      "Interaction metadata (timestamps, features used)",
+      "Device/browser info",
+      "Payment data for subscriptions"
+    ],
+    dataInferred: [
+      "Usage patterns",
+      "Feature preferences",
+      "Model improvement signals (depending on your privacy settings)"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Identity-verification vendors (if applicable)",
+      "Optional integrations you enable"
+    ],
+    sharesWithThirdParties: [
+      "Cloud providers (to host/serve models)",
+      "Payment processors",
+      "Email/communication vendors",
+      "Security vendors",
+      "Analytics (non-identifying, depending on settings)"
+    ],
+    thirdPartyCategories: "3–6"
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    summary: "Music streaming service with detailed listening behavior tracking.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Listening history",
+      "Playlist data",
+      "Search queries",
+      "Engagement time",
+      "Device identifiers",
+      "Subscription/billing info"
+    ],
+    dataInferred: [
+      "Music taste profile",
+      "Mood clusters",
+      "Social connection patterns",
+      "Genre affinity",
+      "Ad segmentation"
+    ],
+    dataFromThirdParties: [
+      "Connected devices (car systems, speakers)",
+      "Social platforms",
+      "Advertisers"
+    ],
+    sharesWithThirdParties: [
+      "Ad networks",
+      "Analytics vendors",
+      "Payment processors",
+      "Device integration partners",
+      "Music label reporting systems"
+    ],
+    thirdPartyCategories: "5–7"
+  },
+  {
+    id: "tencent",
+    name: "Tencent",
+    summary: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    dataCollectedDirectly: [
+      "Identity info",
+      "Device IDs",
+      "Chat metadata",
+      "Payment data (WeChat Pay)",
+      "Social circles",
+      "Content uploaded",
+      "App usage",
+      "Location (varies by service)"
+    ],
+    dataInferred: [
+      "Social graph patterns",
+      "Spending power",
+      "Behavioral clusters",
+      "Ad preferences"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Mini-program developers",
+      "Advertisers",
+      "Logistics/delivery partners"
+    ],
+    sharesWithThirdParties: [
+      "Mini-program partners",
+      "Payment processors",
+      "Advertisers",
+      "Cloud vendors",
+      "Enterprise partners",
+      "Government requests (China-specific)"
+    ],
+    thirdPartyCategories: "7–12"
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    summary: "Social video platform with sophisticated content and behavior tracking (ByteDance).",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Device identifiers",
+      "Keystroke patterns (for security/typing)",
+      "Browsing behavior inside app",
+      "Content watched",
+      "Engagement timing",
+      "Location (if allowed)",
+      "Contacts (if synced)"
+    ],
+    dataInferred: [
+      "Interest graph",
+      "Behavioral clusters",
+      "Demographic predictions",
+      "Ad targeting segments",
+      "Content preference trajectory"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Creators",
+      "Linked apps (CapCut, Douyin environment)",
+      "Ad networks"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics services",
+      "Content-delivery networks",
+      "Cloud infrastructure vendors",
+      "Business partners"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "xiaohongshu",
+    name: "Xiaohongshu",
+    summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
+    dataCollectedDirectly: [
+      "Account info",
+      "Browsing history",
+      "Content interactions",
+      "Purchase behavior",
+      "Device identifiers",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Lifestyle clusters",
+      "Fashion/beauty preferences",
+      "Shopping intent",
+      "Social influence metrics"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Advertisers",
+      "Brand partners",
+      "Influencers"
+    ],
+    sharesWithThirdParties: [
+      "Merchant partners",
+      "Analytics/ads networks",
+      "Payment processors",
+      "Logistics (for RED Mall)",
+      "Regulatory entities"
+    ],
+    thirdPartyCategories: "5–9"
+  },
+  {
+    id: "amazon",
+    name: "Amazon",
+    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    dataCollectedDirectly: [
+      "Purchase history",
+      "Search queries",
+      "Browsing history",
+      "Wish lists",
+      "Product reviews",
+      "Alexa voice recordings",
+      "Prime Video watch history",
+      "Device usage data (Kindle, Echo)"
+    ],
+    dataInferred: [
+      "Shopping preferences",
+      "Price sensitivity",
+      "Household composition",
+      "Lifestyle patterns",
+      "Product affinity scores"
+    ],
+    dataFromThirdParties: [
+      "Marketplace sellers",
+      "Advertising partners",
+      "Delivery/logistics partners",
+      "Payment processors",
+      "Smart home device manufacturers"
+    ],
+    sharesWithThirdParties: [
+      "Third-party sellers",
+      "Advertising networks",
+      "Cloud service customers",
+      "Delivery partners",
+      "Analytics providers"
+    ],
+    thirdPartyCategories: "7–11"
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    dataCollectedDirectly: [
+      "Viewing history",
+      "Search queries",
+      "Ratings (thumbs up/down)",
+      "Device information",
+      "Playback technical data",
+      "Account details",
+      "Interaction with UI elements"
+    ],
+    dataInferred: [
+      "Content preferences",
+      "Viewing patterns",
+      "Taste clusters",
+      "Mood-based viewing habits",
+      "Binge-watching tendencies"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Internet service providers",
+      "Device manufacturers",
+      "Content partners",
+      "Marketing partners"
+    ],
+    sharesWithThirdParties: [
+      "Content creators/studios",
+      "Analytics partners",
+      "Marketing agencies",
+      "Payment processors",
+      "CDN providers"
+    ],
+    thirdPartyCategories: "4–7"
+  }
+];
+
+// Extract unique data items from all companies
+const allDataItems = {
+  collected: [],
+  inferred: [],
+  shared: []
+};
+
+// Extract all unique data items
+companyData.forEach(company => {
+  // Data collected directly
+  company.dataCollectedDirectly.forEach(item => {
+    if (!allDataItems.collected.includes(item)) {
+      allDataItems.collected.push(item);
+    }
+  });
+  
+  // Data inferred
+  company.dataInferred.forEach(item => {
+    if (!allDataItems.inferred.includes(item)) {
+      allDataItems.inferred.push(item);
+    }
+  });
+  
+  // Data shared with third parties
+  company.sharesWithThirdParties.forEach(item => {
+    if (!allDataItems.shared.includes(item)) {
+      allDataItems.shared.push(item);
+    }
+  });
+});
+
+// User preferences - CHANGED: All start as selected (true) by default
+let userPreferences = {
+  collected: {},
+  inferred: {},
+  shared: {}
+};
+
+// DOM Elements
+const mainContent = document.querySelector('.main-content');
+const enterPreferencesLink = document.getElementById('enterPreferencesLink');
+const dataPreferencesContainer = document.getElementById('dataPreferencesContainer');
+const steps = document.querySelectorAll('.step');
+const categorySections = document.querySelectorAll('.category-section');
+const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+const resetPreferencesBtn = document.getElementById('resetPreferencesBtn');
+
+/* particle background */
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+class Particle {
+  constructor(){ 
+    this.x=Math.random()*pCanvas.width; 
+    this.y=Math.random()*pCanvas.height; 
+    this.size=Math.random()*1.5+0.5;
+    const angle=Math.random()*Math.PI*2; 
+    const speed=Math.random()*0.7+0.2;
+    this.speedX=Math.cos(angle)*speed; 
+    this.speedY=Math.sin(angle)*speed;
+    this.alpha = Math.random()*0.5+0.3;
+  }
+  update(){ 
+    this.x+=this.speedX; 
+    this.y+=this.speedY;
+    if(this.x>pCanvas.width) this.x=0; 
+    if(this.x<0) this.x=pCanvas.width;
+    if(this.y>pCanvas.height) this.y=0; 
+    if(this.y<0) this.y=pCanvas.height;
+  }
+  draw(){ 
+    pCtx.fillStyle=`rgba(255,255,255,${this.alpha})`; 
+    pCtx.beginPath(); 
+    pCtx.arc(this.x,this.y,this.size,0,Math.PI*2); 
+    pCtx.fill(); 
+  }
+}
+const particles=[];
+for(let i=0;i<150;i++) particles.push(new Particle());
+function animateParticles(){ 
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height); 
+  particles.forEach(p=>{p.update();p.draw();}); 
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* pixelated words */
+const wCanvas=document.getElementById('wordCanvas');
+const wCtx=wCanvas.getContext('2d');
+function resizeWords(){ wCanvas.width=window.innerWidth; wCanvas.height=window.innerHeight; }
+resizeWords();
+window.addEventListener('resize', resizeWords);
+
+const WORDS=[
+  "privacy","dissonance","preference","reality","cognitive","conflict",
+  "data collection","tracking","profiling","inference","sharing",
+  "contradiction","awareness","choice","control","consent","transparency",
+  "digital footprint","behavioral data","personal information","metadata",
+  "algorithm","bias","manipulation","surveillance","autonomy","agency"
+];
+
+const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];}}
+
+async function showWord(word){
+    const off=document.createElement('canvas');
+    const W=wCanvas.width*0.5, H=100; off.width=W; off.height=H;
+    const octx=off.getContext('2d'); octx.font=`bold 80px sans-serif`; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillStyle='white'; octx.fillText(word,W/2,H/2);
+
+    const img=octx.getImageData(0,0,W,H).data;
+    const pixels=[];
+    for(let y=0;y<H;y+=pixelSize){for(let x=0;x<W;x+=pixelSize){if(img[(y*W+x)*4+3]>128) pixels.push({x,y});}}
+    shuffle(pixels);
+
+    const side = Math.floor(Math.random() * 4);
+    let randX = 0, randY = 0, rotation = 0;
+    const margin = 10;
+
+    switch(side){
+    case 0: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = margin; rotation = 0; break;
+    case 1: randX = wCanvas.width - margin - W + 200; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    case 2: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = wCanvas.height - margin - H; rotation = 0; break;
+    case 3: randX = margin-270; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    }
+
+    for(const p of pixels){
+      let px=p.x, py=p.y;
+      if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+      else {px+=randX; py+=randY;}
+      wCtx.fillStyle='white'; wCtx.fillRect(px,py,pixelSize,pixelSize);
+      await sleep(revealDelay);
+    }
+
+    await sleep(holdMS);
+
+    const frames=Math.floor(fadeMS/16);
+    for(let f=0;f<frames;f++){
+      wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+      wCtx.globalAlpha=1-f/frames;
+      for(const p of pixels){
+        let px=p.x, py=p.y;
+        if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+        else {px+=randX; py+=randY;}
+        wCtx.fillRect(px,py,pixelSize,pixelSize);
+      }
+      await sleep(16);
+    }
+    wCtx.globalAlpha=1;
+}
+
+async function fadeInWords(){
+    for(let alpha=0; alpha<=1; alpha+=0.02){
+        wCtx.globalAlpha = alpha;
+        await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function loopWords() {
+    while(true){
+        const randomIndex = Math.floor(Math.random() * WORDS.length);
+        const word = WORDS[randomIndex];
+        await showWord(word);
+    }
+}
+
+// Initialize Data Preferences
+function initializeDataPreferences() {
+  // Load saved preferences or initialize all as selected (true) by default
+  const savedPrefs = localStorage.getItem('dataPreferences');
+  if (savedPrefs) {
+    userPreferences = JSON.parse(savedPrefs);
+  } else {
+    // CHANGED: Initialize all items as selected (true) by default
+    allDataItems.collected.forEach(item => {
+      userPreferences.collected[item] = true;
+    });
+    
+    allDataItems.inferred.forEach(item => {
+      userPreferences.inferred[item] = true;
+    });
+    
+    allDataItems.shared.forEach(item => {
+      userPreferences.shared[item] = true;
+    });
+  }
+  
+  // Generate data items for each category
+  generateDataItems('collected', allDataItems.collected, 'dataCollectedGrid');
+  generateDataItems('inferred', allDataItems.inferred, 'dataInferredGrid');
+  generateDataItems('shared', allDataItems.shared, 'dataSharedGrid');
+}
+
+// Generate data items for a category
+function generateDataItems(category, items, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  
+  items.forEach(item => {
+    const isSelected = userPreferences[category][item] === true;
+    
+    const itemEl = document.createElement('div');
+    itemEl.className = `data-item ${isSelected ? 'selected' : ''}`;
+    itemEl.dataset.item = item;
+    itemEl.dataset.category = category;
+    
+    itemEl.innerHTML = `
+      <div class="data-item-toggle"></div>
+      <div class="data-item-content">
+        <h3>${item}</h3>
+        <p>${getDataItemDescription(item, category)}</p>
+      </div>
+    `;
+    
+    // Simple toggle: click to select/deselect
+    itemEl.addEventListener('click', () => {
+      const currentState = userPreferences[category][item];
+      
+      if (currentState === true) {
+        // Change from selected to neutral (false)
+        userPreferences[category][item] = false;
+        itemEl.classList.remove('selected');
+      } else {
+        // Change from neutral to selected (true)
+        userPreferences[category][item] = true;
+        itemEl.classList.add('selected');
+      }
+      
+      savePreferences();
+    });
+    
+    grid.appendChild(itemEl);
+  });
+}
+
+// Get description for data item
+function getDataItemDescription(item, category) {
+  const descriptions = {
+    collected: {
+      "Personal info (name, phone number, address)": "Basic identification information",
+      "Payment data": "Credit card numbers, bank details",
+      "Transaction history": "Records of purchases and payments",
+      "Device identifiers": "Unique IDs for your devices",
+      "Browsing behavior": "Which pages you visit, how long you stay",
+      "Search history": "What you search for",
+      "Purchase patterns": "How and when you buy things",
+      "App-activity logs": "What you do inside apps",
+      "Account info": "Email, username, password",
+      "Location data (active + passive)": "Where you are and have been",
+      "Voice recordings (if enabled)": "Audio of your voice commands",
+      "Emails metadata in Gmail": "Who you email, when, subject lines",
+      "YouTube watch history": "What videos you watch",
+      "Android device telemetry": "Device performance data",
+      "Contact lists (if granted)": "Your phone contacts",
+      "Social graph": "Your friends and connections",
+      "Messages metadata": "Who you message, when",
+      "Content you post": "Photos, videos, text you share",
+      "Engagement patterns": "What you like, comment on, share",
+      "Windows telemetry (varies by settings)": "Windows system data",
+      "Office activity": "How you use Microsoft Office",
+      "Cloud-sync files metadata": "Info about files you sync",
+      "Xbox usage": "How you play games",
+      "Prompts you type": "Questions you ask AI",
+      "Model responses": "AI answers you receive",
+      "Interaction metadata (timestamps, features used)": "When and how you interact",
+      "Listening history": "What music you listen to",
+      "Playlist data": "Playlists you create",
+      "Identity info": "Government ID in some regions",
+      "Device IDs": "Unique hardware identifiers",
+      "Chat metadata": "Who you chat with, when",
+      "Payment data (WeChat Pay)": "Chinese payment information",
+      "Social circles": "Your friend groups",
+      "Content uploaded": "Files you upload",
+      "App usage": "Which apps you use",
+      "Keystroke patterns (for security/typing)": "How you type",
+      "Content watched": "What videos you view",
+      "Engagement timing": "When you interact",
+      "Contacts (if synced)": "Your address book",
+      "Browsing history": "What you look at",
+      "Content interactions": "What you like, save, share",
+      "Purchase behavior": "What you buy",
+      "Viewing history": "What you watch",
+      "Ratings (thumbs up/down)": "What you rate",
+      "Playback technical data": "Streaming quality info",
+      "Account details": "Subscription info",
+      "Interaction with UI elements": "How you navigate"
+    },
+    inferred: {
+      "Creditworthiness": "How likely you are to repay debt",
+      "Purchasing power": "How much money you likely have",
+      "Spending habits": "What you tend to buy",
+      "Behavioral patterns": "Your regular behaviors",
+      "Interest categories": "What topics interest you",
+      "Ad-targeting segments": "Advertising categories for you",
+      "Interests": "Your hobbies and passions",
+      "Behavioral profiles": "Detailed behavior patterns",
+      "Demographic predictions": "Age, gender, income guesses",
+      "Purchasing likelihood": "How likely you are to buy something",
+      "Movement patterns": "Your regular routes and locations",
+      "Ad segments": "Advertising groups you fit into",
+      "Personality traits": "Your personality characteristics",
+      "Political tendencies": "Your political leanings",
+      "Relationships": "How close you are to others",
+      "Purchasing intent": "Whether you plan to buy something",
+      "Behavioral predictions": "What you might do next",
+      "Device performance patterns": "How your device behaves",
+      "App usage trends": "Which apps you use regularly",
+      "Personalized content preferences": "What content you prefer",
+      "Productivity patterns": "How productive you are",
+      "Interest categories for ads": "What ads might interest you",
+      "Usage patterns": "How you use services",
+      "Feature preferences": "Which features you like",
+      "Model improvement signals": "How to improve AI for you",
+      "Music taste profile": "What music you like",
+      "Mood clusters": "Your emotional patterns",
+      "Social connection patterns": "How you connect with others",
+      "Genre affinity": "What genres you prefer",
+      "Social graph patterns": "Patterns in your friendships",
+      "Spending power": "How much you can spend",
+      "Behavioral clusters": "Groups of behaviors",
+      "Ad preferences": "What ads you respond to",
+      "Interest graph": "Map of your interests",
+      "Demographic predictions": "Guesses about your demographics",
+      "Content preference trajectory": "How your tastes change",
+      "Lifestyle clusters": "Your lifestyle type",
+      "Fashion/beauty preferences": "Your style preferences",
+      "Shopping intent": "Whether you want to shop",
+      "Social influence metrics": "How influential you are",
+      "Shopping preferences": "What you like to buy",
+      "Price sensitivity": "How price affects your choices",
+      "Household composition": "Who lives with you",
+      "Lifestyle patterns": "Your daily life patterns",
+      "Product affinity scores": "How much you like products",
+      "Content preferences": "What content you prefer",
+      "Viewing patterns": "How you watch content",
+      "Taste clusters": "Groups of tastes you have",
+      "Mood-based viewing habits": "What you watch based on mood",
+      "Binge-watching tendencies": "Whether you binge-watch"
+    },
+    shared: {
+      "Payment processors": "Companies that handle payments",
+      "Logistics partners": "Delivery and shipping companies",
+      "Advertising partners": "Companies that show ads",
+      "Data analytics vendors": "Companies that analyze data",
+      "Fraud-prevention services": "Companies that prevent fraud",
+      "Cloud service providers": "Companies that host data",
+      "Advertisers (aggregated/personalized ads)": "Companies buying ads",
+      "Analytics partners": "Companies analyzing usage",
+      "App developers via APIs": "Third-party app makers",
+      "Cloud partners when relevant": "Other cloud companies",
+      "Legal/government requests": "Government agencies",
+      "Telecom partners (activation)": "Phone companies",
+      "iCloud storage vendors": "Apple's storage partners",
+      "Developer APIs (in limited ways)": "App developers",
+      "Regulatory compliance": "Government regulators",
+      "Business APIs": "Company partners",
+      "Service vendors": "Service providers",
+      "Cloud vendors": "Cloud hosting companies",
+      "Law enforcement": "Police and agencies",
+      "Enterprise partners": "Business partners",
+      "Cloud infrastructure": "Hosting infrastructure",
+      "Analytics vendors": "Data analysis companies",
+      "Ad partners (limited for consumer apps)": "Advertising companies",
+      "Cloud providers (to host/serve models)": "AI hosting companies",
+      "Email/communication vendors": "Communication services",
+      "Security vendors": "Security companies",
+      "Analytics (non-identifying, depending on settings)": "Anonymous data analysis",
+      "Ad networks": "Advertising networks",
+      "Device integration partners": "Hardware partners",
+      "Music label reporting systems": "Music industry systems",
+      "Mini-program partners": "Small app partners",
+      "Enterprise partners": "Business partners",
+      "Government requests (China-specific)": "Chinese government",
+      "Analytics services": "Data analysis services",
+      "Content-delivery networks": "Video streaming networks",
+      "Cloud infrastructure vendors": "Hosting companies",
+      "Business partners": "Partner companies",
+      "Merchant partners": "Selling partners",
+      "Analytics/ads networks": "Advertising networks",
+      "Logistics (for RED Mall)": "Delivery services",
+      "Regulatory entities": "Government regulators",
+      "Third-party sellers": "Marketplace sellers",
+      "Advertising networks": "Ad companies",
+      "Cloud service customers": "AWS customers",
+      "Delivery partners": "Shipping companies",
+      "Analytics providers": "Data analysis companies",
+      "Content creators/studios": "Movie/TV makers",
+      "Marketing agencies": "Advertising agencies",
+      "CDN providers": "Content delivery networks"
+    }
+  };
+  
+  return descriptions[category]?.[item] || "Data collection practice";
+}
+
+// CHANGED: Get user's actual selected services from site.html data
+function getUserSelectedServices() {
+  try {
+    // Try to get data from localStorage (as shared by site.html)
+    const selectedServices = JSON.parse(localStorage.getItem('selectedServices') || '[]');
+    const selectedCompaniesData = JSON.parse(localStorage.getItem('selectedCompaniesData') || '[]');
+    
+    console.log('Retrieved user services from localStorage:', selectedServices);
+    console.log('Retrieved company data from localStorage:', selectedCompaniesData);
+    
+    // If we have full company data, use it
+    if (selectedCompaniesData.length > 0) {
+      return selectedCompaniesData.map(company => {
+        // Find matching company in our full dataset to ensure all data is available
+        const fullCompanyData = companyData.find(c => c.id === company.id);
+        return fullCompanyData || company;
+      });
+    }
+    
+    // If we only have service IDs, find them in our companyData
+    if (selectedServices.length > 0) {
+      return selectedServices.map(serviceId => {
+        return companyData.find(c => c.id === serviceId);
+      }).filter(Boolean); // Remove any undefined entries
+    }
+    
+    // Default fallback: return common services if nothing is found
+    return [
+      companyData.find(c => c.id === "alphabet"),  // Google
+      companyData.find(c => c.id === "meta"),      // Facebook/Instagram
+      companyData.find(c => c.id === "amazon"),    // Amazon
+      companyData.find(c => c.id === "apple"),     // Apple
+    ].filter(Boolean);
+    
+  } catch (error) {
+    console.error('Error getting user services:', error);
+    // Fallback to common services
+    return [
+      companyData.find(c => c.id === "alphabet"),
+      companyData.find(c => c.id === "meta"),
+      companyData.find(c => c.id === "amazon"),
+    ].filter(Boolean);
+  }
+}
+
+// Calculate dissonance score based on user's actual services
+function calculateDissonance() {
+  // Get the services the user actually uses (from site.html)
+  const userServices = getUserSelectedServices();
+  
+  console.log('Calculating dissonance for user services:', userServices.map(s => s.name));
+  
+  let totalDissonance = 0;
+  const serviceMatches = [];
+  
+  userServices.forEach(company => {
+    if (!company) return;
+    
+    let totalSelected = 0; // Items user explicitly said they're OK with
+    let totalConflicts = 0; // Items the company does that user didn't select
+    let conflictingItems = [];
+    
+    // Check data collected directly
+    company.dataCollectedDirectly.forEach(item => {
+      const preference = userPreferences.collected[item];
+      if (preference === true) {
+        totalSelected++;
+      } else {
+        // User didn't say they're OK with this, but company does it
+        totalConflicts++;
+        conflictingItems.push(`Collects: ${item}`);
+      }
+    });
+    
+    // Check data inferred
+    company.dataInferred.forEach(item => {
+      const preference = userPreferences.inferred[item];
+      if (preference === true) {
+        totalSelected++;
+      } else {
+        totalConflicts++;
+        conflictingItems.push(`Infers: ${item}`);
+      }
+    });
+    
+    // Check data shared
+    company.sharesWithThirdParties.forEach(item => {
+      const preference = userPreferences.shared[item];
+      if (preference === true) {
+        totalSelected++;
+      } else {
+        totalConflicts++;
+        conflictingItems.push(`Shares with: ${item}`);
+      }
+    });
+    
+    const totalItems = totalSelected + totalConflicts;
+    let percentageMatch = 50; // Default neutral score
+    
+    if (totalItems > 0) {
+      percentageMatch = (totalSelected / totalItems) * 100;
+    }
+    
+    serviceMatches.push({
+      company,
+      matchScore: percentageMatch,
+      conflictingItems: conflictingItems.slice, // Show top 3 conflicts
+      totalSelected,
+      totalConflicts
+    });
+    
+    // Dissonance is inverse of match
+    const dissonance = 100 - percentageMatch;
+    totalDissonance += dissonance;
+  });
+  
+  const averageDissonance = userServices.length > 0 ? totalDissonance / userServices.length : 50;
+  
+  return {
+    score: Math.round(averageDissonance),
+    services: serviceMatches.sort((a, b) => b.matchScore - a.matchScore)
+  };
+}
+
+// Show results
+function showResults() {
+  const results = calculateDissonance();
+  
+  // Update dissonance meter
+  document.getElementById('dissonanceScore').textContent = `${results.score}%`;
+  document.getElementById('meterFill').style.width = `${results.score}%`;
+  
+  // Get user's actual services
+  const userServices = getUserSelectedServices();
+  const userServiceIds = userServices.map(s => s.id);
+  
+  // Get all companies
+  const allCompanies = companyData;
+  
+  // Count selected items
+  const totalSelected = 
+    Object.values(userPreferences.collected).filter(v => v === true).length +
+    Object.values(userPreferences.inferred).filter(v => v === true).length +
+    Object.values(userPreferences.shared).filter(v => v === true).length;
+  
+  // Show matching and mismatching services
+  const matchingGrid = document.getElementById('matchingServices');
+  const mismatchingGrid = document.getElementById('mismatchingServices');
+  const nonUsedMatchingGrid = document.getElementById('nonUsedMatchingServices');
+  const nonUsedMismatchingGrid = document.getElementById('nonUsedMismatchingServices');
+  
+  // Clear all grids
+  matchingGrid.innerHTML = '';
+  mismatchingGrid.innerHTML = '';
+  nonUsedMatchingGrid.innerHTML = '';
+  nonUsedMismatchingGrid.innerHTML = '';
+  
+  if (totalSelected === 0) {
+    matchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1; padding: 40px;">You need to select some items first. Go back and click items you\'re OK with.</p>';
+    mismatchingGrid.innerHTML = '';
+    nonUsedMatchingGrid.innerHTML = '';
+    nonUsedMismatchingGrid.innerHTML = '';
+    return;
+  }
+  
+  if (userServices.length === 0) {
+    matchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1; padding: 40px;">No services found. Please select services in the main site first.</p>';
+    mismatchingGrid.innerHTML = '';
+    nonUsedMatchingGrid.innerHTML = '';
+    nonUsedMismatchingGrid.innerHTML = '';
+    return;
+  }
+  
+  // Calculate match scores for ALL companies
+  const allCompanyMatches = [];
+  
+  allCompanies.forEach(company => {
+    if (!company) return;
+    
+    let totalSelectedForCompany = 0;
+    let totalConflictsForCompany = 0;
+    let conflictingItemsForCompany = [];
+    
+    // Check data collected directly
+    company.dataCollectedDirectly.forEach(item => {
+      const preference = userPreferences.collected[item];
+      if (preference === true) {
+        totalSelectedForCompany++;
+      } else {
+        totalConflictsForCompany++;
+        conflictingItemsForCompany.push(`Collects: ${item}`);
+      }
+    });
+    
+    // Check data inferred
+    company.dataInferred.forEach(item => {
+      const preference = userPreferences.inferred[item];
+      if (preference === true) {
+        totalSelectedForCompany++;
+      } else {
+        totalConflictsForCompany++;
+        conflictingItemsForCompany.push(`Infers: ${item}`);
+      }
+    });
+    
+    // Check data shared
+    company.sharesWithThirdParties.forEach(item => {
+      const preference = userPreferences.shared[item];
+      if (preference === true) {
+        totalSelectedForCompany++;
+      } else {
+        totalConflictsForCompany++;
+        conflictingItemsForCompany.push(`Shares with: ${item}`);
+      }
+    });
+    
+    const totalItemsForCompany = totalSelectedForCompany + totalConflictsForCompany;
+    let percentageMatchForCompany = 50;
+    
+    if (totalItemsForCompany > 0) {
+      percentageMatchForCompany = (totalSelectedForCompany / totalItemsForCompany) * 100;
+    }
+    
+    allCompanyMatches.push({
+      company,
+      matchScore: percentageMatchForCompany,
+      conflictingItems: conflictingItemsForCompany,
+      totalSelected: totalSelectedForCompany,
+      totalConflicts: totalConflictsForCompany,
+      isUsed: userServiceIds.includes(company.id)
+    });
+  });
+  
+  // Sort by match score
+  allCompanyMatches.sort((a, b) => b.matchScore - a.matchScore);
+  
+  // Display services in appropriate grids
+  allCompanyMatches.forEach(service => {
+    const isGoodMatch = service.matchScore >= 50;
+    const isUsed = service.isUsed;
+    
+    // Determine which grid to put this service in
+    let grid;
+    if (isUsed && isGoodMatch) {
+      grid = matchingGrid;
+    } else if (isUsed && !isGoodMatch) {
+      grid = mismatchingGrid;
+    } else if (!isUsed && isGoodMatch) {
+      grid = nonUsedMatchingGrid;
+    } else {
+      grid = nonUsedMismatchingGrid;
+    }
+    
+    const serviceEl = document.createElement('div');
+    serviceEl.className = isGoodMatch ? 'service-match' : 'service-mismatch';
+    
+    serviceEl.innerHTML = `
+  <div class="service-header">
+    <img class="service-logo" src="${companyLogos[service.company.id] || ''}" alt="${service.company.name}">
+    <h3>${service.company.name}</h3>
+    ${!isUsed ? '<span style="font-size: 0.8rem; color: #aaa; margin-left: auto;">(Not using)</span>' : ''}
+  </div>
+  <div class="match-score ${isGoodMatch ? 'good-match' : 'bad-match'}">
+    ${Math.round(service.matchScore)}% match
+  </div>
+  <div class="match-details">
+    ${service.conflictingItems.length > 0 ? `
+      <p style="cursor: pointer; color: ${isGoodMatch ? '#00ff9d' : '#ff0055'}; display: flex; align-items: center; gap: 5px;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+        <span>${service.conflictingItems.length} things you didn't approve ▼</span>
+      </p>
+      <ul style="display: none; margin-top: 10px;">
+        ${service.conflictingItems.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    ` : '<p>No unapproved practices found</p>'}
+    <p><small>${isUsed ? 'Based on your actual usage of this service' : isGoodMatch ? 'Consider this service if you want better alignment' : 'Avoid this service if you want better alignment'}</small></p>
+  </div>
+`;
+    
+    grid.appendChild(serviceEl);
+  });
+  
+  // If any grid is empty, show a message
+  if (matchingGrid.children.length === 0 && userServices.length > 0) {
+    matchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">No services you use match your preferences well.</p>';
+  }
+  
+  if (mismatchingGrid.children.length === 0 && userServices.length > 0) {
+    mismatchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">All your services match your preferences!</p>';
+  }
+  
+  if (nonUsedMatchingGrid.children.length === 0) {
+    nonUsedMatchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">No other services match your preferences.</p>';
+  }
+  
+  if (nonUsedMismatchingGrid.children.length === 0) {
+    nonUsedMismatchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">All services match your preferences!</p>';
+  }
+  
+  // Show the "Read Next Poem" button after results are loaded
+  updateNextPoemButton();
+}
+
+// Save preferences
+function savePreferences() {
+  localStorage.setItem('dataPreferences', JSON.stringify(userPreferences));
+  
+  // Show save confirmation
+  const originalText = savePreferencesBtn.innerHTML;
+  savePreferencesBtn.innerHTML = '<span>✅</span> Saved';
+  
+  setTimeout(() => {
+    savePreferencesBtn.innerHTML = originalText;
+  }, 2000);
+}
+
+// Reset all preferences to selected (true) by default
+function resetPreferences() {
+  if (confirm('Reset all your selections? Everything will be set to "OK" by default.')) {
+    // Reset all to true (selected) by default
+    allDataItems.collected.forEach(item => {
+      userPreferences.collected[item] = true;
+    });
+    
+    allDataItems.inferred.forEach(item => {
+      userPreferences.inferred[item] = true;
+    });
+    
+    allDataItems.shared.forEach(item => {
+      userPreferences.shared[item] = true;
+    });
+    
+    // Regenerate items
+    generateDataItems('collected', allDataItems.collected, 'dataCollectedGrid');
+    generateDataItems('inferred', allDataItems.inferred, 'dataInferredGrid');
+    generateDataItems('shared', allDataItems.shared, 'dataSharedGrid');
+    
+    savePreferences();
+  }
+}
+
+// Setup quick select buttons
+function setupQuickSelect(category, gridId, selectAllId, clearAllId) {
+  document.getElementById(selectAllId).addEventListener('click', () => {
+    allDataItems[category].forEach(item => {
+      userPreferences[category][item] = true;
+    });
+    generateDataItems(category, allDataItems[category], gridId);
+    savePreferences();
+  });
+  
+  document.getElementById(clearAllId).addEventListener('click', () => {
+    allDataItems[category].forEach(item => {
+      userPreferences[category][item] = false;
+    });
+    generateDataItems(category, allDataItems[category], gridId);
+    savePreferences();
+  });
+}
+
+// Navigation functions
+function goToStep(stepNumber) {
+  console.log('goToStep called for step:', stepNumber);
+  
+  // Update steps
+  steps.forEach(step => {
+    if (parseInt(step.dataset.step) === stepNumber) {
+      step.classList.add('active');
+    } else {
+      step.classList.remove('active');
+    }
+  });
+  
+  // Update sections
+  categorySections.forEach(section => {
+    if (section.id === `category${stepNumber}` || (stepNumber === 4 && section.id === 'results')) {
+      section.classList.add('active');
+    } else {
+      section.classList.remove('active');
+    }
+  });
+  
+  // Scroll the container to top
+  const container = document.getElementById('dataPreferencesContainer');
+  if (container) {
+    console.log('Scrolling container to top');
+    // Method 1: Smooth scroll
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    
+    // Method 2: Fallback (immediate)
+    setTimeout(() => {
+      container.scrollTop = 0;
+    }, 50);
+  }
+  
+  // Also try to scroll window as backup
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  
+  // Show results if going to step 4
+  if (stepNumber === 4) {
+    showResults();
+  }
+  
+  // Update the "Read Next Poem" button visibility
+  updateNextPoemButton();
+}
+
+// Show/hide "Read Next Poem" button based on current step
+function updateNextPoemButton() {
+  const nextPoemBtn = document.getElementById('nextPoemBtn');
+  const resultsSection = document.getElementById('results');
+  
+  // Only show if results section is active (visible)
+  if (resultsSection && resultsSection.classList.contains('active')) {
+    // Small delay to ensure results are loaded
+    setTimeout(() => {
+      nextPoemBtn.style.display = 'block';
+      nextPoemBtn.classList.add('visible');
+    }, 500);
+  } else {
+    nextPoemBtn.style.display = 'none';
+    nextPoemBtn.classList.remove('visible');
+  }
+}
+
+// Event Listeners
+function handleEnterPreferencesClick(e) {
+  e.preventDefault();
+  
+  // Hide main content
+  mainContent.classList.add('hidden');
+  
+  // Show preferences container after a short delay
+  setTimeout(() => {
+    dataPreferencesContainer.classList.add('active');
+    
+    // Initialize if not already done
+    if (document.getElementById('dataCollectedGrid').children.length === 0) {
+      initializeDataPreferences();
+      
+      // Setup quick select buttons
+      setupQuickSelect('collected', 'dataCollectedGrid', 'selectAll1', 'clearAll1');
+      setupQuickSelect('inferred', 'dataInferredGrid', 'selectAll2', 'clearAll2');
+      setupQuickSelect('shared', 'dataSharedGrid', 'selectAll3', 'clearAll3');
+    }
+  }, 500);
+}
+
+// Attach initial event listener
+enterPreferencesLink.addEventListener('click', handleEnterPreferencesClick);
+
+// Step navigation
+steps.forEach(step => {
+  step.addEventListener('click', () => {
+    const stepNumber = parseInt(step.dataset.step);
+    goToStep(stepNumber);
+  });
+});
+
+// Navigation buttons
+document.getElementById('nextBtn1').addEventListener('click', () => goToStep(2));
+document.getElementById('prevBtn2').addEventListener('click', () => goToStep(1));
+document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
+document.getElementById('prevBtn3').addEventListener('click', () => goToStep(2));
+document.getElementById('resultsBtn').addEventListener('click', () => goToStep(4));
+document.getElementById('prevBtn4').addEventListener('click', () => goToStep(3));
+document.getElementById('restartBtn').addEventListener('click', () => goToStep(1));
+
+// Add click handler for the "Read Next Poem" button
+document.getElementById('nextPoemBtn').addEventListener('click', () => {
+  // Save current preferences to localStorage so site3.html can access them
+  localStorage.setItem('dataPreferences', JSON.stringify(userPreferences));
+  
+  // Optional: Show loading state
+  const originalText = document.getElementById('nextPoemBtn').innerHTML;
+  document.getElementById('nextPoemBtn').innerHTML = 'Loading Next Poem...';
+  document.getElementById('nextPoemBtn').disabled = true;
+  
+  // Navigate to site3.html after a brief delay
+  setTimeout(() => {
+    window.location.href = 'site3.html';
+  }, 800);
+});
+
+// Start fade-in and loop immediately on page load
+window.addEventListener('load', () => {
+    fadeInWords();
+    loopWords();
+});
+
+// Preload logos for better performance
+function preloadLogos() {
+  Object.values(companyLogos).forEach(logoUrl => {
+    const img = new Image();
+    img.src = logoUrl;
+  });
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  preloadLogos();
+});
+</script>
+</body>
+</html>
