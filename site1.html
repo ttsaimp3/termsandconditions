@@ -49,7 +49,7 @@
     box-shadow: 0 5px 15px rgba(139, 0, 48, 0.4);
   }
 
-  /* main content - Restored original layout */
+  /* main content */
   .main-content { 
     position:fixed; 
     top:51%; 
@@ -114,7 +114,7 @@
     color:rgb(0, 200, 23);
   }
 
-  /* Digital Twin Container - Fixed cut-off issue */
+  /* digital twin */
   #digitalTwinContainer {
     position: fixed;
     top: 0;
@@ -123,7 +123,7 @@
     height: 100%;
     display: none;
     justify-content: center;
-    align-items: flex-start; /* Changed from center to flex-start */
+    align-items: flex-start;
     z-index: 5;
     padding: 20px;
     box-sizing: border-box;
@@ -135,7 +135,7 @@
   #digitalTwinContainer.active {
     display: flex;
     animation: fadeIn 0.8s ease;
-    flex-direction: column; /* Added to stack controls and grid */
+    flex-direction: column;
   }
   
   @keyframes fadeIn {
@@ -143,7 +143,7 @@
     to { opacity: 1; }
   }
   
-  /* Company Grid */
+  /* company grid */
   #companyGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -154,7 +154,7 @@
     margin: 0 auto;
   }
   
-  /* Checklist and Selection Counter - Centered at top */
+  /* checklist & selection counter */
   #selectionControls {
     position: fixed;
     top: 20px;
@@ -299,7 +299,6 @@
     z-index: 2;
   }
 
-  /* Detail View */
   #companyDetail {
     display: none;
     position: fixed;
@@ -467,7 +466,7 @@
     font-size: 1.2rem;
   }
   
-  /* Loading animation */
+  /* load animation */
   .loading {
     text-align: center;
     padding: 50px;
@@ -487,7 +486,6 @@
     60%, 100% { content: '...'; }
   }
   
-  /* Checkbox styling */
   .company-card .checkbox-container {
     position: absolute;
     top: 15px;
@@ -503,7 +501,6 @@
     transform: scale(1.2);
   }
   
-  /* Selected state for cards */
   .company-card.selected {
     border-left-color: #00ff9d;
     box-shadow: 0 8px 20px rgba(0, 255, 157, 0.3);
@@ -513,7 +510,6 @@
     background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 157, 0.1) 100%);
   }
   
-  /* Continue Button */
   #continueBtn {
     position: fixed;
     bottom: 30px;
@@ -547,7 +543,6 @@
     box-shadow: none;
   }
   
-  /* Responsive adjustments */
   @media (max-width: 1024px) {
     #companyGrid {
       padding: 150px 20px 100px 20px;
@@ -563,7 +558,7 @@
   @media (max-width: 768px) {
     #companyGrid {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      padding: 160px 15px 100px 15px; /* Increased for mobile */
+      padding: 160px 15px 100px 15px;
     }
     
     #selectionControls {
@@ -605,7 +600,7 @@
   
   @media (max-width: 480px) {
     #companyGrid {
-      padding: 170px 10px 100px 10px; /* Even more for very small screens */
+      padding: 170px 10px 100px 10px;
     }
     
     #selectionControls {
@@ -660,9 +655,8 @@
   </div>
 </div>
 
-<!-- Digital Twin Container -->
+<!-- digital twin container -->
 <div id="digitalTwinContainer">
-  <!-- Selection Controls -->
   <div id="selectionControls">
     <h3>🛒 Your Services</h3>
     <div id="selectionInstructions">Select the services you use. Your choices will help create your personalized digital twin profile.</div>
@@ -670,14 +664,13 @@
   </div>
   
   <div id="companyGrid">
-    <!-- Company cards will be generated here -->
   </div>
 </div>
 
-<!-- Continue Button -->
+<!-- continue button -->
 <button id="continueBtn" disabled>Continue with Selected Services & Read Next Poem</button>
 
-<!-- Company Detail View -->
+<!-- company details -->
 <div id="companyDetail">
   <div class="detail-content">
     <div class="detail-header">
@@ -696,7 +689,7 @@
 </div>
 
 <script>
-// Company logos
+// company logos
 const companyLogos = {
   alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
   alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
@@ -712,7 +705,7 @@ const companyLogos = {
   netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940"
 };
 
-// Digital Twin Data
+// company data
 const companyData = [
   {
     id: "alibaba",
@@ -1140,7 +1133,7 @@ const companyData = [
   }
 ];
 
-// DOM Elements
+// DOM elements
 const mainContent = document.querySelector('.main-content');
 const digitalTwinLink = document.getElementById('digitalTwinLink');
 const digitalTwinContainer = document.getElementById('digitalTwinContainer');
@@ -1155,15 +1148,15 @@ const detailLogo = document.getElementById('detailLogo');
 const closeDetailButton = document.querySelector('.close-detail');
 const selectedCountElement = document.getElementById('selectedCount');
 
-// User selections
+// user selections
 let selectedServices = new Set();
 
-// Update selected count display
+// update selected count display
 function updateSelectedCount() {
   const count = selectedServices.size;
   selectedCountElement.textContent = `Selected: ${count}`;
   
-  // Enable/disable continue button
+  // continue button
   if (count > 0) {
     continueBtn.disabled = false;
   } else {
@@ -1171,12 +1164,12 @@ function updateSelectedCount() {
   }
 }
 
-// Save selections to localStorage
+// save selections locally
 function saveSelections() {
   const selections = Array.from(selectedServices);
   localStorage.setItem('selectedServices', JSON.stringify(selections));
   
-  // Also save the selected companies' data for use on the next page
+  // save selected company data for use on the next page
   const selectedCompaniesData = companyData.filter(company => 
     selectedServices.has(company.id)
   );
@@ -1313,13 +1306,13 @@ async function loopWords() {
     }
 }
 
-// Initialize Digital Twin View
+// start digital twin view
 function initializeDigitalTwin() {
-  // Show loading state
+  // show loading state
   companyGrid.innerHTML = '<div class="loading">Loading digital twin profiles</div>';
   
   setTimeout(() => {
-    // Create company cards
+    // create company cards
     companyGrid.innerHTML = '';
     
     companyData.forEach(company => {
@@ -1344,7 +1337,7 @@ function initializeDigitalTwin() {
         <div class="third-party-count">${company.thirdPartyCategories} third-party categories</div>
       `;
       
-      // Add click handler for the card (excluding checkbox area)
+      // click handler for card (excluding checkbox area)
       card.addEventListener('click', (e) => {
         // Don't trigger if clicking on the checkbox
         if (e.target.type !== 'checkbox') {
@@ -1352,10 +1345,10 @@ function initializeDigitalTwin() {
         }
       });
       
-      // Add checkbox change handler
+      // checkbox change handler
       const checkbox = card.querySelector('.service-checkbox');
       checkbox.addEventListener('change', function(e) {
-        e.stopPropagation(); // Prevent triggering card click
+        e.stopPropagation(); // prevents triggering card click
         
         if (this.checked) {
           selectedServices.add(company.id);
@@ -1375,7 +1368,7 @@ function initializeDigitalTwin() {
   }, 800);
 }
 
-// Show company detail view
+// company detail view
 function showCompanyDetail(companyId) {
   const company = companyData.find(c => c.id === companyId);
   
@@ -1448,7 +1441,7 @@ const poems = [
 
 let currentPoemIndex = 0;
 
-// Update poem and image
+// poem and image
 function updatePoem() {
   currentPoemIndex = (currentPoemIndex + 1) % poems.length;
   const poem = poems[currentPoemIndex];
@@ -1456,43 +1449,36 @@ function updatePoem() {
   const imgElement = document.querySelector('.main-content img');
   const overlayText = document.querySelector('.overlay-text');
   
-  // Fade out
   mainContent.classList.remove('show');
   
   setTimeout(() => {
-    // Update content
     imgElement.src = poem.image;
     overlayText.innerHTML = `<p><mark>${poem.title}<br><br>${poem.text}<br><br><a id="digitalTwinLink" href="#">meet my digital twin</a></mark></p>`;
     
-    // Re-attach event listener
     const newLink = overlayText.querySelector('#digitalTwinLink');
     newLink.addEventListener('click', handleDigitalTwinClick);
     
-    // Fade in
     mainContent.classList.add('show');
   }, 500);
 }
 
-// Event Listeners
+// event listeners
 function handleDigitalTwinClick(e) {
   e.preventDefault();
   
-  // Hide main content
   mainContent.classList.add('hidden');
   
-  // Show digital twin container after a short delay
   setTimeout(() => {
     digitalTwinContainer.classList.add('active');
     continueBtn.style.display = 'block';
     
-    // Initialize the company grid if not already done
     if (companyGrid.children.length === 0) {
       initializeDigitalTwin();
     }
   }, 500);
 }
 
-// Attach initial event listener
+// initial event listener
 digitalTwinLink.addEventListener('click', handleDigitalTwinClick);
 
 continueBtn.addEventListener('click', () => {
@@ -1507,7 +1493,6 @@ closeDetailButton.addEventListener('click', () => {
   continueBtn.style.display = 'block';
 });
 
-// Close detail view when clicking outside
 companyDetail.addEventListener('click', (e) => {
   if (e.target === companyDetail) {
     companyDetail.classList.remove('active');
@@ -1515,13 +1500,12 @@ companyDetail.addEventListener('click', (e) => {
   }
 });
 
-// Start fade-in and word loop after modal is agreed
+// agree button
 document.getElementById('agreeBtn').addEventListener('click', async () => {
     await fadeInWords();
     loopWords();
 });
 
-// Preload logos for better performance
 function preloadLogos() {
   Object.values(companyLogos).forEach(logoUrl => {
     const img = new Image();
@@ -1529,7 +1513,6 @@ function preloadLogos() {
   });
 }
 
-// Initialize when page loads
 window.addEventListener('DOMContentLoaded', () => {
   preloadLogos();
 });
