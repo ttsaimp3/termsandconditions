@@ -5,231 +5,1534 @@
 <title>Terms and Conditions</title>
 <style>
   body {
-    font-family: 'Trebuchet MS', sans-serif;
-    margin: 0;
-    background-color: #62001c;
-
-    /* Keep your original CSS gradients for lines */
+    margin:0; font-family:'Trebuchet MS', sans-serif;
+    background-color:#62001c;
+    color:white; overflow:auto; position:relative;
     background-image:
-        repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
-        repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
-        repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
-        repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
-        repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
-        repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
-
+      repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
     background-size: 5px 5px;
-    color: white;
-    overflow-x: hidden;
-    position: relative;
-    }
+    min-height: 100vh;
+  }
+    
+  canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
 
+  /* modal */
+  #modalOverlay { 
+    position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.8); display:flex; justify-content:center; 
+    align-items:center; z-index:10; 
+  }
+  
+  #modal { 
+    background: linear-gradient(135deg, #222, #333);
+    padding:40px 30px; border-radius:15px; text-align:center; 
+    max-width:400px; color:white; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  
+  #modal button { 
+    margin-top:20px; padding:12px 25px; border:none; border-radius:8px; 
+    background: linear-gradient(to right, #62001c, #8b0030); 
+    color:white; cursor:pointer; font-size:16px; font-weight:bold;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+  }
+  
+  #modal button:hover { 
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 48, 0.4);
+  }
 
-  #particleCanvas {
+  /* main content - Restored original layout */
+  .main-content { 
+    position:fixed; 
+    top:51%; 
+    left:38%; 
+    transform:translate(-50%, -50%); 
+    width:70vw; 
+    height:70vh; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:1; 
+    text-align:center; 
+    transition: opacity 0.8s ease;
+  }
+  
+  .main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .main-content.show img, .main-content.show .overlay-text { 
+    opacity:1; 
+  }
+  
+  .main-content img { 
+    opacity: 20;
+    max-height: 550px; 
+    border-radius:8px; 
+    transition: opacity 2s ease-in; 
+  }
+  
+  .overlay-text { 
+    position:absolute; 
+    top:18%; 
+    left:29%; 
+    transform:translate(0%, 0%); 
+    width:50vw; 
+    color:white; 
+    font-size:1.2rem; 
+    line-height:1.4; 
+    pointer-events:auto; 
+    text-align: right;
+    opacity: 20;
+    transition: opacity 2s ease-in;
+  }
+  
+  .overlay-text mark { 
+    background:black; 
+    color:white; 
+    padding:0; 
+    border-radius:0; 
+  }
+  
+  .overlay-text a { 
+    color:rgb(0, 157, 18); 
+    text-decoration:underline; 
+    cursor:pointer; 
+  }
+  
+  .overlay-text a:hover {
+    color:rgb(0, 200, 23);
+  }
+
+  /* Digital Twin Container - Fixed cut-off issue */
+  #digitalTwinContainer {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .gallery {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 50px 20px;
-    perspective: 1000px; /* for 3D flip */
-  }
-
-  .card {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s;
-    cursor: pointer;
-  }
-
-  .card.flipped {
-    transform: rotateY(180deg);
-  }
-
-  .card .front, .card .back {
-    position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
+    display: none;
     justify-content: center;
-    align-items: center;
-  }
-
-  .card .front {
-    background-color: #333;
-    color: white;
-  }
-
-  .card .front img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .card .back {
-    background-color: #111;
-    color: #fff;
-    transform: rotateY(180deg);
+    align-items: flex-start; /* Changed from center to flex-start */
+    z-index: 5;
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  #digitalTwinContainer.active {
+    display: flex;
+    animation: fadeIn 0.8s ease;
+    flex-direction: column; /* Added to stack controls and grid */
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Company Grid */
+  #companyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    max-width: 1400px;
+    width: 100%;
+    padding: 900px 30px 100px 30px;
+    margin: 0 auto;
+  }
+  
+  /* Checklist and Selection Counter - Centered at top */
+  #selectionControls {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    background: rgba(20, 20, 20, 0.95);
+    padding: 20px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    min-width: 300px;
+    max-width: 400px;
     text-align: center;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;
+  }
+  
+  #selectionControls h3 {
+    margin: 0 0 12px 0;
+    color: #fff;
+    font-size: 1.3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  
+  #selectedCount {
+    font-size: 1.4rem;
+    color: #ff0055;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+  }
+  
+  #selectionInstructions {
+    font-size: 0.95rem;
+    color: #ccc;
+    text-align: center;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    padding: 0 5px;
+  }
+  
+  .company-card {
+    background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(25, 25, 25, 0.9));
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    border-left: 5px solid #62001c;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .company-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(98, 0, 28, 0.1) 100%);
+    z-index: 1;
+  }
+  
+  .company-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+    border-left-color: #ff0055;
+  }
+  
+  .company-card .company-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .company-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: white;
+    padding: 5px;
+  }
+  
+  .company-card h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.5rem;
+    flex: 1;
+  }
+  
+  .company-card .summary {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .company-card .data-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .company-card .data-category {
+    display: inline-block;
+    background: rgba(98, 0, 28, 0.4);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .company-card:hover .data-category {
+    background: rgba(255, 0, 85, 0.4);
+  }
+  
+  .third-party-count {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background: rgba(98, 0, 28, 0.3);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Detail View */
+  #companyDetail {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 5, 5, 0.95);
+    z-index: 15;
+    padding: 40px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+  }
+  
+  #companyDetail.active {
+    display: block;
+    animation: slideIn 0.5s ease;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .detail-content {
+    background: linear-gradient(135deg, rgba(30,30,30,0.95), rgba(20,20,20,0.95));
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+  }
+  
+  .detail-header .company-detail-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .detail-header .company-logo-large {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: white;
+    padding: 5px;
+  }
+  
+  .detail-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 2rem;
+  }
+  
+  .close-detail {
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .close-detail:hover {
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+  }
+  
+  .detail-summary {
+    color: #ccc;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    padding: 15px;
+    background: rgba(40,40,40,0.5);
+    border-radius: 10px;
+    border-left: 4px solid #62001c;
+  }
+  
+  .data-section {
+    margin-bottom: 25px;
+    background: rgba(40, 40, 40, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #00a86b;
+    transition: all 0.3s ease;
+  }
+  
+  .data-section:hover {
+    border-left-color: #00ff9d;
+    transform: translateX(5px);
+  }
+  
+  .data-section h4 {
+    color: #00ff9d;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .data-section h4::before {
+    content: '📊';
+    margin-right: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .data-section ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #ddd;
+  }
+  
+  .data-section li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+    position: relative;
+  }
+  
+  .data-section li::before {
+    content: '•';
+    color: #00ff9d;
+    font-weight: bold;
+    position: absolute;
+    left: -15px;
+  }
+  
+  .detail-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+  
+  .third-party-count-large {
+    display: inline-block;
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(98, 0, 28, 0.3);
+  }
+  
+  .section-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Loading animation */
+  .loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: #ccc;
+    grid-column: 1 / -1;
+  }
+  
+  .loading::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+  }
+  
+  @keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+  
+  /* Checkbox styling */
+  .company-card .checkbox-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 3;
+  }
+  
+  .company-card input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #ff0055;
+    transform: scale(1.2);
+  }
+  
+  /* Selected state for cards */
+  .company-card.selected {
+    border-left-color: #00ff9d;
+    box-shadow: 0 8px 20px rgba(0, 255, 157, 0.3);
+  }
+  
+  .company-card.selected::before {
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 157, 0.1) 100%);
+  }
+  
+  /* Continue Button */
+  #continueBtn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 30px;
+    background: linear-gradient(to right, #00a86b, #00ff9d);
+    color: #111;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 20;
+    display: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 168, 107, 0.3);
+  }
+  
+  #continueBtn:hover {
+    background: linear-gradient(to right, #00ff9d, #4dffb8);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 255, 157, 0.4);
+  }
+  
+  #continueBtn:disabled {
+    background: linear-gradient(to right, #555, #777);
+    color: #aaa;
+    cursor: not-allowed;
+    transform: translateX(-50%);
+    box-shadow: none;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    #companyGrid {
+      padding: 150px 20px 100px 20px;
+    }
+    
+    #selectionControls {
+      min-width: 280px;
+      max-width: 350px;
+      padding: 15px 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    #companyGrid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      padding: 160px 15px 100px 15px; /* Increased for mobile */
+    }
+    
+    #selectionControls {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 280px;
+      max-width: 90%;
+      padding: 15px;
+      margin-top: 0;
+    }
+    
+    .detail-content {
+      padding: 20px;
+    }
+    
+    .detail-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .detail-header h2 {
+      font-size: 1.5rem;
+      margin-top: 15px;
+    }
+    
+    .close-detail {
+      margin-top: 15px;
+      align-self: flex-end;
+    }
+    
+    #continueBtn {
+      bottom: 80px;
+      width: 90%;
+      max-width: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #companyGrid {
+      padding: 170px 10px 100px 10px; /* Even more for very small screens */
+    }
+    
+    #selectionControls {
+      padding: 12px 15px;
+      min-width: 250px;
+    }
+    
+    #selectionControls h3 {
+      font-size: 1.1rem;
+    }
+    
+    #selectedCount {
+      font-size: 1.2rem;
+    }
+    
+    #selectionInstructions {
+      font-size: 0.85rem;
+    }
   }
 </style>
 </head>
 <body>
 
+<!-- particle background -->
 <canvas id="particleCanvas"></canvas>
 
-<div class="gallery">
-  <div class="card">
-    <div class="front">
-      <img src="https://www.lawrencemalstaf.com/media/contentblock-medium/8-tao_lawrence-malstaf_shrink-01995-at-kikk-festival.jpg" alt="Artwork 1">
+<!-- pixelated words -->
+<canvas id="wordCanvas"></canvas>
+
+<!-- modal -->
+<div id="modalOverlay">
+  <div id="modal">
+    <p><b>Terms and Conditions</b><br><br>
+    <i>Terms and Conditions</i> is an artistic work and social commentary focusing on the small print that constitute legal agreements, binding you and the services on and off the internet.<br><br>
+    It does not intend to provide legal advice, replace professional consultation, or serve as a legally binding resource but rather aims to inform, critique, and provoke thought about the implications of the agreements often accepted blindly.</p>
+    <button id="agreeBtn">I agree.</button>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="main-content">
+  <img src="https://a.1stdibscdn.com/a_10991/1612867177280/Schermafbeelding_2021_02_09_om_11_38_43_master.jpg?width=768" alt="Mirror World, Digital Twins">
+  <div class="overlay-text">
+    <p><mark>in the spaceless space<br>
+        hippies and militants shook hands<br>
+        for your twin to precede you<br>
+        awaiting, all-knowing like a best friend<br><br>
+        immortal memories come from within<br>
+        you are the product and projection of what comes after<br>
+        bit by bit extrapolated, mirror image, my pleasure<br><br>
+    <a id="digitalTwinLink" href="#">meet my digital twin<br>in the mirror world</a></mark></p>
+  </div>
+</div>
+
+<!-- Digital Twin Container -->
+<div id="digitalTwinContainer">
+  <!-- Selection Controls -->
+  <div id="selectionControls">
+    <h3>🛒 Your Services</h3>
+    <div id="selectionInstructions">Select the services you use. Your choices will help create your personalized digital twin profile.</div>
+    <div id="selectedCount">Selected: 0</div>
+  </div>
+  
+  <div id="companyGrid">
+    <!-- Company cards will be generated here -->
+  </div>
+</div>
+
+<!-- Continue Button -->
+<button id="continueBtn" disabled>Continue with Selected Services & Read Next Poem</button>
+
+<!-- Company Detail View -->
+<div id="companyDetail">
+  <div class="detail-content">
+    <div class="detail-header">
+      <div class="company-detail-title">
+        <img id="detailLogo" class="company-logo-large" src="" alt="">
+        <h2 id="detailTitle"></h2>
+      </div>
+      <button class="close-detail">Close</button>
     </div>
-    <div class="back">
-      <p>This is a description of Artwork 1. Future videos, audio, and more can appear here!</p>
+    <p id="detailSummary" class="detail-summary"></p>
+    <div id="detailContent"></div>
+    <div class="detail-footer">
+      <div id="detailThirdParty" class="third-party-count-large"></div>
     </div>
   </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/7/21/1437478115100/98b03e87-e1ac-4f67-892c-819b7122ae3e-1020x612.jpeg?width=700&quality=85&auto=format&fit=max&s=88dfa3220296e69522c03333a89b8185" alt="Artwork 2">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6PktiLbXmRoAUEntqKoulye1yNrm27Vn6rw&s" alt="Artwork 3">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://imageio.forbes.com/specials-images/imageserve//61d5d26d1b3eda8a60f3d174/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds" alt="Artwork 4">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://www.goodwinadams.co.uk/images_product/j-982l287201291929.jpg" alt="Artwork 5">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2pSLFqEw47rRTsRmchkI3L4-UKN4_UxF_hw&s" alt="Artwork 6">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://d10p6pkj5na3og.cloudfront.net/discovery/Assets/Images/retina-5-jpg/retina-5x600.jpg" alt="Artwork 7">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="front">
-      <img src="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/rockcms/2022-09/220911-fairview-fire-jm-1515-b8525b.jpg" alt="Artwork 8">
-    </div>
-    <div class="back">
-      <p>This is a description of Artwork 2. You can add videos, audio, etc.</p>
-    </div>
-  </div>
-
-  <!-- Add more cards here -->
 </div>
 
 <script>
-  // Particle background
-  const canvas = document.getElementById('particleCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// Company logos
+const companyLogos = {
+  alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
+  alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+  apple: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
+  meta: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+  openai: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+  spotify: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
+  tencent: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
+  tiktok: "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
+  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
+  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940"
+};
 
-  const particles = [];
-  const particleCount = 120;
+// Digital Twin Data
+const companyData = [
+  {
+    id: "alibaba",
+    name: "Alibaba",
+    summary: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
+    dataCollectedDirectly: [
+      "Personal info (name, phone number, address)",
+      "Payment data",
+      "Transaction history",
+      "Device identifiers",
+      "Browsing behavior",
+      "Search history",
+      "Purchase patterns",
+      "App-activity logs"
+    ],
+    dataInferred: [
+      "Creditworthiness",
+      "Purchasing power",
+      "Spending habits",
+      "Behavioral patterns",
+      "Interest categories",
+      "Ad-targeting segments"
+    ],
+    dataFromThirdParties: [
+      "Logistics partners",
+      "Merchants",
+      "Payment processors",
+      "Advertising networks",
+      "Government-verified identity checks (in certain regions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Logistics partners",
+      "Advertising partners",
+      "Data analytics vendors",
+      "Fraud-prevention services",
+      "Cloud service providers"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "alphabet",
+    name: "Alphabet / Google",
+    summary: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Search queries",
+      "Location data (active + passive)",
+      "Browsing history (Chrome sync)",
+      "App usage",
+      "Device identifiers",
+      "Voice recordings (if enabled)",
+      "Emails metadata in Gmail",
+      "YouTube watch history",
+      "Android device telemetry"
+    ],
+    dataInferred: [
+      "Interests",
+      "Behavioral profiles",
+      "Demographic predictions",
+      "Purchasing likelihood",
+      "Movement patterns",
+      "Ad segments"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Sites using Google Analytics",
+      "Apps using Google SDKs",
+      "Merchant partners",
+      "YouTube partners"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers (aggregated/personalized ads)",
+      "Analytics partners",
+      "App developers via APIs",
+      "Cloud partners when relevant",
+      "Legal/government requests"
+    ],
+    thirdPartyCategories: "5–8"
+  },
+  {
+    id: "apple",
+    name: "Apple",
+    summary: "Technology company with a focus on privacy and on-device processing.",
+    dataCollectedDirectly: [
+      "Apple ID info",
+      "Device diagnostics",
+      "App usage",
+      "App Store activity",
+      "iCloud-synced data (if enabled)",
+      "Purchase history",
+      "Siri queries (with privacy filtering)",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Device performance patterns",
+      "App usage trends",
+      "Personalized content preferences (on-device when possible)"
+    ],
+    dataFromThirdParties: [
+      "Optional app integrations",
+      "Apple Pay merchant data",
+      "HealthKit and HomeKit partners (only with permissions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Telecom partners (activation)",
+      "iCloud storage vendors",
+      "Developer APIs (in limited ways)",
+      "Regulatory compliance"
+    ],
+    thirdPartyCategories: "2–5"
+  },
+  {
+    id: "meta",
+    name: "Meta",
+    summary: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, and Threads.",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Contact lists (if granted)",
+      "Social graph",
+      "Messages metadata",
+      "Content you post",
+      "Browsing behavior via Facebook Pixel",
+      "Engagement patterns",
+      "Device/browser data"
+    ],
+    dataInferred: [
+      "Personality traits",
+      "Political tendencies",
+      "Interests",
+      "Relationships",
+      "Purchasing intent",
+      "Behavioral predictions"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Partners using Meta Pixel",
+      "E-commerce integrations",
+      "Business API data from WhatsApp"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics partners",
+      "Business APIs",
+      "Service vendors",
+      "Cloud vendors",
+      "Law enforcement"
+    ],
+    thirdPartyCategories: "8–12"
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    summary: "Software and cloud computing company with enterprise and consumer data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Windows telemetry (varies by settings)",
+      "Office activity",
+      "Cloud-sync files metadata",
+      "Xbox usage",
+      "Browsing data via Edge (if synced)"
+    ],
+    dataInferred: [
+      "Productivity patterns",
+      "Device performance",
+      "Interest categories for ads (less aggressive than Google/Meta)"
+    ],
+    dataFromThirdParties: [
+      "Enterprise vendors",
+      "Developers using Microsoft services",
+      "Data from LinkedIn partners"
+    ],
+    sharesWithThirdParties: [
+      "Enterprise partners",
+      "Cloud infrastructure",
+      "Payment processors",
+      "Analytics vendors",
+      "Ad partners (limited for consumer apps)"
+    ],
+    thirdPartyCategories: "4–7"
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    summary: "AI research and deployment company with focus on language models and AI services.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Prompts you type",
+      "Model responses",
+      "Interaction metadata (timestamps, features used)",
+      "Device/browser info",
+      "Payment data for subscriptions"
+    ],
+    dataInferred: [
+      "Usage patterns",
+      "Feature preferences",
+      "Model improvement signals (depending on your privacy settings)"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Identity-verification vendors (if applicable)",
+      "Optional integrations you enable"
+    ],
+    sharesWithThirdParties: [
+      "Cloud providers (to host/serve models)",
+      "Payment processors",
+      "Email/communication vendors",
+      "Security vendors",
+      "Analytics (non-identifying, depending on settings)"
+    ],
+    thirdPartyCategories: "3–6"
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    summary: "Music streaming service with detailed listening behavior tracking.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Listening history",
+      "Playlist data",
+      "Search queries",
+      "Engagement time",
+      "Device identifiers",
+      "Subscription/billing info"
+    ],
+    dataInferred: [
+      "Music taste profile",
+      "Mood clusters",
+      "Social connection patterns",
+      "Genre affinity",
+      "Ad segmentation"
+    ],
+    dataFromThirdParties: [
+      "Connected devices (car systems, speakers)",
+      "Social platforms",
+      "Advertisers"
+    ],
+    sharesWithThirdParties: [
+      "Ad networks",
+      "Analytics vendors",
+      "Payment processors",
+      "Device integration partners",
+      "Music label reporting systems"
+    ],
+    thirdPartyCategories: "5–7"
+  },
+  {
+    id: "tencent",
+    name: "Tencent",
+    summary: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    dataCollectedDirectly: [
+      "Identity info",
+      "Device IDs",
+      "Chat metadata",
+      "Payment data (WeChat Pay)",
+      "Social circles",
+      "Content uploaded",
+      "App usage",
+      "Location (varies by service)"
+    ],
+    dataInferred: [
+      "Social graph patterns",
+      "Spending power",
+      "Behavioral clusters",
+      "Ad preferences"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Mini-program developers",
+      "Advertisers",
+      "Logistics/delivery partners"
+    ],
+    sharesWithThirdParties: [
+      "Mini-program partners",
+      "Payment processors",
+      "Advertisers",
+      "Cloud vendors",
+      "Enterprise partners",
+      "Government requests (China-specific)"
+    ],
+    thirdPartyCategories: "7–12"
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    summary: "Social video platform with sophisticated content and behavior tracking (ByteDance).",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Device identifiers",
+      "Keystroke patterns (for security/typing)",
+      "Browsing behavior inside app",
+      "Content watched",
+      "Engagement timing",
+      "Location (if allowed)",
+      "Contacts (if synced)"
+    ],
+    dataInferred: [
+      "Interest graph",
+      "Behavioral clusters",
+      "Demographic predictions",
+      "Ad targeting segments",
+      "Content preference trajectory"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Creators",
+      "Linked apps (CapCut, Douyin environment)",
+      "Ad networks"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics services",
+      "Content-delivery networks",
+      "Cloud infrastructure vendors",
+      "Business partners"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "xiaohongshu",
+    name: "Xiaohongshu",
+    summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
+    dataCollectedDirectly: [
+      "Account info",
+      "Browsing history",
+      "Content interactions",
+      "Purchase behavior",
+      "Device identifiers",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Lifestyle clusters",
+      "Fashion/beauty preferences",
+      "Shopping intent",
+      "Social influence metrics"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Advertisers",
+      "Brand partners",
+      "Influencers"
+    ],
+    sharesWithThirdParties: [
+      "Merchant partners",
+      "Analytics/ads networks",
+      "Payment processors",
+      "Logistics (for RED Mall)",
+      "Regulatory entities"
+    ],
+    thirdPartyCategories: "5–9"
+  },
+  {
+    id: "amazon",
+    name: "Amazon",
+    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    dataCollectedDirectly: [
+      "Purchase history",
+      "Search queries",
+      "Browsing history",
+      "Wish lists",
+      "Product reviews",
+      "Alexa voice recordings",
+      "Prime Video watch history",
+      "Device usage data (Kindle, Echo)"
+    ],
+    dataInferred: [
+      "Shopping preferences",
+      "Price sensitivity",
+      "Household composition",
+      "Lifestyle patterns",
+      "Product affinity scores"
+    ],
+    dataFromThirdParties: [
+      "Marketplace sellers",
+      "Advertising partners",
+      "Delivery/logistics partners",
+      "Payment processors",
+      "Smart home device manufacturers"
+    ],
+    sharesWithThirdParties: [
+      "Third-party sellers",
+      "Advertising networks",
+      "Cloud service customers",
+      "Delivery partners",
+      "Analytics providers"
+    ],
+    thirdPartyCategories: "7–11"
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    dataCollectedDirectly: [
+      "Viewing history",
+      "Search queries",
+      "Ratings (thumbs up/down)",
+      "Device information",
+      "Playback technical data",
+      "Account details",
+      "Interaction with UI elements"
+    ],
+    dataInferred: [
+      "Content preferences",
+      "Viewing patterns",
+      "Taste clusters",
+      "Mood-based viewing habits",
+      "Binge-watching tendencies"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Internet service providers",
+      "Device manufacturers",
+      "Content partners",
+      "Marketing partners"
+    ],
+    sharesWithThirdParties: [
+      "Content creators/studios",
+      "Analytics partners",
+      "Marketing agencies",
+      "Payment processors",
+      "CDN providers"
+    ],
+    thirdPartyCategories: "4–7"
+  }
+];
 
-  class Particle {
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * 1 + 0.3;
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 0.7 + 0.2;
-      this.speedX = Math.cos(angle) * speed;
-      this.speedY = Math.sin(angle) * speed;
+// DOM Elements
+const mainContent = document.querySelector('.main-content');
+const digitalTwinLink = document.getElementById('digitalTwinLink');
+const digitalTwinContainer = document.getElementById('digitalTwinContainer');
+const continueBtn = document.getElementById('continueBtn');
+const companyGrid = document.getElementById('companyGrid');
+const companyDetail = document.getElementById('companyDetail');
+const detailTitle = document.getElementById('detailTitle');
+const detailSummary = document.getElementById('detailSummary');
+const detailContent = document.getElementById('detailContent');
+const detailThirdParty = document.getElementById('detailThirdParty');
+const detailLogo = document.getElementById('detailLogo');
+const closeDetailButton = document.querySelector('.close-detail');
+const selectedCountElement = document.getElementById('selectedCount');
+
+// User selections
+let selectedServices = new Set();
+
+// Update selected count display
+function updateSelectedCount() {
+  const count = selectedServices.size;
+  selectedCountElement.textContent = `Selected: ${count}`;
+  
+  // Enable/disable continue button
+  if (count > 0) {
+    continueBtn.disabled = false;
+  } else {
+    continueBtn.disabled = true;
+  }
+}
+
+// Save selections to localStorage
+function saveSelections() {
+  const selections = Array.from(selectedServices);
+  localStorage.setItem('selectedServices', JSON.stringify(selections));
+  
+  // Also save the selected companies' data for use on the next page
+  const selectedCompaniesData = companyData.filter(company => 
+    selectedServices.has(company.id)
+  );
+  localStorage.setItem('selectedCompaniesData', JSON.stringify(selectedCompaniesData));
+}
+
+/* particle background */
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+class Particle {
+  constructor(){ 
+    this.x=Math.random()*pCanvas.width; 
+    this.y=Math.random()*pCanvas.height; 
+    this.size=Math.random()*1.5+0.5;
+    const angle=Math.random()*Math.PI*2; 
+    const speed=Math.random()*0.7+0.2;
+    this.speedX=Math.cos(angle)*speed; 
+    this.speedY=Math.sin(angle)*speed;
+    this.alpha = Math.random()*0.5+0.3;
+  }
+  update(){ 
+    this.x+=this.speedX; 
+    this.y+=this.speedY;
+    if(this.x>pCanvas.width) this.x=0; 
+    if(this.x<0) this.x=pCanvas.width;
+    if(this.y>pCanvas.height) this.y=0; 
+    if(this.y<0) this.y=pCanvas.height;
+  }
+  draw(){ 
+    pCtx.fillStyle=`rgba(255,255,255,${this.alpha})`; 
+    pCtx.beginPath(); 
+    pCtx.arc(this.x,this.y,this.size,0,Math.PI*2); 
+    pCtx.fill(); 
+  }
+}
+const particles=[];
+for(let i=0;i<150;i++) particles.push(new Particle());
+function animateParticles(){ 
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height); 
+  particles.forEach(p=>{p.update();p.draw();}); 
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* modal */
+const modalOverlay=document.getElementById('modalOverlay');
+document.getElementById('agreeBtn').addEventListener('click',()=> {
+    modalOverlay.style.display='none';
+    mainContent.classList.add('show');
+});
+
+/* pixelated words */
+const wCanvas=document.getElementById('wordCanvas');
+const wCtx=wCanvas.getContext('2d');
+function resizeWords(){ wCanvas.width=window.innerWidth; wCanvas.height=window.innerHeight; }
+resizeWords();
+window.addEventListener('resize', resizeWords);
+
+const WORDS=[
+  "terms","conditions","agreement","risk","liability","circumstance",
+  "terms apply","access","third-party",
+  "license","rights","waive","user","no warranty","revisions","mandatory","copyright","infringement",
+  "termination","disclaimer","limitations apply","restricted","submission","voluntary","breach",
+  "responsibility","dispute","compliance","consent","intellectual property","prohibited by law"
+];
+
+const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];}}
+
+async function showWord(word){
+    const off=document.createElement('canvas');
+    const W=wCanvas.width*0.5, H=100; off.width=W; off.height=H;
+    const octx=off.getContext('2d'); octx.font=`bold 80px sans-serif`; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillStyle='white'; octx.fillText(word,W/2,H/2);
+
+    const img=octx.getImageData(0,0,W,H).data;
+    const pixels=[];
+    for(let y=0;y<H;y+=pixelSize){for(let x=0;x<W;x+=pixelSize){if(img[(y*W+x)*4+3]>128) pixels.push({x,y});}}
+    shuffle(pixels);
+
+    const side = Math.floor(Math.random() * 4);
+    let randX = 0, randY = 0, rotation = 0;
+    const margin = 10;
+
+    switch(side){
+    case 0: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = margin; rotation = 0; break;
+    case 1: randX = wCanvas.width - margin - W + 200; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    case 2: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = wCanvas.height - margin - H; rotation = 0; break;
+    case 3: randX = margin-270; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
     }
 
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.x > canvas.width) this.x = 0;
-      if (this.x < 0) this.x = canvas.width;
-      if (this.y > canvas.height) this.y = 0;
-      if (this.y < 0) this.y = canvas.height;
+    for(const p of pixels){
+      let px=p.x, py=p.y;
+      if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+      else {px+=randX; py+=randY;}
+      wCtx.fillStyle='white'; wCtx.fillRect(px,py,pixelSize,pixelSize);
+      await sleep(revealDelay);
     }
 
-    draw() {
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
+    await sleep(holdMS);
+
+    const frames=Math.floor(fadeMS/16);
+    for(let f=0;f<frames;f++){
+      wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+      wCtx.globalAlpha=1-f/frames;
+      for(const p of pixels){
+        let px=p.x, py=p.y;
+        if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+        else {px+=randX; py+=randY;}
+        wCtx.fillRect(px,py,pixelSize,pixelSize);
+      }
+      await sleep(16);
     }
-  }
+    wCtx.globalAlpha=1;
+}
 
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-  }
+async function fadeInWords(){
+    for(let alpha=0; alpha<=1; alpha+=0.02){
+        wCtx.globalAlpha = alpha;
+        await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
 
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
-  }
-  animate();
+async function loopWords() {
+    while(true){
+        const randomIndex = Math.floor(Math.random() * WORDS.length);
+        const word = WORDS[randomIndex];
+        await showWord(word);
+    }
+}
 
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// Initialize Digital Twin View
+function initializeDigitalTwin() {
+  // Show loading state
+  companyGrid.innerHTML = '<div class="loading">Loading digital twin profiles</div>';
+  
+  setTimeout(() => {
+    // Create company cards
+    companyGrid.innerHTML = '';
+    
+    companyData.forEach(company => {
+      const card = document.createElement('div');
+      card.className = 'company-card';
+      card.dataset.id = company.id;
+      
+      card.innerHTML = `
+        <div class="company-header">
+          <img class="company-logo" src="${companyLogos[company.id] || ''}" alt="${company.name} logo">
+          <h3>${company.name}</h3>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="checkbox-${company.id}" class="service-checkbox" data-company-id="${company.id}">
+        </div>
+        <p class="summary">${company.summary}</p>
+        <div class="data-categories">
+          <span class="data-category">Data Collection</span>
+          <span class="data-category">Third Parties</span>
+          <span class="data-category">Profiling</span>
+        </div>
+        <div class="third-party-count">${company.thirdPartyCategories} third-party categories</div>
+      `;
+      
+      // Add click handler for the card (excluding checkbox area)
+      card.addEventListener('click', (e) => {
+        // Don't trigger if clicking on the checkbox
+        if (e.target.type !== 'checkbox') {
+          showCompanyDetail(company.id);
+        }
+      });
+      
+      // Add checkbox change handler
+      const checkbox = card.querySelector('.service-checkbox');
+      checkbox.addEventListener('change', function(e) {
+        e.stopPropagation(); // Prevent triggering card click
+        
+        if (this.checked) {
+          selectedServices.add(company.id);
+          card.classList.add('selected');
+        } else {
+          selectedServices.delete(company.id);
+          card.classList.remove('selected');
+        }
+        
+        updateSelectedCount();
+      });
+      
+      companyGrid.appendChild(card);
+    });
+    
+    updateSelectedCount();
+  }, 800);
+}
+
+// Show company detail view
+function showCompanyDetail(companyId) {
+  const company = companyData.find(c => c.id === companyId);
+  
+  if (!company) return;
+  
+  detailTitle.textContent = company.name;
+  detailSummary.textContent = company.summary;
+  detailLogo.src = companyLogos[company.id] || '';
+  detailLogo.alt = `${company.name} logo`;
+  
+  detailContent.innerHTML = `
+    <div class="data-section">
+      <h4><span class="section-icon">🔍</span>Data Collected Directly</h4>
+      <ul>
+        ${company.dataCollectedDirectly.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+    
+    <div class="data-section">
+      <h4><span class="section-icon">🧠</span>Data Inferred</h4>
+      <ul>
+        ${company.dataInferred.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+    
+    <div class="data-section">
+      <h4><span class="section-icon">↔️</span>Data From Third Parties</h4>
+      <ul>
+        ${company.dataFromThirdParties.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+    
+    <div class="data-section">
+      <h4><span class="section-icon">📤</span>Shares With Third Parties</h4>
+      <ul>
+        ${company.sharesWithThirdParties.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+  
+  detailThirdParty.textContent = `Estimated typical number of third-party categories: ${company.thirdPartyCategories}`;
+  
+  companyDetail.classList.add('active');
+  continueBtn.style.display = 'none';
+}
+
+// Poems and images for cycling
+const poems = [
+  {
+    title: "Digital Ghosts",
+    text: "we click away our shadows<br>in boxes that remember everything<br>except how to forget",
+    image: "https://a.1stdibscdn.com/a_10991/1612867177280/Schermafbeelding_2021_02_09_om_11_38_43_master.jpg?width=768"
+  },
+  {
+    title: "Terms of Surrender",
+    text: "i agreed before reading<br>the small print of my soul<br>signed in invisible ink",
+    image: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Data Portrait",
+    text: "they paint me in zeros and ones<br>a masterpiece of inference<br>hung in the cloud's gallery",
+    image: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Cookie Crumbs",
+    text: "following the trail i left<br>when i thought i was lost<br>now they know the way home",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+  }
+];
+
+let currentPoemIndex = 0;
+
+// Update poem and image
+function updatePoem() {
+  currentPoemIndex = (currentPoemIndex + 1) % poems.length;
+  const poem = poems[currentPoemIndex];
+  
+  const imgElement = document.querySelector('.main-content img');
+  const overlayText = document.querySelector('.overlay-text');
+  
+  // Fade out
+  mainContent.classList.remove('show');
+  
+  setTimeout(() => {
+    // Update content
+    imgElement.src = poem.image;
+    overlayText.innerHTML = `<p><mark>${poem.title}<br><br>${poem.text}<br><br><a id="digitalTwinLink" href="#">meet my digital twin</a></mark></p>`;
+    
+    // Re-attach event listener
+    const newLink = overlayText.querySelector('#digitalTwinLink');
+    newLink.addEventListener('click', handleDigitalTwinClick);
+    
+    // Fade in
+    mainContent.classList.add('show');
+  }, 500);
+}
+
+// Event Listeners
+function handleDigitalTwinClick(e) {
+  e.preventDefault();
+  
+  // Hide main content
+  mainContent.classList.add('hidden');
+  
+  // Show digital twin container after a short delay
+  setTimeout(() => {
+    digitalTwinContainer.classList.add('active');
+    continueBtn.style.display = 'block';
+    
+    // Initialize the company grid if not already done
+    if (companyGrid.children.length === 0) {
+      initializeDigitalTwin();
+    }
+  }, 500);
+}
+
+// Attach initial event listener
+digitalTwinLink.addEventListener('click', handleDigitalTwinClick);
+
+continueBtn.addEventListener('click', () => {
+  if (selectedServices.size > 0) {
+    saveSelections();
+    window.location.href = "site2.html";
+  }
+});
+
+closeDetailButton.addEventListener('click', () => {
+  companyDetail.classList.remove('active');
+  continueBtn.style.display = 'block';
+});
+
+// Close detail view when clicking outside
+companyDetail.addEventListener('click', (e) => {
+  if (e.target === companyDetail) {
+    companyDetail.classList.remove('active');
+    continueBtn.style.display = 'block';
+  }
+});
+
+// Start fade-in and word loop after modal is agreed
+document.getElementById('agreeBtn').addEventListener('click', async () => {
+    await fadeInWords();
+    loopWords();
+});
+
+// Preload logos for better performance
+function preloadLogos() {
+  Object.values(companyLogos).forEach(logoUrl => {
+    const img = new Image();
+    img.src = logoUrl;
   });
+}
 
-  // Card flip
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
-    card.addEventListener('click', () => card.classList.toggle('flipped'));
-  });
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  preloadLogos();
+});
 </script>
-
 </body>
 </html>
