@@ -114,7 +114,7 @@
     color:rgb(0, 200, 23);
   }
 
-  /* Data Preferences Container */
+  /* data preferences */
   #dataPreferencesContainer {
     position: fixed;
     top: 0;
@@ -142,7 +142,7 @@
     to { opacity: 1; }
   }
   
-  /* Progress Steps */
+  /* progress */
   .progress-steps {
     display: flex;
     justify-content: center;
@@ -191,7 +191,7 @@
     color: #fff;
   }
   
-  /* Categories Container */
+  /* categories */
   #categoriesContainer {
     max-width: 1200px;
     margin: 0 auto;
@@ -235,7 +235,7 @@
     line-height: 1.5;
   }
   
-  /* Data Items Grid */
+  /* data items */
   .data-items-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -308,7 +308,7 @@
     line-height: 1.4;
   }
   
-  /* Quick Select Buttons */
+  /* quick select */
   .quick-select {
     display: flex;
     gap: 10px;
@@ -332,7 +332,7 @@
     color: #fff;
   }
   
-  /* Navigation Buttons */
+  /* navigation buttons */
   .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -380,7 +380,7 @@
     background: linear-gradient(to right, #008000, #00a000);
   }
   
-  /* Results Section */
+  /* results */
   .results-content {
     background: rgba(30, 30, 30, 0.8);
     border-radius: 15px;
@@ -505,7 +505,7 @@
     margin-bottom: 5px;
   }
   
-  /* Next Poem Button */
+  /* next poem */
   #nextPoemBtn {
   padding: 12px 30px;
   background: linear-gradient(to right, rgb(0, 200, 23), #00ff9d) !important;
@@ -545,7 +545,7 @@
     }
   }
   
-  /* Responsive adjustments */
+  /* responsive adjustments */
   @media (max-width: 768px) {
     .data-items-grid {
       grid-template-columns: 1fr;
@@ -586,7 +586,7 @@
   </div>
 </div>
 
-<!-- Data Preferences Container -->
+<!-- data preferences -->
 <div id="dataPreferencesContainer">
   <div class="progress-steps">
     <div class="step active" data-step="1">
@@ -608,7 +608,7 @@
   </div>
   
   <div id="categoriesContainer">
-    <!-- Category 1: Data Collected Directly -->
+    <!-- pt1: data collected directly -->
     <div class="category-section active" id="category1">
       <div class="category-header">
         <h2>Select the data practices you're comfortable with. We'll reveal the cognitive dissonance between your preferences and the services you use.</h2>
@@ -621,7 +621,6 @@
       </div>
       
       <div class="data-items-grid" id="dataCollectedGrid">
-        <!-- Data items will be generated here -->
       </div>
       
       <div class="nav-buttons">
@@ -634,7 +633,7 @@
       </div>
     </div>
     
-    <!-- Category 2: Data Inferred -->
+    <!-- pt2: data inferred -->
     <div class="category-section" id="category2">
       <div class="category-header">
         <h2>What inferences are you comfortable with companies making about you?</h2>
@@ -646,7 +645,6 @@
       </div>
       
       <div class="data-items-grid" id="dataInferredGrid">
-        <!-- Data items will be generated here -->
       </div>
       
       <div class="nav-buttons">
@@ -659,7 +657,7 @@
       </div>
     </div>
     
-    <!-- Category 3: Data Shared with Third Parties -->
+    <!-- pt3: data shared w/ 3rd parties -->
     <div class="category-section" id="category3">
       <div class="category-header">
         <h2>Who are you comfortable with companies sharing your data with?</h2>
@@ -671,7 +669,6 @@
       </div>
       
       <div class="data-items-grid" id="dataSharedGrid">
-        <!-- Data items will be generated here -->
       </div>
       
       <div class="nav-buttons">
@@ -684,7 +681,7 @@
       </div>
     </div>
     
-    <!-- Results Section -->
+    <!-- results -->
 <div class="category-section" id="results">
   <div class="category-header">
     <h2>The Cognitive Dissonance Revealed</h2>
@@ -702,26 +699,21 @@
     <div class="services-comparison">
       <h3>Services Matching Your Preferences that you use</h3>
       <div class="services-grid" id="matchingServices">
-        <!-- Services that match will appear here -->
       </div>
       
       <h3 style="margin-top: 40px;">Services NOT Matching Your Preferences that you use</h3>
       <div class="services-grid" id="mismatchingServices">
-        <!-- Services that don't match will appear here -->
       </div>
       
-      <!-- NEW: Add these two sections -->
       <h3 style="margin-top: 40px;">Services Matching Your Preferences that you don't use</h3>
       <div class="services-grid" id="nonUsedMatchingServices">
-        <!-- Services that match but user doesn't use will appear here -->
       </div>
       
       <h3 style="margin-top: 40px;">Services NOT Matching Your Preferences that you don't use</h3>
       <div class="services-grid" id="nonUsedMismatchingServices">
-        <!-- Services that don't match and user doesn't use will appear here -->
       </div>
       
-      <!-- Read Next Poem Button - Appears only at bottom of results -->
+      <!-- read next poem button -->
       <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.1); text-align: center;">
         <button id="nextPoemBtn" style="padding: 18px 40px; font-size: 1.2rem; background: linear-gradient(135deg, #0066cc, #0099ff); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3);">
           Continue to Next Poem →
@@ -742,7 +734,7 @@
 </div>
 
 <script>
-// Company logos
+// company logos
 const companyLogos = {
   alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
   alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
@@ -758,7 +750,7 @@ const companyLogos = {
   netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940"
 };
 
-// Digital Twin Data
+// company data
 const companyData = [
   {
     id: "alibaba",
@@ -1186,30 +1178,30 @@ const companyData = [
   }
 ];
 
-// Extract unique data items from all companies
+// unique data items from all companies
 const allDataItems = {
   collected: [],
   inferred: [],
   shared: []
 };
 
-// Extract all unique data items
+// unique data items for each company
 companyData.forEach(company => {
-  // Data collected directly
+  // pt1 data collected directly
   company.dataCollectedDirectly.forEach(item => {
     if (!allDataItems.collected.includes(item)) {
       allDataItems.collected.push(item);
     }
   });
   
-  // Data inferred
+  // pt2 data inferred
   company.dataInferred.forEach(item => {
     if (!allDataItems.inferred.includes(item)) {
       allDataItems.inferred.push(item);
     }
   });
   
-  // Data shared with third parties
+  // pt3 data shared with third parties
   company.sharesWithThirdParties.forEach(item => {
     if (!allDataItems.shared.includes(item)) {
       allDataItems.shared.push(item);
@@ -1217,14 +1209,14 @@ companyData.forEach(company => {
   });
 });
 
-// User preferences - CHANGED: All start as selected (true) by default
+// user preferences
 let userPreferences = {
   collected: {},
   inferred: {},
   shared: {}
 };
 
-// DOM Elements
+// DOM elements
 const mainContent = document.querySelector('.main-content');
 const enterPreferencesLink = document.getElementById('enterPreferencesLink');
 const dataPreferencesContainer = document.getElementById('dataPreferencesContainer');
@@ -1356,14 +1348,14 @@ async function loopWords() {
     }
 }
 
-// Initialize Data Preferences
+// initialize Data Preferences
 function initializeDataPreferences() {
-  // Load saved preferences or initialize all as selected (true) by default
+  // load saved preferences or initialize all as selected (true) by default
   const savedPrefs = localStorage.getItem('dataPreferences');
   if (savedPrefs) {
     userPreferences = JSON.parse(savedPrefs);
   } else {
-    // CHANGED: Initialize all items as selected (true) by default
+    // initialize all items as selected (true) by default
     allDataItems.collected.forEach(item => {
       userPreferences.collected[item] = true;
     });
@@ -1377,13 +1369,13 @@ function initializeDataPreferences() {
     });
   }
   
-  // Generate data items for each category
+  // generate data items for each category
   generateDataItems('collected', allDataItems.collected, 'dataCollectedGrid');
   generateDataItems('inferred', allDataItems.inferred, 'dataInferredGrid');
   generateDataItems('shared', allDataItems.shared, 'dataSharedGrid');
 }
 
-// Generate data items for a category
+// enerate data items for a category
 function generateDataItems(category, items, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -1404,16 +1396,16 @@ function generateDataItems(category, items, gridId) {
       </div>
     `;
     
-    // Simple toggle: click to select/deselect
+    // simple toggle: click to select/deselect
     itemEl.addEventListener('click', () => {
       const currentState = userPreferences[category][item];
       
       if (currentState === true) {
-        // Change from selected to neutral (false)
+        // change from selected to not
         userPreferences[category][item] = false;
         itemEl.classList.remove('selected');
       } else {
-        // Change from neutral to selected (true)
+        // change from not selected to selected
         userPreferences[category][item] = true;
         itemEl.classList.add('selected');
       }
@@ -1425,7 +1417,7 @@ function generateDataItems(category, items, gridId) {
   });
 }
 
-// Get description for data item
+// get description for data item
 function getDataItemDescription(item, category) {
   const descriptions = {
     collected: {
@@ -1585,54 +1577,50 @@ function getDataItemDescription(item, category) {
   return descriptions[category]?.[item] || "Data collection practice";
 }
 
-// CHANGED: Get user's actual selected services from site.html data
+// get user's actual selected services from index.html data
 function getUserSelectedServices() {
   try {
-    // Try to get data from localStorage (as shared by site.html)
+    // localStorage
     const selectedServices = JSON.parse(localStorage.getItem('selectedServices') || '[]');
     const selectedCompaniesData = JSON.parse(localStorage.getItem('selectedCompaniesData') || '[]');
     
     console.log('Retrieved user services from localStorage:', selectedServices);
     console.log('Retrieved company data from localStorage:', selectedCompaniesData);
     
-    // If we have full company data, use it
     if (selectedCompaniesData.length > 0) {
       return selectedCompaniesData.map(company => {
-        // Find matching company in our full dataset to ensure all data is available
         const fullCompanyData = companyData.find(c => c.id === company.id);
         return fullCompanyData || company;
       });
     }
     
-    // If we only have service IDs, find them in our companyData
     if (selectedServices.length > 0) {
       return selectedServices.map(serviceId => {
         return companyData.find(c => c.id === serviceId);
-      }).filter(Boolean); // Remove any undefined entries
+      }).filter(Boolean);
     }
     
-    // Default fallback: return common services if nothing is found
-    return [
-      companyData.find(c => c.id === "alphabet"),  // Google
-      companyData.find(c => c.id === "meta"),      // Facebook/Instagram
-      companyData.find(c => c.id === "amazon"),    // Amazon
-      companyData.find(c => c.id === "apple"),     // Apple
-    ].filter(Boolean);
-    
-  } catch (error) {
-    console.error('Error getting user services:', error);
-    // Fallback to common services
+    // if none selected
     return [
       companyData.find(c => c.id === "alphabet"),
       companyData.find(c => c.id === "meta"),
       companyData.find(c => c.id === "amazon"),
+      companyData.find(c => c.id === "apple"),
+    ].filter(Boolean);
+    
+  } catch (error) {
+    console.error('Error getting user services:', error);
+    return [
+      companyData.find(c => c.id === "alphabet"),
+      companyData.find(c => c.id === "meta"),
+      companyData.find(c => c.id === "amazon"),
+      companyData.find(c => c.id === "apple"),
     ].filter(Boolean);
   }
 }
 
-// Calculate dissonance score based on user's actual services
+// dissonance score based on services user actually uses
 function calculateDissonance() {
-  // Get the services the user actually uses (from site.html)
   const userServices = getUserSelectedServices();
   
   console.log('Calculating dissonance for user services:', userServices.map(s => s.name));
@@ -1643,23 +1631,20 @@ function calculateDissonance() {
   userServices.forEach(company => {
     if (!company) return;
     
-    let totalSelected = 0; // Items user explicitly said they're OK with
-    let totalConflicts = 0; // Items the company does that user didn't select
+    let totalSelected = 0;
+    let totalConflicts = 0;
     let conflictingItems = [];
     
-    // Check data collected directly
     company.dataCollectedDirectly.forEach(item => {
       const preference = userPreferences.collected[item];
       if (preference === true) {
         totalSelected++;
       } else {
-        // User didn't say they're OK with this, but company does it
         totalConflicts++;
         conflictingItems.push(`Collects: ${item}`);
       }
     });
     
-    // Check data inferred
     company.dataInferred.forEach(item => {
       const preference = userPreferences.inferred[item];
       if (preference === true) {
@@ -1670,7 +1655,6 @@ function calculateDissonance() {
       }
     });
     
-    // Check data shared
     company.sharesWithThirdParties.forEach(item => {
       const preference = userPreferences.shared[item];
       if (preference === true) {
@@ -1682,7 +1666,7 @@ function calculateDissonance() {
     });
     
     const totalItems = totalSelected + totalConflicts;
-    let percentageMatch = 50; // Default neutral score
+    let percentageMatch = 50;
     
     if (totalItems > 0) {
       percentageMatch = (totalSelected / totalItems) * 100;
@@ -1691,12 +1675,11 @@ function calculateDissonance() {
     serviceMatches.push({
       company,
       matchScore: percentageMatch,
-      conflictingItems: conflictingItems.slice, // Show top 3 conflicts
+      conflictingItems: conflictingItems.slice,
       totalSelected,
       totalConflicts
     });
     
-    // Dissonance is inverse of match
     const dissonance = 100 - percentageMatch;
     totalDissonance += dissonance;
   });
@@ -1709,34 +1692,34 @@ function calculateDissonance() {
   };
 }
 
-// Show results
+// results
 function showResults() {
   const results = calculateDissonance();
   
-  // Update dissonance meter
+  // update dissonance meter
   document.getElementById('dissonanceScore').textContent = `${results.score}%`;
   document.getElementById('meterFill').style.width = `${results.score}%`;
   
-  // Get user's actual services
+  // get user's actual services
   const userServices = getUserSelectedServices();
   const userServiceIds = userServices.map(s => s.id);
   
-  // Get all companies
+  // get all companies
   const allCompanies = companyData;
   
-  // Count selected items
+  // count selected items
   const totalSelected = 
     Object.values(userPreferences.collected).filter(v => v === true).length +
     Object.values(userPreferences.inferred).filter(v => v === true).length +
     Object.values(userPreferences.shared).filter(v => v === true).length;
   
-  // Show matching and mismatching services
+  // show matching & mismatching services
   const matchingGrid = document.getElementById('matchingServices');
   const mismatchingGrid = document.getElementById('mismatchingServices');
   const nonUsedMatchingGrid = document.getElementById('nonUsedMatchingServices');
   const nonUsedMismatchingGrid = document.getElementById('nonUsedMismatchingServices');
   
-  // Clear all grids
+  // clear grids
   matchingGrid.innerHTML = '';
   mismatchingGrid.innerHTML = '';
   nonUsedMatchingGrid.innerHTML = '';
@@ -1758,7 +1741,7 @@ function showResults() {
     return;
   }
   
-  // Calculate match scores for ALL companies
+  // calculate match scores for ALL companies
   const allCompanyMatches = [];
   
   allCompanies.forEach(company => {
@@ -1768,7 +1751,7 @@ function showResults() {
     let totalConflictsForCompany = 0;
     let conflictingItemsForCompany = [];
     
-    // Check data collected directly
+    // pt1 check data collected directly
     company.dataCollectedDirectly.forEach(item => {
       const preference = userPreferences.collected[item];
       if (preference === true) {
@@ -1779,7 +1762,7 @@ function showResults() {
       }
     });
     
-    // Check data inferred
+    // pt2 check data inferred
     company.dataInferred.forEach(item => {
       const preference = userPreferences.inferred[item];
       if (preference === true) {
@@ -1790,7 +1773,7 @@ function showResults() {
       }
     });
     
-    // Check data shared
+    // pt3 check data shared
     company.sharesWithThirdParties.forEach(item => {
       const preference = userPreferences.shared[item];
       if (preference === true) {
@@ -1818,15 +1801,15 @@ function showResults() {
     });
   });
   
-  // Sort by match score
+  // sort by match score
   allCompanyMatches.sort((a, b) => b.matchScore - a.matchScore);
   
-  // Display services in appropriate grids
+  // Ddsplay services in appropriate grids
   allCompanyMatches.forEach(service => {
     const isGoodMatch = service.matchScore >= 50;
     const isUsed = service.isUsed;
     
-    // Determine which grid to put this service in
+    // determine grid to put service in
     let grid;
     if (isUsed && isGoodMatch) {
       grid = matchingGrid;
@@ -1866,7 +1849,7 @@ function showResults() {
     grid.appendChild(serviceEl);
   });
   
-  // If any grid is empty, show a message
+  // if any grid is empty, show message
   if (matchingGrid.children.length === 0 && userServices.length > 0) {
     matchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">No services you use match your preferences well.</p>';
   }
@@ -1883,15 +1866,15 @@ function showResults() {
     nonUsedMismatchingGrid.innerHTML = '<p style="color: #ccc; text-align: center; grid-column: 1 / -1;">All services match your preferences!</p>';
   }
   
-  // Show the "Read Next Poem" button after results are loaded
+  // show "Read Next Poem" button after results are loaded
   updateNextPoemButton();
 }
 
-// Save preferences
+// save preferences
 function savePreferences() {
   localStorage.setItem('dataPreferences', JSON.stringify(userPreferences));
   
-  // Show save confirmation
+  // show save confirmation
   const originalText = savePreferencesBtn.innerHTML;
   savePreferencesBtn.innerHTML = '<span>✅</span> Saved';
   
@@ -1900,10 +1883,9 @@ function savePreferences() {
   }, 2000);
 }
 
-// Reset all preferences to selected (true) by default
+// reset all preferences to selected by default
 function resetPreferences() {
   if (confirm('Reset all your selections? Everything will be set to "OK" by default.')) {
-    // Reset all to true (selected) by default
     allDataItems.collected.forEach(item => {
       userPreferences.collected[item] = true;
     });
@@ -1916,7 +1898,6 @@ function resetPreferences() {
       userPreferences.shared[item] = true;
     });
     
-    // Regenerate items
     generateDataItems('collected', allDataItems.collected, 'dataCollectedGrid');
     generateDataItems('inferred', allDataItems.inferred, 'dataInferredGrid');
     generateDataItems('shared', allDataItems.shared, 'dataSharedGrid');
@@ -1925,7 +1906,7 @@ function resetPreferences() {
   }
 }
 
-// Setup quick select buttons
+// quick select buttons
 function setupQuickSelect(category, gridId, selectAllId, clearAllId) {
   document.getElementById(selectAllId).addEventListener('click', () => {
     allDataItems[category].forEach(item => {
@@ -1944,11 +1925,11 @@ function setupQuickSelect(category, gridId, selectAllId, clearAllId) {
   });
 }
 
-// Navigation functions
+// navigation
 function goToStep(stepNumber) {
   console.log('goToStep called for step:', stepNumber);
   
-  // Update steps
+  // steps
   steps.forEach(step => {
     if (parseInt(step.dataset.step) === stepNumber) {
       step.classList.add('active');
@@ -1957,7 +1938,7 @@ function goToStep(stepNumber) {
     }
   });
   
-  // Update sections
+  // sections
   categorySections.forEach(section => {
     if (section.id === `category${stepNumber}` || (stepNumber === 4 && section.id === 'results')) {
       section.classList.add('active');
@@ -1966,45 +1947,44 @@ function goToStep(stepNumber) {
     }
   });
   
-  // Scroll the container to top
+  // scrolling
   const container = document.getElementById('dataPreferencesContainer');
   if (container) {
     console.log('Scrolling container to top');
-    // Method 1: Smooth scroll
+    // mthd 1: smooth scroll
     container.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
     
-    // Method 2: Fallback (immediate)
+    // mthd 2: fallback/immediate
     setTimeout(() => {
       container.scrollTop = 0;
     }, 50);
   }
   
-  // Also try to scroll window as backup
+  // mthd3: scroll window as backup
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
   
-  // Show results if going to step 4
+  // show results if going to step 4
   if (stepNumber === 4) {
     showResults();
   }
   
-  // Update the "Read Next Poem" button visibility
+  // update "Read Next Poem" button visibility
   updateNextPoemButton();
 }
 
-// Show/hide "Read Next Poem" button based on current step
+// show/hide "Read Next Poem" button based on current step
 function updateNextPoemButton() {
   const nextPoemBtn = document.getElementById('nextPoemBtn');
   const resultsSection = document.getElementById('results');
   
-  // Only show if results section is active (visible)
+  // only show if results section is active
   if (resultsSection && resultsSection.classList.contains('active')) {
-    // Small delay to ensure results are loaded
     setTimeout(() => {
       nextPoemBtn.style.display = 'block';
       nextPoemBtn.classList.add('visible');
@@ -2015,22 +1995,18 @@ function updateNextPoemButton() {
   }
 }
 
-// Event Listeners
+// event Listeners
 function handleEnterPreferencesClick(e) {
   e.preventDefault();
   
-  // Hide main content
   mainContent.classList.add('hidden');
   
-  // Show preferences container after a short delay
   setTimeout(() => {
     dataPreferencesContainer.classList.add('active');
     
-    // Initialize if not already done
     if (document.getElementById('dataCollectedGrid').children.length === 0) {
       initializeDataPreferences();
       
-      // Setup quick select buttons
       setupQuickSelect('collected', 'dataCollectedGrid', 'selectAll1', 'clearAll1');
       setupQuickSelect('inferred', 'dataInferredGrid', 'selectAll2', 'clearAll2');
       setupQuickSelect('shared', 'dataSharedGrid', 'selectAll3', 'clearAll3');
@@ -2038,10 +2014,9 @@ function handleEnterPreferencesClick(e) {
   }, 500);
 }
 
-// Attach initial event listener
 enterPreferencesLink.addEventListener('click', handleEnterPreferencesClick);
 
-// Step navigation
+// step navigation
 steps.forEach(step => {
   step.addEventListener('click', () => {
     const stepNumber = parseInt(step.dataset.step);
@@ -2049,7 +2024,7 @@ steps.forEach(step => {
   });
 });
 
-// Navigation buttons
+// navigation buttons
 document.getElementById('nextBtn1').addEventListener('click', () => goToStep(2));
 document.getElementById('prevBtn2').addEventListener('click', () => goToStep(1));
 document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
@@ -2058,29 +2033,26 @@ document.getElementById('resultsBtn').addEventListener('click', () => goToStep(4
 document.getElementById('prevBtn4').addEventListener('click', () => goToStep(3));
 document.getElementById('restartBtn').addEventListener('click', () => goToStep(1));
 
-// Add click handler for the "Read Next Poem" button
+// click handler for "Read Next Poem" button
 document.getElementById('nextPoemBtn').addEventListener('click', () => {
-  // Save current preferences to localStorage so site3.html can access them
+  // save current preferences to localStorage for site3.html to access
   localStorage.setItem('dataPreferences', JSON.stringify(userPreferences));
   
-  // Optional: Show loading state
   const originalText = document.getElementById('nextPoemBtn').innerHTML;
   document.getElementById('nextPoemBtn').innerHTML = 'Loading Next Poem...';
   document.getElementById('nextPoemBtn').disabled = true;
   
-  // Navigate to site3.html after a brief delay
+  // to to site3.html
   setTimeout(() => {
     window.location.href = 'site3.html';
   }, 800);
 });
 
-// Start fade-in and loop immediately on page load
 window.addEventListener('load', () => {
     fadeInWords();
     loopWords();
 });
 
-// Preload logos for better performance
 function preloadLogos() {
   Object.values(companyLogos).forEach(logoUrl => {
     const img = new Image();
@@ -2088,7 +2060,6 @@ function preloadLogos() {
   });
 }
 
-// Initialize when page loads
 window.addEventListener('DOMContentLoaded', () => {
   preloadLogos();
 });
