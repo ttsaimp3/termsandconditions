@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terms and Conditions</title>
+<style>
+  body {
+    margin:0; font-family:'Trebuchet MS', sans-serif; /* Your font applied globally */
+    background-color:#62001c;
+    color:white; overflow:auto; position:relative;
+    background-image:
+      repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
+    background-size: 5px 5px;
+    min-height: 100vh;
+  }
+    
+  canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
+
+  /* modal */
+  #modalOverlay { 
+    position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.8); display:flex; justify-content:center; 
+    align-items:center; z-index:10; 
+  }
+  
+  #modal { 
+    background: linear-gradient(135deg, #222, #333);
+    padding:40px 30px; border-radius:15px; text-align:center; 
+    max-width:400px; color:white; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  
+  #modal button { 
+    margin-top:20px; padding:12px 25px; border:none; border-radius:8px; 
+    background: linear-gradient(to right, #62001c, #8b0030); 
+    color:white; cursor:pointer; font-size:16px; font-weight:bold;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+  }
+  
+  #modal button:hover { 
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 48, 0.4);
+  }
+
+  /* main content */
+  .main-content { 
+    position:fixed; 
+    top:51%; 
+    left:38%; 
+    transform:translate(-50%, -50%); 
+    width:70vw; 
+    height:70vh; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:1; 
+    text-align:center; 
+    transition: opacity 0.8s ease;
+  }
+  
+  .main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .main-content.show img, .main-content.show .overlay-text { 
+    opacity:1; 
+  }
+  
+  .main-content img { 
+    opacity: 20;
+    width: 400px;
+    border-radius:8px; 
+    transition: opacity 2s ease-in; 
+  }
+  
+  .overlay-text { 
+    position:absolute; 
+    top:18%; 
+    left:27%; 
+    transform:translate(0%, 0%); 
+    width:50vw; 
+    color:white; 
+    font-size:1.2rem; 
+    line-height:1.4; 
+    pointer-events:auto; 
+    text-align: right;
+    opacity: 20;
+    transition: opacity 2s ease-in;
+  }
+  
+  .overlay-text mark { 
+    background:black; 
+    color:white; 
+    padding:0; 
+    border-radius:0; 
+  }
+  
+  .overlay-text a { 
+    color:rgb(0, 157, 18); 
+    text-decoration:underline; 
+    cursor:pointer; 
+  }
+  
+  .overlay-text a:hover {
+    color:rgb(0, 200, 23);
+  }
+
+  /* data preferences container */
+  #dataPreferencesContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    z-index: 5;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  #dataPreferencesContainer.active {
+    display: flex;
+    animation: fadeIn 0.8s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* comparison container */
+  .comparison-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .comparison-column {
+    flex: 1;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .column-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .gov-column .column-header h2 {
+    color: white;
+  }
+  
+  .business-column .column-header h2 {
+    color: white;
+  }
+  
+  .column-header h2 {
+    font-size: 1.8rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .column-icon {
+    font-size: 2rem;
+  }
+  
+  .column-description {
+    color: #ccc;
+    margin-bottom: 25px;
+    line-height: 1.5;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 3px solid currentColor;
+  }
+  
+  .gov-column .column-description {
+    border-left-color: #ff0055;
+  }
+  
+  .business-column .column-description {
+    border-left-color: rgb(0, 157, 18);
+  }
+  
+  /* data items grid */
+  .data-items-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  .data-item {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .data-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .data-item.selected {
+    border-color: currentColor;
+  }
+  
+  .gov-column .data-item.selected {
+    background: rgba(0, 102, 204, 0.1);
+    color: #a8003a;
+  }
+  
+  .business-column .data-item.selected {
+    background: rgba(0, 204, 102, 0.1);
+    color: rgb(0, 157, 18);
+  }
+  
+  .data-item-toggle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin-right: 15px;
+    flex-shrink: 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .data-item.selected .data-item-toggle {
+    background: currentColor;
+    border-color: currentColor;
+  }
+  
+  .data-item.selected .data-item-toggle::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .data-item-content {
+    flex: 1;
+  }
+  
+  .data-item-content h3 {
+    margin: 0 0 5px 0;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  .data-item-content p {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  
+  /* quick select buttons */
+  .quick-select {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .quick-btn {
+    padding: 8px 15px;
+    background: rgba(98, 0, 28, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-btn:hover {
+    background: rgba(98, 0, 28, 0.5);
+    color: #fff;
+  }
+  
+  /* action buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .action-btn {
+    padding: 15px 30px;
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .action-btn:hover {
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+  }
+  
+  #calculateBtn {
+    background: linear-gradient(to right, #006400, #008000);
+  }
+  
+  #calculateBtn:hover {
+    background: linear-gradient(to right, #008000, #00a000);
+  }
+  
+  /* RESULTS SECTION */
+  #resultsContent {
+    display: block;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .results-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .results-header h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 15px;
+    background: linear-gradient(to right, #ff0055, #ff0055);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .results-header p {
+    color: #ccc;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  
+  .comparison-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .matrix-cell {
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .matrix-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .matrix-item {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+  }
+  
+  .gov-selected { color: #6670ff; }
+  .business-selected { color: #00a000; }
+  .both-selected { color: #b5c500; }
+  .neither-selected { color: #ff0055; }
+  
+  /* Services Analysis - UPDATED FOR TWO SECTIONS */
+  .services-section {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  
+  .services-section h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .service-card {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .service-card:hover::after {
+    content: 'Click to analyze alignment';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(98, 0, 28, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  
+  .service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .service-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: white;
+    padding: 3px;
+  }
+  
+  .service-name {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  
+  .service-category {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .gov-aligned { background: rgba(0, 102, 204, 0.2); color: #66aaff; }
+  .business-aligned { background: rgba(0, 204, 102, 0.2); color: #66ffaa; }
+  .conflicted { background: rgba(255, 204, 0, 0.2); color: #ffcc00; }
+  .neutral { background: rgba(255, 255, 255, 0.1); color: #ccc; }
+  
+  /* Next Poem Button */
+  #nextPoemBtn {
+    background: linear-gradient(135deg, #0066cc, #0099ff) !important;
+    animation: subtleGlow 2s infinite alternate;
+    display: none;
+  }
+  
+  #nextPoemBtn.visible {
+    display: inline-block !important;
+  }
+  
+  #nextPoemBtn:hover {
+    background: linear-gradient(135deg, #0099ff, #00ccff) !important;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+    animation: none;
+  }
+  
+  @keyframes subtleGlow {
+    from { box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3); }
+    to { box-shadow: 0 5px 25px rgba(0, 102, 204, 0.5); }
+  }
+  
+  /* ====== NEW: View Transitions ====== */
+  .comparison-view {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: none;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .comparison-view.active {
+    opacity: 1;
+    transform: translateX(0);
+    display: flex;
+  }
+  
+  /* Single column mode */
+  .single-column .comparison-column {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* NEW: Progress Steps - Updated to match your aesthetic */
+  .progress-steps {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    gap: 30px;
+  }
+  
+  .step {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+  
+  .step:hover {
+    opacity: 0.8;
+    transform: translateY(-5px);
+  }
+  
+  .step.active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  
+  .step-number {
+    width: 50px;
+    height: 50px;
+    background: rgba(98, 0, 28, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .step.active .step-number {
+    background: linear-gradient(to right, #62001c, #8b0030);
+    border-color: #ff0055;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+  }
+  
+  .step.completed .step-number {
+    background: linear-gradient(to right, #006400, #008000);
+    border-color: #00cc66;
+  }
+  
+  .step-label {
+    font-size: 0.9rem;
+    color: #aaa;
+    transition: all 0.3s ease;
+  }
+  
+  .step.active .step-label {
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .step.completed .step-label {
+    color: #00cc66;
+  }
+  
+  /* Service Analysis Modal */
+  .service-analysis-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: background 0.3s ease;
+  }
+
+  .service-analysis-modal.active {
+    display: flex;
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  .service-analysis-content {
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .service-analysis-modal.active .service-analysis-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  
+  .service-analysis-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .service-analysis-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    background: white;
+    padding: 5px;
+  }
+  
+  .service-analysis-title h2 {
+    margin: 0;
+    color: white;
+    font-size: 1.8rem;
+  }
+  
+  .service-analysis-category {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 8px;
+  }
+  
+  .service-analysis-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .service-analysis-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+  }
+  
+  /* Alignment Analysis Sections */
+  .alignment-section {
+    margin-bottom: 30px;
+  }
+  
+  .alignment-section h3 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .alignment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+  }
+  
+  .alignment-item {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid transparent;
+  }
+  
+  .alignment-item.matches {
+    border-left-color: #00cc66;
+  }
+  
+  .alignment-item.mismatches {
+    border-left-color: #ff4444;
+  }
+  
+  .alignment-item.neutral {
+    border-left-color: #888;
+  }
+  
+  .alignment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .alignment-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .matches .alignment-icon {
+    background: rgba(0, 204, 102, 0.2);
+    color: #00cc66;
+  }
+  
+  .mismatches .alignment-icon {
+    background: rgba(255, 68, 68, 0.2);
+    color: #ff4444;
+  }
+  
+  .neutral .alignment-icon {
+    background: rgba(136, 136, 136, 0.2);
+    color: #888;
+  }
+  
+  .alignment-header h4 {
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .alignment-description {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  
+  .alignment-examples {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 5px;
+  }
+  
+  .alignment-examples strong {
+    color: #aaa;
+  }
+  
+  /* Summary Statistics */
+  .alignment-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .summary-stat {
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .summary-stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .gov-match .summary-stat-value {
+    color: #6670ff;
+  }
+  
+  .business-match .summary-stat-value {
+    color: #00a000;
+  }
+  
+  .overall-match .summary-stat-value {
+    color: #b5c500;
+  }
+  
+  .summary-stat-label {
+    color: #ff0055;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .comparison-container {
+      flex-direction: column;
+    }
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .overlay-text {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .main-content {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      height: auto;
+      padding: 20px;
+    }
+    
+    .main-content img {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .comparison-matrix {
+      grid-template-columns: 1fr;
+    }
+    
+    .service-analysis-content {
+      padding: 20px;
+      max-height: 95vh;
+    }
+    
+    .service-analysis-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .service-analysis-logo {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    
+    .alignment-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .alignment-summary {
+      grid-template-columns: 1fr;
+    }
+    
+    .progress-steps {
+      gap: 15px;
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+    
+    .step-label {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- particle background -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- pixelated words -->
+<canvas id="wordCanvas"></canvas>
+
+<!-- main content -->
+<div class="main-content">
+  <img src="https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/7/21/1437478115100/98b03e87-e1ac-4f67-892c-819b7122ae3e-1020x612.jpeg?width=700&quality=85&auto=format&fit=max&s=88dfa3220296e69522c03333a89b8185" alt="Cognitive Dissonance">
+  <div class="overlay-text">
+    <p><mark>the man-made eye never rests<br>
+    the more it knows, the easier it pretends<br>
+    reigning its life above the panopticon<br>
+    immortal, tortured soul on your deathbed<br><br>
+    it’s for the public order<br>
+    this world lasts forever<br>
+    for the dragon, foundation<br>
+    for the eagle, liquidation<br><br>
+    <a id="enterPreferencesLink" href="#">explore your panopticon</a></mark></p>
+  </div>
+</div>
+
+<!-- Service Analysis Modal -->
+<div class="service-analysis-modal" id="serviceAnalysisModal">
+  <button class="service-analysis-close" id="closeAnalysisBtn">×</button>
+  <div class="service-analysis-content" id="serviceAnalysisContent">
+    <!-- Content will be dynamically populated -->
+  </div>
+</div>
+
+<!-- Data Preferences Container -->
+<div id="dataPreferencesContainer">
+  <!-- NEW: Government Surveillance View (Step 1) -->
+  <div id="govView" class="comparison-view active">
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+      <div class="step active" data-step="gov">
+        <div class="step-number">1</div>
+        <div class="step-label">Government</div>
+      </div>
+      <div class="step" data-step="business">
+        <div class="step-number">2</div>
+        <div class="step-label">Business</div>
+      </div>
+      <div class="step" data-step="results">
+        <div class="step-number">3</div>
+        <div class="step-label">Alignment</div>
+      </div>
+    </div>
+    
+    <div class="single-column">
+      <div class="comparison-column gov-column">
+        <div class="column-header">
+          <h2><span class="column-icon">🏛️</span> Government Surveillance</h2>
+        </div>
+        
+        <div class="column-description">
+          <h2>If you were in charge of government surveillance, what would you monitor?</h2>
+          <p>As the government, your priorities are national security, law enforcement, and public safety. What surveillance capabilities would you implement?</p>
+        </div>
+        
+        <div class="quick-select">
+          <button class="quick-btn gov-select-all">Select All</button>
+          <button class="quick-btn gov-clear-all">Clear All</button>
+        </div>
+        
+        <div class="data-items-grid" id="govGrid">
+          <!-- Government surveillance items will be generated here -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="action-btn" id="nextToBusinessBtn">
+        Continue to Business Surveillance →
+      </button>
+    </div>
+  </div>
+  
+  <!-- NEW: Business Surveillance View (Step 2) -->
+  <div id="businessView" class="comparison-view">
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+      <div class="step completed" data-step="gov">
+        <div class="step-number">✓</div>
+        <div class="step-label">Government</div>
+      </div>
+      <div class="step active" data-step="business">
+        <div class="step-number">2</div>
+        <div class="step-label">Business</div>
+      </div>
+      <div class="step" data-step="results">
+        <div class="step-number">3</div>
+        <div class="step-label">Alignment</div>
+      </div>
+    </div>
+    
+    <div class="single-column">
+      <div class="comparison-column business-column">
+        <div class="column-header">
+          <h2><span class="column-icon">🏢</span> Business Surveillance</h2>
+        </div>
+        
+        <div class="column-description">
+          <h2>If you were in charge of surveillance for a major tech/media company, what would you monitor?</h2>
+          <p>As a corporation, your priorities are profit, market advantage, and customer retention. What data would you collect to maximize these goals?</p>
+        </div>
+        
+        <div class="quick-select">
+          <button class="quick-btn business-select-all">Select All</button>
+          <button class="quick-btn business-clear-all">Clear All</button>
+        </div>
+        
+        <div class="data-items-grid" id="businessGrid">
+          <!-- Business surveillance items will be generated here -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="action-btn" id="backToGovBtn">
+        ← Back to Government
+      </button>
+      <button class="action-btn" id="calculateBtn">
+        Calculate Alignment →
+      </button>
+    </div>
+  </div>
+  
+  <!-- NEW: Alignment Results View (Step 3) -->
+  <div id="resultsView" class="comparison-view">
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+      <div class="step completed" data-step="gov">
+        <div class="step-number">✓</div>
+        <div class="step-label">Government</div>
+      </div>
+      <div class="step completed" data-step="business">
+        <div class="step-number">✓</div>
+        <div class="step-label">Business</div>
+      </div>
+      <div class="step active" data-step="results">
+        <div class="step-number">3</div>
+        <div class="step-label">Alignment</div>
+      </div>
+    </div>
+    
+    <!-- Results Content -->
+    <div id="resultsContent">
+      <div class="results-header">
+        <h2>Surveillance Priorities Analysis</h2>
+        <p>Compare your surveillance preferences against actual practices</p>
+      </div>
+      
+      <div class="comparison-matrix">
+        <div class="matrix-cell">
+          <div class="matrix-header">Your Government Priorities</div>
+          <div id="govPriorityList">
+            <!-- Government priorities will appear here -->
+          </div>
+        </div>
+        
+        <div class="matrix-cell">
+          <div class="matrix-header">Your Business Priorities</div>
+          <div id="businessPriorityList">
+            <!-- Business priorities will appear here -->
+          </div>
+        </div>
+        
+        <div class="matrix-cell">
+          <div class="matrix-header">Common Priorities</div>
+          <div id="commonPriorityList">
+            <!-- Items selected for both will appear here -->
+          </div>
+        </div>
+        
+        <div class="matrix-cell">
+          <div class="matrix-header">Avoided Surveillance</div>
+          <div id="avoidedPriorityList">
+            <!-- Items selected by neither will appear here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Services You Use -->
+      <div class="services-section" id="usedServicesSection">
+        <h3>Services You Use</h3>
+        <div class="services-grid" id="usedServicesGrid">
+          <!-- Services you use will appear here -->
+        </div>
+      </div>
+      
+      <!-- Services You Don't Use -->
+      <div class="services-section" id="unusedServicesSection">
+        <h3>Services You Don't Use</h3>
+        <div class="services-grid" id="unusedServicesGrid">
+          <!-- Services you don't use will appear here -->
+        </div>
+      </div>
+      
+      <!-- Read Next Poem Button -->
+      <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.1); text-align: center;">
+        <button id="nextPoemBtn" class="action-btn">
+          Continue to Next Poem →
+        </button>
+      </div>
+    </div>
+    
+    <!-- Back button for results -->
+    <div class="action-buttons">
+      <button class="action-btn" id="backFromResultsBtn">
+        ← Back to Business
+      </button>
+    </div>
+  </div>
+
+<script>
+// Surveillance categories for Government vs Business
+const surveillanceData = {
+  government: [
+    {
+      id: "national-security",
+      title: "Mass Communications Surveillance",
+      description: "Monitor all digital communications for security threats",
+      examples: ["Email scanning", "Social media monitoring", "Encryption bypass"]
+    },
+    {
+      id: "location-tracking",
+      title: "Citizen Location Tracking",
+      description: "Track movement patterns of all citizens",
+      examples: ["Cell tower logs", "License plate readers", "Public transit cards"]
+    },
+    {
+      id: "biometric-data",
+      title: "Biometric Identification",
+      description: "Collect facial recognition, fingerprints, DNA",
+      examples: ["Face scans in public", "Border biometrics", "National ID database"]
+    },
+    {
+      id: "financial-surveillance",
+      title: "Financial Transaction Monitoring",
+      description: "Track all financial transactions above threshold",
+      examples: ["Bank transfers", "Crypto transactions", "Large cash movements"]
+    },
+    {
+      id: "social-graph-analysis",
+      title: "Social Connection Mapping",
+      description: "Map relationships between citizens",
+      examples: ["Phone call networks", "Social media connections", "Association patterns"]
+    },
+    {
+      id: "predictive-policing",
+      title: "Predictive Behavior Analysis",
+      description: "Use AI to predict criminal behavior",
+      examples: ["Risk scoring algorithms", "Movement pattern prediction", "Social media sentiment"]
+    },
+    {
+      id: "health-data",
+      title: "Public Health Surveillance",
+      description: "Monitor health data for disease control",
+      examples: ["Medical records", "Vaccination status", "Health app data"]
+    },
+    {
+      id: "travel-monitoring",
+      title: "Travel Pattern Analysis",
+      description: "Track domestic and international travel",
+      examples: ["Flight manifests", "Hotel bookings", "Border crossing records"]
+    },
+    {
+      id: "protest-monitoring",
+      title: "Public Gathering Surveillance",
+      description: "Monitor protests and public assemblies",
+      examples: ["Drone surveillance", "Social media event tracking", "Crowd analysis"]
+    },
+    {
+      id: "employment-monitoring",
+      title: "Employment & Education Tracking",
+      description: "Monitor career and education paths",
+      examples: ["Job applications", "University enrollment", "Professional licenses"]
+    }
+  ],
+  
+  business: [
+    {
+      id: "behavioral-tracking",
+      title: "Behavioral Data Collection",
+      description: "Track every click, scroll, and interaction",
+      examples: ["Mouse movements", "Time on page", "Click patterns"]
+    },
+    {
+      id: "personal-profiling",
+      title: "Detailed Personal Profiling",
+      description: "Build complete psychological profiles",
+      examples: ["Personality inference", "Political leaning", "Emotional state"]
+    },
+    {
+      id: "social-surveillance",
+      title: "Social Network Exploitation",
+      description: "Map and exploit social connections",
+      examples: ["Friend networks", "Influence mapping", "Social proof triggers"]
+    },
+    {
+      id: "purchase-prediction",
+      title: "Purchase Prediction & Manipulation",
+      description: "Predict and influence buying decisions",
+      examples: ["Price testing", "Timed offers", "Addiction mechanics"]
+    },
+    {
+      id: "attention-optimization",
+      title: "Attention Optimization",
+      description: "Maximize engagement and screen time",
+      examples: ["Addictive algorithms", "Notification optimization", "Content personalization"]
+    },
+    {
+      id: "location-exploitation",
+      title: "Location Data Monetization",
+      description: "Use location data for targeted offers",
+      examples: ["Geofenced ads", "Competitor monitoring", "Lifestyle inference"]
+    },
+    {
+      id: "emotional-manipulation",
+      title: "Emotional State Detection",
+      description: "Detect and respond to emotional states",
+      examples: ["Voice tone analysis", "Facial expression reading", "Typing pattern analysis"]
+    },
+    {
+      id: "cross-device-tracking",
+      title: "Cross-Device Tracking",
+      description: "Track users across all their devices",
+      examples: ["Device fingerprinting", "Account linking", "Behavioral matching"]
+    },
+    {
+      id: "data-brokering",
+      title: "Data Aggregation & Brokering",
+      description: "Collect and sell comprehensive data",
+      examples: ["Data marketplace", "Audience segments", "Predictive modeling"]
+    },
+    {
+      id: "dark-patterns",
+      title: "Manipulative Design Patterns",
+      description: "Use psychological tricks to influence behavior",
+      examples: ["Forced consent", "Hidden options", "Misleading defaults"]
+    }
+  ]
+};
+
+// User selections
+let userSelections = {
+  government: {},
+  business: {}
+};
+
+// All available company data
+const companyData = [
+  {
+    id: "alibaba",
+    name: "Alibaba",
+    summary: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "purchase-prediction", "location-exploitation", "cross-device-tracking"]
+  },
+  {
+    id: "alphabet",
+    name: "Alphabet / Google",
+    summary: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    surveillanceType: "both",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "attention-optimization", "cross-device-tracking", "data-brokering"]
+  },
+  {
+    id: "apple",
+    name: "Apple",
+    summary: "Technology company with a focus on privacy and on-device processing.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "location-exploitation", "cross-device-tracking"]
+  },
+  {
+    id: "meta",
+    name: "Meta",
+    summary: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, and Threads.",
+    surveillanceType: "both",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "attention-optimization", "emotional-manipulation", "data-brokering"]
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    summary: "Software and cloud computing company with enterprise and consumer data collection.",
+    surveillanceType: "both",
+    surveillancePractices: ["behavioral-tracking", "cross-device-tracking", "data-brokering"]
+  },
+  {
+    id: "tencent",
+    name: "Tencent",
+    summary: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    surveillanceType: "both",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "financial-surveillance", "location-exploitation"]
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    summary: "Social video platform with sophisticated content and behavior tracking (ByteDance).",
+    surveillanceType: "both",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "attention-optimization", "emotional-manipulation", "dark-patterns"]
+  },
+  {
+    id: "amazon",
+    name: "Amazon",
+    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "purchase-prediction", "location-exploitation", "data-brokering"]
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "attention-optimization", "personal-profiling"]
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    summary: "AI research and deployment company with focus on language models and AI services.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "data-brokering"]
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    summary: "Music streaming service with detailed listening behavior tracking.",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "personal-profiling", "attention-optimization"]
+  },
+  {
+    id: "xiaohongshu",
+    name: "Xiaohongshu",
+    summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
+    surveillanceType: "business",
+    surveillancePractices: ["behavioral-tracking", "purchase-prediction", "social-surveillance"]
+  }
+];
+
+// Company logos
+const companyLogos = {
+  alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
+  alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+  apple: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
+  meta: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+  tencent: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
+  tiktok: "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
+  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940",
+  openai: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+  spotify: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
+  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png"
+};
+
+// Initialize all as not selected by default
+surveillanceData.government.forEach(item => {
+  userSelections.government[item.id] = true;
+});
+
+surveillanceData.business.forEach(item => {
+  userSelections.business[item.id] = true;
+});
+
+// Enhanced: View management with better transitions
+let currentView = 'gov';
+
+function showView(viewName) {
+  // Don't do anything if we're already on this view
+  if (currentView === viewName) return;
+  
+  const allViews = ['govView', 'businessView', 'resultsView'];
+  const viewOrder = { gov: 0, business: 1, results: 2 };
+  
+  // Determine animation direction
+  const direction = viewOrder[viewName] > viewOrder[currentView] ? 'next' : 'prev';
+  
+  // Exit current view with directional animation
+  const currentViewEl = document.getElementById(`${currentView}View`);
+  if (currentViewEl) {
+    currentViewEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    
+    if (direction === 'next') {
+      currentViewEl.style.opacity = '0';
+      currentViewEl.style.transform = 'translateX(-50px)';
+    } else {
+      currentViewEl.style.opacity = '0';
+      currentViewEl.style.transform = 'translateX(50px)';
+    }
+    
+    setTimeout(() => {
+      currentViewEl.classList.remove('active');
+      currentViewEl.style.opacity = '';
+      currentViewEl.style.transform = '';
+      currentViewEl.style.transition = '';
+    }, 500);
+  }
+  
+  // Show new view with directional animation
+  setTimeout(() => {
+    const newViewEl = document.getElementById(`${viewName}View`);
+    if (newViewEl) {
+      newViewEl.classList.add('active');
+      
+      // Set initial state for animation
+      newViewEl.style.opacity = '0';
+      if (direction === 'next') {
+        newViewEl.style.transform = 'translateX(50px)';
+      } else {
+        newViewEl.style.transform = 'translateX(-50px)';
+      }
+      
+      // Force reflow
+      newViewEl.offsetHeight;
+      
+      // Animate in
+      newViewEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      newViewEl.style.opacity = '1';
+      newViewEl.style.transform = 'translateX(0)';
+      
+      // Remove inline styles after animation
+      setTimeout(() => {
+        newViewEl.style.opacity = '';
+        newViewEl.style.transform = '';
+        newViewEl.style.transition = '';
+      }, 500);
+      
+      currentView = viewName;
+      
+      // Scroll to top
+      const container = document.getElementById('dataPreferencesContainer');
+      container.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Initialize grids if needed
+      if (viewName === 'gov') {
+        generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+      } else if (viewName === 'business') {
+        generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+      } else if (viewName === 'results') {
+        // Analyze and show results
+        analyzeSurveillance();
+      }
+    }
+  }, 500);
+}
+
+// NEW: Setup progress step click handlers
+function setupProgressStepHandlers() {
+  document.querySelectorAll('.step').forEach(step => {
+    step.addEventListener('click', (e) => {
+      const targetStep = e.currentTarget.dataset.step;
+      
+      // Don't allow clicking on current step
+      if (targetStep === currentView) return;
+      
+      // Don't allow skipping ahead without completing previous steps
+      const stepOrder = { gov: 0, business: 1, results: 2 };
+      const currentStepIndex = stepOrder[currentView];
+      const targetStepIndex = stepOrder[targetStep];
+      
+      // Only allow going back or to the immediate next step
+      if (targetStepIndex > currentStepIndex + 1) {
+        // Can't skip ahead more than one step
+        return;
+      }
+      
+      // Special case: can't go to results without having business data
+      if (targetStep === 'results' && currentView === 'gov') {
+        return;
+      }
+      
+      showView(targetStep);
+    });
+  });
+}
+
+// Generate surveillance items
+function generateSurveillanceItems(column, items, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  
+  items.forEach(item => {
+    const isSelected = userSelections[column][item.id];
+    
+    const itemEl = document.createElement('div');
+    itemEl.className = `data-item ${isSelected ? 'selected' : ''}`;
+    itemEl.dataset.id = item.id;
+    itemEl.dataset.column = column;
+    
+    itemEl.innerHTML = `
+      <div class="data-item-toggle"></div>
+      <div class="data-item-content">
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <small style="color: #888; font-style: italic;">Examples: ${item.examples.join(', ')}</small>
+      </div>
+    `;
+    
+    itemEl.addEventListener('click', () => {
+      userSelections[column][item.id] = !userSelections[column][item.id];
+      itemEl.classList.toggle('selected');
+    });
+    
+    grid.appendChild(itemEl);
+  });
+}
+
+// Initialize the interface
+function initializeSurveillanceInterface() {
+  // Only initialize gov view initially
+  generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+  
+  // Setup progress step handlers
+  setupProgressStepHandlers();
+  
+  // Setup quick select buttons for gov view
+  setupQuickSelectButtons();
+
+}
+
+function setupQuickSelectButtons() {
+  // Government buttons
+  document.querySelector('.gov-select-all').addEventListener('click', () => {
+    if (currentView !== 'gov') return;
+    surveillanceData.government.forEach(item => {
+      userSelections.government[item.id] = true;
+    });
+    generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+  });
+  
+  document.querySelector('.gov-clear-all').addEventListener('click', () => {
+    if (currentView !== 'gov') return;
+    surveillanceData.government.forEach(item => {
+      userSelections.government[item.id] = false;
+    });
+    generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+  });
+  
+  // Business buttons (will work even if business view isn't active yet)
+  document.querySelector('.business-select-all').addEventListener('click', () => {
+    if (currentView !== 'business') return;
+    surveillanceData.business.forEach(item => {
+      userSelections.business[item.id] = true;
+    });
+    generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+  });
+  
+  document.querySelector('.business-clear-all').addEventListener('click', () => {
+    if (currentView !== 'business') return;
+    surveillanceData.business.forEach(item => {
+      userSelections.business[item.id] = false;
+    });
+    generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+  });
+}
+
+// Get user's actual selected services
+function getUserSelectedServices() {
+  try {
+    // First try to get the full company data that was saved from index.html
+    const selectedCompaniesData = JSON.parse(localStorage.getItem('selectedCompaniesData') || '[]');
+    
+    console.log('Retrieved company data from localStorage:', selectedCompaniesData);
+    
+    // If we have the full company data with all properties, use it directly
+    if (selectedCompaniesData.length > 0 && selectedCompaniesData[0] && selectedCompaniesData[0].dataCollectedDirectly) {
+      console.log('Using full company data from index.html');
+      return selectedCompaniesData;
+    }
+    
+    // If we only have service IDs, find them in our companyData
+    const selectedServices = JSON.parse(localStorage.getItem('selectedServices') || '[]');
+    console.log('Retrieved service IDs from localStorage:', selectedServices);
+    
+    if (selectedServices.length > 0) {
+      const services = selectedServices.map(serviceId => {
+        // Find in our comprehensive company data
+        const fullCompany = companyData.find(c => c.id === serviceId);
+        if (fullCompany) {
+          console.log(`Found service: ${fullCompany.name}`);
+          return fullCompany;
+        }
+        
+        // If not found in our main list, create a basic object
+        console.warn(`Service ${serviceId} not found in companyData`);
+        return {
+          id: serviceId,
+          name: serviceId.charAt(0).toUpperCase() + serviceId.slice(1),
+          summary: `Data collection service`,
+          surveillanceType: "business",
+          surveillancePractices: ["behavioral-tracking", "data-brokering"]
+        };
+      }).filter(Boolean);
+      
+      console.log(`Returning ${services.length} services`);
+      return services;
+    }
+    
+    // If nothing found, show a warning but still return something for demo
+    console.warn('No services found in localStorage. Using fallback for demonstration.');
+    const fallbackServices = [
+      companyData.find(c => c.id === "alphabet"),
+      companyData.find(c => c.id === "meta"),
+      companyData.find(c => c.id === "amazon"),
+    ].filter(Boolean);
+    
+    console.log(`Using fallback services: ${fallbackServices.map(s => s.name).join(', ')}`);
+    return fallbackServices;
+    
+  } catch (error) {
+    console.error('Error getting user services:', error);
+    return [];
+  }
+}
+
+// Get all companies that user DOESN'T use
+function getUnusedServices(usedServices) {
+  const usedServiceIds = usedServices.map(service => service.id);
+  return companyData.filter(company => !usedServiceIds.includes(company.id));
+}
+
+// Analyze surveillance alignment
+function analyzeSurveillance() {
+  // Get selected items
+  const govPriorities = surveillanceData.government.filter(item => userSelections.government[item.id]);
+  const businessPriorities = surveillanceData.business.filter(item => userSelections.business[item.id]);
+  
+  // Find common priorities
+  const commonPriorities = [];
+  const avoidedPriorities = [];
+  
+  // Simple theme-based matching for common priorities
+  surveillanceData.government.forEach(govItem => {
+    const govSelected = userSelections.government[govItem.id];
+    
+    // Find if there's a corresponding business priority
+    const similarBusinessItem = surveillanceData.business.find(bizItem => 
+      govItem.title.toLowerCase().includes('track') && bizItem.title.toLowerCase().includes('track') ||
+      govItem.title.toLowerCase().includes('surveillance') && bizItem.title.toLowerCase().includes('surveillance') ||
+      govItem.title.toLowerCase().includes('monitor') && bizItem.title.toLowerCase().includes('monitor')
+    );
+    
+    const businessSelected = similarBusinessItem ? userSelections.business[similarBusinessItem.id] : false;
+    
+    if (govSelected && businessSelected) {
+      commonPriorities.push({
+        gov: govItem.title,
+        business: similarBusinessItem?.title || 'Similar practice',
+        theme: 'Both prioritize this surveillance'
+      });
+    } else if (!govSelected && !businessSelected && similarBusinessItem && !userSelections.business[similarBusinessItem.id]) {
+      avoidedPriorities.push({
+        item: govItem.title,
+        businessItem: similarBusinessItem.title,
+        reason: 'Avoided by both sectors'
+      });
+    }
+  });
+  
+  // Add additional business-only avoided items
+  surveillanceData.business.forEach(bizItem => {
+    const businessSelected = userSelections.business[bizItem.id];
+    if (!businessSelected) {
+      // Check if there's a corresponding gov item
+      const similarGovItem = surveillanceData.government.find(govItem => 
+        bizItem.title.toLowerCase().includes('track') && govItem.title.toLowerCase().includes('track') ||
+        bizItem.title.toLowerCase().includes('data') && govItem.title.toLowerCase().includes('data')
+      );
+      
+      if (!similarGovItem || !userSelections.government[similarGovItem.id]) {
+        // Avoided by business and not selected in corresponding gov category
+        avoidedPriorities.push({
+          item: bizItem.title,
+          reason: 'Avoided business surveillance'
+        });
+      }
+    }
+  });
+  
+  // Update UI with priorities
+  updatePriorityList('govPriorityList', govPriorities, 'gov-selected');
+  updatePriorityList('businessPriorityList', businessPriorities, 'business-selected');
+  updateCommonList('commonPriorityList', commonPriorities);
+  updateAvoidedList('avoidedPriorityList', avoidedPriorities);
+  
+  // Analyze services - both used and unused
+  const usedServices = getUserSelectedServices();
+  const unusedServices = getUnusedServices(usedServices);
+  
+  console.log(`Analyzing ${usedServices.length} used services and ${unusedServices.length} unused services`);
+  
+  // Display used services
+  displayServicesAnalysis(usedServices, 'usedServicesGrid', govPriorities, businessPriorities, 'Services You Use');
+  
+  // Display unused services
+  displayServicesAnalysis(unusedServices, 'unusedServicesGrid', govPriorities, businessPriorities, 'Services You Don\'t Use');
+  
+  // Show next poem button
+  document.getElementById('nextPoemBtn').classList.add('visible');
+}
+
+function updatePriorityList(elementId, items, cssClass) {
+  const element = document.getElementById(elementId);
+  element.innerHTML = '';
+  
+  if (items.length === 0) {
+    element.innerHTML = '<div class="matrix-item neither-selected">No priorities selected</div>';
+    return;
+  }
+  
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = `matrix-item ${cssClass}`;
+    div.textContent = item.title;
+    element.appendChild(div);
+  });
+}
+
+function updateCommonList(elementId, items) {
+  const element = document.getElementById(elementId);
+  element.innerHTML = '';
+  
+  if (items.length === 0) {
+    element.innerHTML = '<div class="matrix-item">No common priorities</div>';
+    return;
+  }
+  
+  // Limit to 5 items for display
+  const displayItems = items.slice(0, 5);
+  
+  displayItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'matrix-item both-selected';
+    div.textContent = `${item.gov} / ${item.business}`;
+    element.appendChild(div);
+  });
+  
+  if (items.length > 5) {
+    const moreDiv = document.createElement('div');
+    moreDiv.className = 'matrix-item';
+    moreDiv.textContent = `+${items.length - 5} more...`;
+    element.appendChild(moreDiv);
+  }
+}
+
+function updateAvoidedList(elementId, items) {
+  const element = document.getElementById(elementId);
+  element.innerHTML = '';
+  
+  if (items.length === 0) {
+    element.innerHTML = '<div class="matrix-item">No avoided surveillance</div>';
+    return;
+  }
+  
+  // Limit to 5 items for display
+  const displayItems = items.slice(0, 5);
+  
+  displayItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'matrix-item neither-selected';
+    div.textContent = item.item || item.businessItem;
+    element.appendChild(div);
+  });
+  
+  if (items.length > 5) {
+    const moreDiv = document.createElement('div');
+    moreDiv.className = 'matrix-item';
+    moreDiv.textContent = `+${items.length - 5} more...`;
+    element.appendChild(moreDiv);
+  }
+}
+
+// Function to get detailed alignment analysis for a service
+function getServiceAlignmentDetails(service, govPriorities, businessPriorities) {
+  const matches = [];
+  const mismatches = [];
+  const neutral = [];
+  
+  // Get all surveillance practices for this service
+  const allPractices = [];
+  
+  service.surveillancePractices?.forEach(practiceId => {
+    // Check government practices
+    const govPractice = surveillanceData.government.find(g => g.id === practiceId);
+    if (govPractice) {
+      const isSelected = govPriorities.some(gp => gp.id === govPractice.id);
+      if (isSelected) {
+        matches.push({
+          ...govPractice,
+          type: 'government'
+        });
+      } else {
+        mismatches.push({
+          ...govPractice,
+          type: 'government'
+        });
+      }
+      allPractices.push(govPractice);
+    }
+    
+    // Check business practices
+    const businessPractice = surveillanceData.business.find(b => b.id === practiceId);
+    if (businessPractice) {
+      const isSelected = businessPriorities.some(bp => bp.id === businessPractice.id);
+      if (isSelected) {
+        matches.push({
+          ...businessPractice,
+          type: 'business'
+        });
+      } else {
+        mismatches.push({
+          ...businessPractice,
+          type: 'business'
+        });
+      }
+      allPractices.push(businessPractice);
+    }
+  });
+  
+  // Add other practices not covered by user's selection
+  surveillanceData.government.forEach(practice => {
+    if (!allPractices.some(p => p.id === practice.id) && 
+        !mismatches.some(m => m.id === practice.id) &&
+        !matches.some(m => m.id === practice.id)) {
+      neutral.push({
+        ...practice,
+        type: 'government'
+      });
+    }
+  });
+  
+  surveillanceData.business.forEach(practice => {
+    if (!allPractices.some(p => p.id === practice.id) && 
+        !mismatches.some(m => m.id === practice.id) &&
+        !matches.some(m => m.id === practice.id)) {
+      neutral.push({
+        ...practice,
+        type: 'business'
+      });
+    }
+  });
+  
+  // Calculate statistics
+  const govMatchCount = matches.filter(m => m.type === 'government').length;
+  const businessMatchCount = matches.filter(m => m.type === 'business').length;
+  const totalPractices = service.surveillancePractices?.length || 0;
+  const overallMatchPercentage = totalPractices > 0 ? 
+    Math.round(((govMatchCount + businessMatchCount) / (totalPractices * 2)) * 100) : 0;
+  
+  // Determine category
+  let categoryClass = 'neutral';
+  let categoryText = 'Neutral Surveillance';
+  
+  if (service.surveillanceType === 'government') {
+    categoryClass = 'gov-aligned';
+    categoryText = 'Government-Aligned Surveillance';
+  } else if (service.surveillanceType === 'business') {
+    categoryClass = 'business-aligned';
+    categoryText = 'Business-Aligned Surveillance';
+  } else if (service.surveillanceType === 'both') {
+    categoryClass = 'conflicted';
+    categoryText = 'Dual-Purpose Surveillance';
+  }
+  
+  return {
+    matches,
+    mismatches,
+    neutral,
+    govMatchCount,
+    businessMatchCount,
+    totalPractices,
+    overallMatchPercentage,
+    categoryClass,
+    categoryText
+  };
+}
+
+// Show detailed service analysis modal
+function showServiceAnalysis(service, govPriorities, businessPriorities) {
+  const modal = document.getElementById('serviceAnalysisModal');
+  const content = document.getElementById('serviceAnalysisContent');
+  
+  // Get alignment details
+  const alignmentDetails = getServiceAlignmentDetails(service, govPriorities, businessPriorities);
+  
+  // Create detailed HTML
+  content.innerHTML = `
+    <div class="service-analysis-header">
+      <img class="service-analysis-logo" src="${companyLogos[service.id] || ''}" alt="${service.name}" onerror="this.style.display='none'">
+      <div class="service-analysis-title">
+        <h2>${service.name}</h2>
+        <span class="service-analysis-category ${alignmentDetails.categoryClass}">${alignmentDetails.categoryText}</span>
+      </div>
+    </div>
+    
+    <p style="color: #ccc; margin-bottom: 30px; font-size: 1.1rem;">${service.summary}</p>
+    
+    <!-- Summary Statistics -->
+    <div class="alignment-summary">
+      <div class="summary-stat gov-match">
+        <div class="summary-stat-value">${alignmentDetails.govMatchCount}/${alignmentDetails.totalPractices}</div>
+        <div class="summary-stat-label">Government Priority Matches</div>
+      </div>
+      <div class="summary-stat business-match">
+        <div class="summary-stat-value">${alignmentDetails.businessMatchCount}/${alignmentDetails.totalPractices}</div>
+        <div class="summary-stat-label">Business Priority Matches</div>
+      </div>
+      <div class="summary-stat overall-match">
+        <div class="summary-stat-value">${alignmentDetails.overallMatchPercentage}%</div>
+        <div class="summary-stat-label">Overall Alignment</div>
+      </div>
+    </div>
+    
+    <!-- Matches Section -->
+    <div class="alignment-section">
+      <h3>🔍 Practices That Match Your Preferences</h3>
+      <div class="alignment-grid">
+        ${alignmentDetails.matches.map(match => `
+          <div class="alignment-item matches">
+            <div class="alignment-header">
+              <div class="alignment-icon">✓</div>
+              <h4>${match.title}</h4>
+            </div>
+            <div class="alignment-description">${match.description}</div>
+            <div class="alignment-examples">
+              <strong>Examples:</strong> ${match.examples.join(', ')}
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; color: #00cc66;">
+              ${match.type === 'both' ? '✓ Both Government & Business' : 
+                match.type === 'government' ? '✓ Your Government Priority' : 
+                '✓ Your Business Priority'}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    
+    <!-- Mismatches Section -->
+    ${alignmentDetails.mismatches.length > 0 ? `
+    <div class="alignment-section">
+      <h3>⚠️ Practices That Don't Match Your Preferences</h3>
+      <div class="alignment-grid">
+        ${alignmentDetails.mismatches.map(mismatch => `
+          <div class="alignment-item mismatches">
+            <div class="alignment-header">
+              <div class="alignment-icon">✗</div>
+              <h4>${mismatch.title}</h4>
+            </div>
+            <div class="alignment-description">${mismatch.description}</div>
+            <div class="alignment-examples">
+              <strong>Examples:</strong> ${mismatch.examples.join(', ')}
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; color: #ff4444;">
+              ${mismatch.type === 'government' ? '✗ Not in your Government priorities' : 
+                '✗ Not in your Business priorities'}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ` : ''}
+    
+    <!-- Neutral/Other Section -->
+    ${alignmentDetails.neutral.length > 0 ? `
+    <div class="alignment-section">
+      <h3>📊 Other Surveillance Practices</h3>
+      <div class="alignment-grid">
+        ${alignmentDetails.neutral.map(neutral => `
+          <div class="alignment-item neutral">
+            <div class="alignment-header">
+              <div class="alignment-icon">•</div>
+              <h4>${neutral.title}</h4>
+            </div>
+            <div class="alignment-description">${neutral.description}</div>
+            <div class="alignment-examples">
+              <strong>Examples:</strong> ${neutral.examples.join(', ')}
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; color: #888;">
+              • Not in your preferences
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ` : ''}
+  `;
+  
+  // Show modal
+  modal.classList.add('active');
+  
+  // Prevent scrolling on background
+  document.body.style.overflow = 'hidden';
+}
+
+// Function to close the service analysis modal with animation
+function closeServiceAnalysis() {
+  const modal = document.getElementById('serviceAnalysisModal');
+  const content = document.getElementById('serviceAnalysisContent');
+  
+  // Start fade out animation
+  modal.style.background = 'rgba(0, 0, 0, 0)';
+  content.style.transform = 'scale(0.9) translateY(20px)';
+  content.style.opacity = '0';
+  
+  // Wait for animation to complete, then remove active class
+  setTimeout(() => {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    
+    // Reset styles for next open
+    modal.style.background = '';
+    content.style.transform = '';
+    content.style.opacity = '';
+  }, 300); // Match the CSS transition duration
+}
+
+// Close service analysis modal
+document.getElementById('closeAnalysisBtn').addEventListener('click', closeServiceAnalysis);
+
+// Also close modal when clicking outside content
+document.getElementById('serviceAnalysisModal').addEventListener('click', (e) => {
+  // Close if clicking on the modal background (not the content)
+  if (e.target === document.getElementById('serviceAnalysisModal')) {
+    closeServiceAnalysis();
+  }
+});
+
+// Stop click events from bubbling up from content
+const serviceAnalysisContent = document.getElementById('serviceAnalysisContent');
+if (serviceAnalysisContent) {
+  serviceAnalysisContent.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
+
+// Close with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('serviceAnalysisModal');
+    if (modal.classList.contains('active')) {
+      closeServiceAnalysis();
+    }
+  }
+});
+
+// Enhanced function to display services analysis with clickable cards
+function displayServicesAnalysis(services, gridId, govPriorities, businessPriorities, sectionTitle) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  
+  if (services.length === 0) {
+    const emptyDiv = document.createElement('div');
+    emptyDiv.className = 'service-card';
+    emptyDiv.style.gridColumn = '1 / -1';
+    emptyDiv.style.textAlign = 'center';
+    emptyDiv.style.padding = '40px';
+    emptyDiv.innerHTML = `<p style="color: #ccc;">No ${sectionTitle.toLowerCase()}</p>`;
+    grid.appendChild(emptyDiv);
+    return;
+  }
+  
+  // Update section title
+  const sectionElement = document.getElementById(gridId.replace('Grid', 'Section'));
+  if (sectionElement) {
+    const h3 = sectionElement.querySelector('h3');
+    if (h3) {
+      h3.textContent = `${sectionTitle} (${services.length})`;
+    }
+  }
+  
+  services.forEach(service => {
+    const serviceData = companyData.find(c => c.id === service.id) || service;
+    
+    // Determine alignment
+    let alignment = 'neutral';
+    let alignmentText = 'Neutral Surveillance';
+    
+    if (serviceData.surveillanceType === 'government') {
+      alignment = govPriorities.length > 0 ? 'gov-aligned' : 'neutral';
+      alignmentText = 'Government-Aligned';
+    } else if (serviceData.surveillanceType === 'business') {
+      alignment = businessPriorities.length > 0 ? 'business-aligned' : 'neutral';
+      alignmentText = 'Business-Aligned';
+    } else if (serviceData.surveillanceType === 'both') {
+      alignment = 'conflicted';
+      alignmentText = 'Dual-Purpose Surveillance';
+    }
+    
+    // Count matching surveillance practices
+    const govPracticeCount = serviceData.surveillancePractices?.filter(practice => {
+      const govItem = surveillanceData.government.find(g => g.id === practice);
+      return govItem && govPriorities.some(gp => gp.id === govItem.id);
+    }).length || 0;
+    
+    const businessPracticeCount = serviceData.surveillancePractices?.filter(practice => {
+      const businessItem = surveillanceData.business.find(b => b.id === practice);
+      return businessItem && businessPriorities.some(bp => bp.id === businessItem.id);
+    }).length || 0;
+    
+    const totalPractices = serviceData.surveillancePractices?.length || 0;
+    const matchPercentage = totalPractices > 0 ? 
+      Math.round(((govPracticeCount + businessPracticeCount) / (totalPractices * 2)) * 100) : 0;
+    
+    const serviceEl = document.createElement('div');
+    serviceEl.className = 'service-card';
+    serviceEl.dataset.serviceId = serviceData.id;
+    
+    serviceEl.innerHTML = `
+      <div class="service-header">
+        <img class="service-logo" src="${companyLogos[serviceData.id] || ''}" alt="${serviceData.name}" onerror="this.style.display='none'">
+        <div>
+          <h3 class="service-name">${serviceData.name}</h3>
+          <span class="service-category ${alignment}">${alignmentText}</span>
+        </div>
+      </div>
+      <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px;">${serviceData.summary}</p>
+      <div style="font-size: 0.85rem;">
+        <p><strong>Surveillance Focus:</strong> ${serviceData.surveillanceType === 'both' ? 'Government & Business' : serviceData.surveillanceType}</p>
+        <p><strong>Matches Your Govt Priorities:</strong> ${govPracticeCount}/${totalPractices}</p>
+        <p><strong>Matches Your Business Priorities:</strong> ${businessPracticeCount}/${totalPractices}</p>
+        <p><strong>Overall Match:</strong> ${matchPercentage}%</p>
+        <p><small style="color: #666;">${sectionTitle.toLowerCase()}</small></p>
+      </div>
+    `;
+    
+    // Add click event to show detailed analysis
+    serviceEl.addEventListener('click', () => {
+      showServiceAnalysis(serviceData, govPriorities, businessPriorities);
+    });
+    
+    grid.appendChild(serviceEl);
+  });
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  // Enter preferences link
+  document.getElementById('enterPreferencesLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('.main-content').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('dataPreferencesContainer').classList.add('active');
+      initializeSurveillanceInterface();
+    }, 500);
+  });
+  
+  // NEW: Navigation between views
+  document.getElementById('nextToBusinessBtn').addEventListener('click', () => {
+    // Initialize business grid before showing
+    generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+    
+    // Setup business quick select buttons
+    document.querySelector('.business-select-all').addEventListener('click', () => {
+      surveillanceData.business.forEach(item => {
+        userSelections.business[item.id] = true;
+      });
+      generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+    });
+    
+    document.querySelector('.business-clear-all').addEventListener('click', () => {
+      surveillanceData.business.forEach(item => {
+        userSelections.business[item.id] = false;
+      });
+      generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+    });
+    
+    // Add button feedback animation
+    const btn = document.getElementById('nextToBusinessBtn');
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      btn.style.transform = '';
+    }, 200);
+    
+    showView('business');
+  });
+  
+  document.getElementById('calculateBtn').addEventListener('click', () => {
+    // Add button feedback animation
+    const btn = document.getElementById('calculateBtn');
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      btn.style.transform = '';
+    }, 200);
+    
+    showView('results');
+  });
+  
+  // For back buttons, add a slight delay for better UX
+  document.getElementById('backToGovBtn').addEventListener('click', () => {
+    const btn = document.getElementById('backToGovBtn');
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      btn.style.transform = '';
+      showView('gov');
+    }, 200);
+  });
+  
+  document.getElementById('backFromResultsBtn').addEventListener('click', () => {
+    const btn = document.getElementById('backFromResultsBtn');
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      btn.style.transform = '';
+      showView('business');
+    }, 200);
+  });
+  
+  // Next poem button
+  document.getElementById('nextPoemBtn').addEventListener('click', () => {
+    // Save user selections
+    localStorage.setItem('surveillancePreferences', JSON.stringify(userSelections));
+    
+    // Show loading state
+    const btn = document.getElementById('nextPoemBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ Loading...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+      window.location.href = 'site4.html';
+    }, 800);
+  });
+});
+
+/* particle background and pixelated words code */
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+class Particle {
+  constructor(){ 
+    this.x=Math.random()*pCanvas.width; 
+    this.y=Math.random()*pCanvas.height; 
+    this.size=Math.random()*1.5+0.5;
+    const angle=Math.random()*Math.PI*2; 
+    const speed=Math.random()*0.7+0.2;
+    this.speedX=Math.cos(angle)*speed; 
+    this.speedY=Math.sin(angle)*speed;
+    this.alpha = Math.random()*0.5+0.3;
+  }
+  update(){ 
+    this.x+=this.speedX; 
+    this.y+=this.speedY;
+    if(this.x>pCanvas.width) this.x=0; 
+    if(this.x<0) this.x=pCanvas.width;
+    if(this.y>pCanvas.height) this.y=0; 
+    if(this.y<0) this.y=pCanvas.height;
+  }
+  draw(){ 
+    pCtx.fillStyle=`rgba(255,255,255,${this.alpha})`; 
+    pCtx.beginPath(); 
+    pCtx.arc(this.x,this.y,this.size,0,Math.PI*2); 
+    pCtx.fill(); 
+  }
+}
+const particles=[];
+for(let i=0;i<150;i++) particles.push(new Particle());
+function animateParticles(){ 
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height); 
+  particles.forEach(p=>{p.update();p.draw();}); 
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+const wCanvas=document.getElementById('wordCanvas');
+const wCtx=wCanvas.getContext('2d');
+function resizeWords(){ wCanvas.width=window.innerWidth; wCanvas.height=window.innerHeight; }
+resizeWords();
+window.addEventListener('resize', resizeWords);
+
+const WORDS=[
+  "surveillance","government","business","monitoring","tracking","control",
+  "data collection","privacy","security","profit","compliance","authority",
+  "panopticon","watchlist","database","algorithm","prediction","manipulation",
+  "transparency","accountability","regulation","exploitation","protection"
+];
+
+const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];}}
+
+async function showWord(word){
+    const off=document.createElement('canvas');
+    const W=wCanvas.width*0.5, H=100; off.width=W; off.height=H;
+    const octx=off.getContext('2d'); octx.font=`bold 80px 'Trebuchet MS', sans-serif`; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillStyle='white'; octx.fillText(word,W/2,H/2);
+
+    const img=octx.getImageData(0,0,W,H).data;
+    const pixels=[];
+    for(let y=0;y<H;y+=pixelSize){for(let x=0;x<W;x+=pixelSize){if(img[(y*W+x)*4+3]>128) pixels.push({x,y});}}
+    shuffle(pixels);
+
+    const side = Math.floor(Math.random() * 4);
+    let randX = 0, randY = 0, rotation = 0;
+    const margin = 10;
+
+    switch(side){
+    case 0: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = margin; rotation = 0; break;
+    case 1: randX = wCanvas.width - margin - W + 200; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    case 2: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = wCanvas.height - margin - H; rotation = 0; break;
+    case 3: randX = margin-270; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    }
+
+    for(const p of pixels){
+      let px=p.x, py=p.y;
+      if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+      else {px+=randX; py+=randY;}
+      wCtx.fillStyle='white'; wCtx.fillRect(px,py,pixelSize,pixelSize);
+      await sleep(revealDelay);
+    }
+
+    await sleep(holdMS);
+
+    const frames=Math.floor(fadeMS/16);
+    for(let f=0;f<frames;f++){
+      wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+      wCtx.globalAlpha=1-f/frames;
+      for(const p of pixels){
+        let px=p.x, py=p.y;
+        if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+        else {px+=randX; py+=randY;}
+        wCtx.fillRect(px,py,pixelSize,pixelSize);
+      }
+      await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function fadeInWords(){
+    for(let alpha=0; alpha<=1; alpha+=0.02){
+        wCtx.globalAlpha = alpha;
+        await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function loopWords() {
+    while(true){
+        const randomIndex = Math.floor(Math.random() * WORDS.length);
+        const word = WORDS[randomIndex];
+        await showWord(word);
+    }
+}
+
+window.addEventListener('load', () => {
+    fadeInWords();
+    loopWords();
+});
+</script>
+</body>
+</html>
