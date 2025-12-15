@@ -418,7 +418,6 @@
   }
   
   .data-section h4::before {
-    content: '📊';
     margin-right: 10px;
     font-size: 1.1rem;
   }
@@ -634,8 +633,8 @@
 <div id="modalOverlay">
   <div id="modal">
     <p><b>Terms and Conditions</b><br><br>
-    <i>Terms and Conditions</i> is an artistic work and social commentary focusing on the small print that constitute legal agreements, binding you and the services on and off the internet.<br><br>
-    It does not intend to provide legal advice, replace professional consultation, or serve as a legally binding resource but rather aims to inform, critique, and provoke thought about the implications of the agreements often accepted blindly.</p>
+    <i>Terms and Conditions</i> is an artistic work and social commentary focusing on the small print that constitute legal agreements, binding you and the services both on and off the internet.<br><br>
+    The average terms and conditions agreement takes 30-60 minutes to read carefully. Therefore, we suggest that you set aside this time to fully participate in this interactive work. </p>
     <button id="agreeBtn">I agree.</button>
   </div>
 </div>
@@ -693,16 +692,16 @@
 const companyLogos = {
   alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
   alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
   apple: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
   meta: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
   microsoft: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940",
   openai: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
   spotify: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
   tencent: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
   tiktok: "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
-  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png",
-  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
-  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940"
+  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png"
 };
 
 // company data
@@ -785,6 +784,43 @@ const companyData = [
       "Legal/government requests"
     ],
     thirdPartyCategories: "5–8"
+  },
+  {
+    id: "amazon",
+    name: "Amazon",
+    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    dataCollectedDirectly: [
+      "Purchase history",
+      "Search queries",
+      "Browsing history",
+      "Wish lists",
+      "Product reviews",
+      "Alexa voice recordings",
+      "Prime Video watch history",
+      "Device usage data (Kindle, Echo)"
+    ],
+    dataInferred: [
+      "Shopping preferences",
+      "Price sensitivity",
+      "Household composition",
+      "Lifestyle patterns",
+      "Product affinity scores"
+    ],
+    dataFromThirdParties: [
+      "Marketplace sellers",
+      "Advertising partners",
+      "Delivery/logistics partners",
+      "Payment processors",
+      "Smart home device manufacturers"
+    ],
+    sharesWithThirdParties: [
+      "Third-party sellers",
+      "Advertising networks",
+      "Cloud service customers",
+      "Delivery partners",
+      "Analytics providers"
+    ],
+    thirdPartyCategories: "7–11"
   },
   {
     id: "apple",
@@ -885,6 +921,42 @@ const companyData = [
       "Payment processors",
       "Analytics vendors",
       "Ad partners (limited for consumer apps)"
+    ],
+    thirdPartyCategories: "4–7"
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    dataCollectedDirectly: [
+      "Viewing history",
+      "Search queries",
+      "Ratings (thumbs up/down)",
+      "Device information",
+      "Playback technical data",
+      "Account details",
+      "Interaction with UI elements"
+    ],
+    dataInferred: [
+      "Content preferences",
+      "Viewing patterns",
+      "Taste clusters",
+      "Mood-based viewing habits",
+      "Binge-watching tendencies"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Internet service providers",
+      "Device manufacturers",
+      "Content partners",
+      "Marketing partners"
+    ],
+    sharesWithThirdParties: [
+      "Content creators/studios",
+      "Analytics partners",
+      "Marketing agencies",
+      "Payment processors",
+      "CDN providers"
     ],
     thirdPartyCategories: "4–7"
   },
@@ -1026,6 +1098,75 @@ const companyData = [
     thirdPartyCategories: "6–10"
   },
   {
+  "tiktok": {
+    name: "TikTok",
+    description: "A global short-form video platform known for its hyper-personalized algorithm, which has faced significant scrutiny over its extensive data collection and use practices[citation:1][citation:2][citation:5].",
+    privacyPolicyUrl: "https://www.tiktok.com/legal/privacy-policy",
+    termsUrl: "https://www.tiktok.com/legal/terms-of-service",
+    logoUrl: "https://example.com/tiktok-logo.jpg", // Placeholder - not verified in search results
+    
+    policyText: `
+      <div class="highlight">
+        <h4>Information We Collect</h4>
+        <p><strong>Information you provide:</strong> "When you create an account, we collect personal information like your name, email address, phone number, birthdate, and profile picture."[citation:2] <em>[Direct Collection - Account Info]</em></p>
+        <p><strong>Information we collect automatically:</strong> "We collect information about your device, including model, operating system, IP address, and precise geographic location (if granted permission). We also track your activity, such as the videos you watch, likes, comments, shares, search queries, and time spent on the app."[citation:2][citation:5] <em>[Direct Collection - Device Identifiers, Browsing Behavior, Location Data]</em></p>
+        <p><strong>Content and Social Data:</strong> "The platform maintains a record of all media you upload and data from direct messages and interactions with other users."[citation:5] <em>[Direct Collection - User Content, Social Interactions]</em></p>
+      </div>
+      
+      <div class="highlight">
+        <h4>Biometric Information</h4>
+        <p>"TikTok uses biometric information, via facial and voice analytics... to infer potentially sensitive information about users, such as age and gender, for purposes that include delivering tailored ads and content recommendations."[citation:1] <em>[Direct Collection - Biometric Data]</em></p>
+      </div>
+      
+      <div class="highlight">
+        <h4>Data from Third Parties</h4>
+        <p>"We may collect information about you from third-party services, such as advertising partners, data providers, and analytics providers."[citation:4] TikTok states that advertisers may share data with it, either directly or through their data partners.[citation:4] <em>[Third-Party Sources - Advertisers, Data Partners]</em></p>
+      </div>
+      
+      <div class="highlight">
+        <h4>How We Use Your Information</h4>
+        <p><strong>Ad Targeting and Content Personalization:</strong> "We use the information we have... to personalize features and content... and make suggestions for you." TikTok's algorithm uses data like video views, likes, and watch time to power its "For You Page" (FYP).[citation:5] As of a policy change noted in 2024, users can no longer opt out of personalized ads based on their in-app activity, though they can opt out of ads based on data from "advertising partners" (except in the EU).[citation:7] <em>[Inferred Data - Interests, Behavioral Profiles]</em></p>
+      </div>
+      
+      <div class="highlight">
+        <h4>How We Share Your Information</h4>
+        <p>"We may share your information with: advertising partners; analytics and measurement providers; service providers (e.g., cloud storage); and legal authorities when required."[citation:5] The platform may also transfer data to servers or data centers outside of your country for storage and processing.[citation:4] <em>[Shares with Third Parties, International Data Transfers]</em></p>
+      </div>
+      
+      <div class="highlight">
+        <h4>Specific Concerns Regarding Children</h4>
+        <p>A 2025 joint investigation by Canadian privacy authorities found that TikTok's age verification measures were "largely ineffective," leading to the collection of sensitive information from many children for ad targeting and content recommendation without a legitimate purpose.[citation:1] The company has committed to implementing enhanced age assurance mechanisms.[citation:1]</p>
+      </div>
+    `,
+    
+    dataCollection: [
+      {
+        name: "Activity & Usage Data",
+        description: "Videos watched, likes, comments, shares, search history, and watch time",
+        policyReference: "tracks the videos you watch, your interaction duration, likes, comments",
+        section: "Information we collect automatically"
+      },
+      {
+        name: "Device and Location Information",
+        description: "IP address, device model, operating system, and precise GPS location",
+        policyReference: "device model, operating system, IP address, geographic location",
+        section: "Information we collect automatically"
+      },
+      {
+        name: "Inferred Biometric Data",
+        description: "Age and gender inferred from facial and voice analytics",
+        policyReference: "uses biometric information... to infer potentially sensitive information about users",
+        section: "Biometric Information"
+      },
+      {
+        name: "Data from Third Parties & Advertisers",
+        description: "Information received from advertising partners and their data providers",
+        policyReference: "collect information about you from third-party services, such as advertising partners",
+        section: "Data from Third Parties"
+      }
+    ]}
+  },
+  {
     id: "xiaohongshu",
     name: "Xiaohongshu",
     summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
@@ -1057,79 +1198,6 @@ const companyData = [
       "Regulatory entities"
     ],
     thirdPartyCategories: "5–9"
-  },
-  {
-    id: "amazon",
-    name: "Amazon",
-    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
-    dataCollectedDirectly: [
-      "Purchase history",
-      "Search queries",
-      "Browsing history",
-      "Wish lists",
-      "Product reviews",
-      "Alexa voice recordings",
-      "Prime Video watch history",
-      "Device usage data (Kindle, Echo)"
-    ],
-    dataInferred: [
-      "Shopping preferences",
-      "Price sensitivity",
-      "Household composition",
-      "Lifestyle patterns",
-      "Product affinity scores"
-    ],
-    dataFromThirdParties: [
-      "Marketplace sellers",
-      "Advertising partners",
-      "Delivery/logistics partners",
-      "Payment processors",
-      "Smart home device manufacturers"
-    ],
-    sharesWithThirdParties: [
-      "Third-party sellers",
-      "Advertising networks",
-      "Cloud service customers",
-      "Delivery partners",
-      "Analytics providers"
-    ],
-    thirdPartyCategories: "7–11"
-  },
-  {
-    id: "netflix",
-    name: "Netflix",
-    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
-    dataCollectedDirectly: [
-      "Viewing history",
-      "Search queries",
-      "Ratings (thumbs up/down)",
-      "Device information",
-      "Playback technical data",
-      "Account details",
-      "Interaction with UI elements"
-    ],
-    dataInferred: [
-      "Content preferences",
-      "Viewing patterns",
-      "Taste clusters",
-      "Mood-based viewing habits",
-      "Binge-watching tendencies"
-    ],
-    dataFromThirdParties: [
-      "Payment processors",
-      "Internet service providers",
-      "Device manufacturers",
-      "Content partners",
-      "Marketing partners"
-    ],
-    sharesWithThirdParties: [
-      "Content creators/studios",
-      "Analytics partners",
-      "Marketing agencies",
-      "Payment processors",
-      "CDN providers"
-    ],
-    thirdPartyCategories: "4–7"
   }
 ];
 
@@ -1237,7 +1305,7 @@ const WORDS=[
   "terms apply","access","third-party",
   "license","rights","waive","user","no warranty","revisions","mandatory","copyright","infringement",
   "termination","disclaimer","limitations apply","restricted","submission","voluntary","breach",
-  "responsibility","dispute","compliance","consent","intellectual property","prohibited by law"
+  "responsibility","dispute","compliance","consent","intellectualproperty","prohibitedbylaw"
 ];
 
 const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
