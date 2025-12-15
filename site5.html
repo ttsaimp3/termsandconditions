@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terms and Conditions Analysis</title>
+<style>
+  body {
+    margin:0; font-family:'Trebuchet MS', sans-serif;
+    background-color:#62001c;
+    color:white; overflow:auto; position:relative;
+    background-image:
+      repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
+    background-size: 5px 5px;
+    min-height: 100vh;
+  }
+    
+  canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
+
+  .main-content { 
+    position:fixed; 
+    top:51%; 
+    left:38%; 
+    transform:translate(-50%, -50%); 
+    width:70vw; 
+    height:70vh; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:1; 
+    text-align:center; 
+    transition: opacity 0.8s ease;
+  }
+  
+  .main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .main-content img { 
+    opacity: 20;
+    width: 400px;
+    border-radius:8px; 
+    transition: opacity 2s ease-in; 
+  }
+  
+  .overlay-text { 
+    position:absolute; 
+    top:18%; 
+    left:27%; 
+    transform:translate(0%, 0%); 
+    width:50vw; 
+    color:white; 
+    font-size:1.2rem; 
+    line-height:1.4; 
+    pointer-events:auto; 
+    text-align: right;
+    opacity: 20;
+    transition: opacity 2s ease-in;
+  }
+  
+  .overlay-text mark { 
+    background:black; 
+    color:white; 
+    padding:0; 
+    border-radius:0; 
+  }
+  
+  .overlay-text a { 
+    color:rgb(0, 157, 18); 
+    text-decoration:underline; 
+    cursor:pointer; 
+  }
+  
+  .overlay-text a:hover {
+    color:rgb(0, 200, 23);
+  }
+
+  #companyView {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    z-index: 5;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  #companyView.active {
+    display: flex;
+    animation: fadeIn 0.8s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .company-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .company-header h2 {
+    font-size: 2.8rem;
+    color: #00cc00;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    animation: subtlePulse 3s infinite alternate;
+  }
+  
+  .company-header .congratulations {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  
+  @keyframes subtlePulse {
+    from { text-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+    to { text-shadow: 0 0 30px rgba(0, 255, 0, 0.5); }
+  }
+  
+  .company-info {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .company-info p {
+    color: #ccc;
+    font-size: 1.1rem;
+    margin: 15px 0;
+  }
+  
+  .no-company-message {
+    text-align: center;
+    padding: 60px 40px;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    margin: 40px auto;
+    max-width: 800px;
+  }
+  
+  .no-company-message h3 {
+    color: #ff0055;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .no-company-message p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  .company-details {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto 40px;
+    flex-wrap: wrap;
+  }
+  
+  .company-card {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .company-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .company-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    background: white;
+    padding: 5px;
+  }
+  
+  .company-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #62001c, #8b0030);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .company-name {
+    margin: 0;
+    color: white;
+    font-size: 2rem;
+  }
+  
+  .company-description {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .policy-section {
+    margin-bottom: 40px;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .section-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .section-content {
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 10px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .policy-text-display {
+    background: rgba(20, 20, 20, 0.8);
+    margin-top: -20px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #ddd;
+    max-height: none;
+    overflow-y: visible;
+  }
+  
+  .policy-text-display p {
+    margin-bottom: 15px;
+    color: #e0e0e0;
+  }
+  
+  .policy-text-display h4 {
+    color: #00cc00;
+    margin: 25px 0 15px 0;
+    font-size: 1.2rem;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 204, 0, 0.3);
+  }
+  
+  .policy-text-display strong {
+    color: #fff;
+  }
+  
+  .policy-text-display em {
+    color: #aaa;
+    font-style: italic;
+  }
+  
+  .policy-text-display .highlight {
+    background-color: rgba(0, 204, 0, 0.1);
+    border-left: 3px solid #00cc00;
+    padding-left: 10px;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .policy-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .policy-url a {
+    color: #00cc00;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .policy-url a:hover {
+    text-decoration: underline;
+  }
+  
+  .collection-item {
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 5px solid rgba(0, 204, 0, 0.5);
+    margin-left: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 70%;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .collection-item:hover {
+    background: rgba(60, 60, 60, 0.9);
+    transform: translateY(-2px);
+    border-left: 3px solid #00cc00;
+  }
+  
+  .collection-item h4 {
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .collection-item p {
+    display: none;
+  }
+  
+  .data-source {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+    font-style: italic;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .action-btn {
+    padding: 15px 30px;
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .action-btn:hover {
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+  }
+  
+  #endRemarksBtn {
+    background: linear-gradient(135deg, #0066cc, #0099ff) !important;
+    animation: subtleGlow 2s infinite alternate;
+    margin-top: 40px;
+  }
+  
+  #endRemarksBtn:hover {
+    background: linear-gradient(135deg, #0099ff, #00ccff) !important;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+    animation: none;
+  }
+  
+  @keyframes subtleGlow {
+    from { box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3); }
+    to { box-shadow: 0 5px 25px rgba(0, 102, 204, 0.5); }
+  }
+  
+  .data-highlight {
+    background-color: rgba(0, 204, 0, 0.2) !important;
+    border-left: 3px solid #00cc00 !important;
+    animation: pulseHighlight 2s ease;
+  }
+  
+  @keyframes pulseHighlight {
+    0%, 100% { background-color: rgba(0, 204, 0, 0.2); }
+    50% { background-color: rgba(0, 204, 0, 0.4); }
+  }
+  
+  #finalRemarks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.95);
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    padding: 40px;
+    box-sizing: border-box;
+  }
+  
+  #finalRemarks.active {
+    display: flex;
+    opacity: 1;
+  }
+  
+  .remarks-content {
+    max-width: 1000px;
+    text-align: center;
+    line-height: 1.8;
+  }
+  
+  .remarks-content h2 {
+    font-size: 2.5rem;
+    color: #00cc00;
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(0, 204, 0, 0.5);
+  }
+  
+  .remarks-content p {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  
+  .remarks-content p.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 1024px) {
+    .company-details {
+      flex-direction: column;
+    }
+    
+    .data-collection-sidebar {
+      flex: 1;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .overlay-text {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .main-content {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      height: auto;
+      padding: 20px;
+    }
+    
+    .main-content img {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .company-header {
+      padding: 20px;
+    }
+    
+    .company-header h2 {
+      font-size: 2rem;
+    }
+    
+    .company-card {
+      padding: 20px;
+    }
+    
+    .company-logo-container {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .policy-text-display {
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .collection-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .policy-meta {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+    
+    .remarks-content h2 {
+      font-size: 2rem;
+    }
+    
+    .remarks-content p {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<canvas id="wordCanvas"></canvas>
+
+<div class="main-content">
+  <img src="https://www.lawrencemalstaf.com/media/contentblock-large/8-tao_lawrence-malstaf_shrink-01995-at-kikk-festival.jpg" alt="Shrink Wrap">
+  <div class="overlay-text">
+    <p><mark>when the machines we carry<br>
+      cost not just your wallet but your identity<br>
+      when the data churning occurs<br>
+      not merely online but in physical reality<br>
+      foraging the grounds for your novelty<br><br>
+      incentivized, desensitized<br>
+      a lack of an alternative<br>
+      how could shrink wrap be so opaque yet clear?<br><br>
+    <a id="viewCompanyTermsLink" href="#">read your shrink wrap</a></mark></p>
+  </div>
+</div>
+
+<div id="companyView">
+  <div class="company-header">
+    <h2>Congratulations</h2>
+    <div class="congratulations">We found your perfect match!</div>
+    <div class="company-info">
+    </div>
+  </div>
+  
+  <div class="company-details">
+    <div id="companyContent"></div>
+  </div>
+  
+  <div class="action-buttons">
+    <button class="action-btn" id="endRemarksBtn">
+      Read Final Remarks →
+    </button>
+  </div>
+</div>
+
+<div id="finalRemarks">
+  <div class="remarks-content">
+    <h2>End of Multimedia Experience</h2>
+    <p>Every click, every scroll, every agreement binds your digital trace with something else.</p>
+    <p>In the transparent shrink wrap of modern life, privacy becomes the price of convenience.</p>
+    <p>Oftentimes the responsibility of understanding new terms has been structurally shifted into the hands of the users.</p>
+    <p>Thank you for engaging with this exploration of digital consent.</p>
+  </div>
+</div>
+
+<script>
+const PolicyTexts = {
+  "alibaba": {
+    name: "Alibaba",
+    description: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
+    privacyPolicyUrl: "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?ruleId=2034&cId=1306",
+    termsUrl: "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+    termsUrl2: "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2042&cId=1303#/rule/detail?cId=1303&ruleId=2042",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "Please do not access or use the Services or the Sites if you do not accept all of the Terms." <em>[Acceptance Required for Accessing Service]</em></p>
+        <p><strong>Responsibility for Members to Review Changes:</strong> "The amended and restated agreement shall be effective immediately upon posting. Posting by alibaba.Com of the amended and restated agreement and your continued use of the service shall be deemed to be acceptance of the amended terms. It is the member’s responsibility to review the terms of use regularly for updates, and that alibaba.com is not required to provide affirmative notice of changes to this agreement by any means other than posting the updates to the sites." <em>[Immediate Changes to Terms]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Direct Information:</strong> "If you are a Buyer or Seller or prospective Buyer or Seller, we will automatically collect device information, such as the type of device you use, unique device identification numbers, IP addresses, browser type, browsing patterns, advertising identifiers and other types of identifiers."" <em>[Direct Collection]</em></p>
+        <p><strong>Third Parties:</strong> "We receive social media account information, such as social media username, profile picture and your login details where you choose to log into the Platform using social media accounts or when you interact with us through an external service or application."</p>
+      </div>
+      
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Marketing & Advertising:</strong> "We may disclose (or provide access to) personal information to marketing and advertising platforms, such as Google, Twitter, Facebook and Instagram, and providers of analytics services relating to Users’ behaviour, in order to tailor the content you see when visiting our Platform." <em>[Merchants]</em></p>
+        <p><strong>Government & Legal:</strong> "We share your information with external professional advisers, law enforcement agencies, insurers, government and regulators and other organizations" <em>[Shares with Government]</em></p>
+      </div>`
+  },
+  
+  "alphabet": {
+    name: "Alphabet / Google",
+    description: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    privacyPolicyUrl: "https://policies.google.com/privacy",
+    termsUrl: "https://policies.google.com/terms",
+    termsUrl2: "",
+    logoUrl: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "Understanding these terms is important because, by accessing or using our services (whether you’re signed in to a Google account or not), you’re agreeing to these terms." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+      
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Warranty Disclaimer:</strong> "We don’t make any warranties about the content or features of the services, including their accuracy, reliability, availability, or ability to meet your needs." <em>[No Legal Requirement for Warranty; Simply for Informational Purposes]</em></p>
+        <p><strong>Limitation of Liability:</strong> "Google’s total liability arising out of or relating to these terms is limited to the greater of (1) $200 or (2) the fees paid to use the relevant services in the 12 months before the dispute."</p>
+        <p><strong>Personal Jurisdiction:</strong> "California law will govern all disputes arising out of or relating to these terms, service-specific additional terms, or any related services, regardless of conflict of laws rules. These disputes will be resolved exclusively in the federal or state courts of Santa Clara County, California, USA, and you and Google consent to personal jurisdiction in those courts." <em>[Limiting Geographical Range of Pursuing Legal Action]</em></p>
+      </div>
+      
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Publicly Accessible Information:</strong> "In some circumstances, Google also collects information about you from publicly accessible sources. For example, if your name appears in your local newspaper, Google’s Search engine may index that article and display it to other people if they search for your name. We may also collect information about you from trusted partners, such as directory services who provide us with business information to be displayed on Google’s services, marketing partners who provide us with information about potential customers of our business services, and security partners who provide us with information to protect against abuse. We also receive information from partners to provide advertising and research services on their behalf." <em>[Direct Collection - Public Info]</em></p>
+        <p><strong>Technologies to Collect Information:</strong> "We use various technologies to collect and store information, including cookies, pixel tags, local storage, such as browser web storage or application data caches, databases, and server logs." <em>[Ways of Collecting Information]</em></p>
+        <p><strong>Private Messages:</strong> "Google Chat scans messages with external users to help protect you from spam, phishing, and malware."</p>
+        </div>
+      
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p>"We use the information we collect to provide, maintain, and improve our services, such as: Improving search results; Developing new services and features; Personalizing content, including ads." <em>[Inferred Data - Interests, Behavioral Profiles]</em></p>
+        <p><strong>AI Training:</strong> "We use publicly available information to help train Google’s AI models and build products and features like Google Translate, Gemini Apps, and Cloud AI capabilities." <em>[AI Model Training]</em></p>
+        <p><strong>Photo Scanning:</strong> "Understanding how people organized their photos in Picasa, Google’s first photos app, helped us design and launch Google Photos." <em>[Product Improvement]</em></p>
+      </div>
+      
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Advertising</strong> "We use your activity on Google—like sites you visit, apps you use, and things you’ve searched for, and associated information like location—to deliver better, more helpful experiences across our products, including ads." <em>[Advertising]</em></p>
+        <p><strong>Public Information</strong> "We collect information about you from publicly accessible sources. For example, we may collect information that's publicly available online or from other public sources to help train Google's language models and make them more accurate." <em>[Third-Party Sources]</em></p>
+        <p><strong>Government:</strong> "When we receive a request from a government agency, we send an email to the user account before disclosing information. If the account is managed by an organization, we’ll give notice to the account administrator. We won’t give notice when legally prohibited under the terms of the request. We’ll provide notice after a legal prohibition is lifted, such as when a statutory or court-ordered gag period has expired."</p>
+      </div>`  
+  },
+
+  "amazon": {
+    name: "Amazon",
+    description: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    privacyPolicyUrl: "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+    termsUrl: "https://www.amazon.com/gp/help/customer/display.html?nodeId=201909000",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Usage Implies Agreement for Self and Household</strong> "By using the Amazon Services, you agree, on behalf of yourself and all members of your household and others who use any Amazon Service under your account, to the following conditions." <em>[Acceptance Required for Usage]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Alexa:</strong> "When you delete Alexa voice recordings, text transcripts, and typed requests to Alexa associated with a chat, we will delete those items from Amazon’s cloud. We may still retain other records of your Alexa interactions, such as attachments you shared with Alexa, information you provided through your interactions, records of actions Alexa took in response to your requests, records of products you searched for, and other information related to your requests." <em>[Direct Collection - Alexa Requests]</em></p>
+      </div>
+
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>Advertising:</strong> "We use your personal information to display interest-based ads for features, products, and services that might be of interest to you."</p>
+      </div>
+
+  `
+  },
+  
+  "apple": {
+    name: "Apple",
+    description: "Technology company with a focus on privacy and on-device processing.",
+    privacyPolicyUrl: "https://www.apple.com/legal/privacy/",
+    termsUrl: "https://www.apple.com/legal/internet-services/itunes/",
+    termsUrl2: "https://www.apple.com/legal/internet-services/icloud/us-en/terms.html",
+    logoUrl: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "Apple reserves the right, at its sole discretion, to change, modify, add or remove portions of these Terms of Use, at any time. It is your responsibility to check these Terms of Use periodically for changes. Your continued use of the Site following the posting of changes will mean that you accept and agree to the changes." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Arbitration Clause:</strong> "By entering into these direct payments terms, you are agreeing to binding arbitration rather than litigation in any court." <em>[Binding By Purchase]</em></p>
+        <p><strong>Limitation of Liability:</strong> "In no event shall Licensor’s total liability to you for all damages (other than as may be required by applicable law in cases involving personal injury) exceed the amount of two hundred and fifty dollars ($250.00)." <em>[Maximum Liability Amount]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Public Info for AppleBot AI Model Training:</strong> "To power features such as search and as a source for our foundational AI models, Apple uses Applebot, a web crawler, to crawl information that is publicly available on the internet. For research and development purposes, we may use datasets such as those that contain images, voices, or other data that could be associated with an identifiable person." <em>[Public Information on Internet for AI Training]</em></p>
+        <p><strong>IP and Personal Identifiers:</strong> "Apple generally treats data we collect using these cookies and similar technologies as non-personal data. However, to the extent that Internet Protocol (IP) addresses or similar identifiers are considered personal data by local law, we also treat these identifiers as personal data in those regions. In addition, Apple sometimes combines non-personal data collected from these technologies with other personal data Apple holds." <em>[Direct Collection - IP]</em></p>
+      </div>
+
+      <h4>Information Property</h4>
+      <div class="highlight">
+        <p><strong>Feedback you provide:</strong> "Any feedback you provide at this site will be deemed to be non-confidential and not proprietary. Apple will be free to use and redistribute such information on an unrestricted basis, without any compensation to you." <em>[Waiving Moral Rights]</em></p>
+      </div>
+
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>Worldwide, Royalty-Free License of Content</strong> "Except to the extent prohibited by law, you hereby grant Apple a worldwide, royalty-free, perpetual, nonexclusive license to use the materials you submit within the Services and related marketing as well as to use the materials you submit for Apple internal purposes. Apple may monitor and decide to remove or edit any submitted material, including via automated content filters and/or human review." <em>[Direct Collection - Content]</em></p>
+      </div>`
+  },
+  
+  "meta": {
+    name: "Meta (Facebook, Instagram, WhatsApp)",
+    description: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, Threads, and Third Party Services.",
+    privacyPolicyUrl: "https://www.facebook.com/privacy/policy/",
+    termsUrl: "https://www.facebook.com/legal/terms",
+    termsUrl2: "https://www.meta.com/legal/supplemental-terms-of-service/?srsltid=AfmBOopp5kXAg9yGB8dyxnBPKF41KTR-Koa4gYSNMQuGa5QjJ64eNoAT",
+    logoUrl: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "If you do not agree to these Terms, then do not access or use Facebook or the other products and services covered by these Terms." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Waive Rights to Jury Trial & to Participate in Class Action or Class Lawsuit</strong> "You agree that certain disputes arising out of or related to these supplemental terms or your use of meta platform technologies products will be resolved by binding, individual arbitration and you waive your rights to a jury trial and to participate in a class action lawsuit or class-wide arbitration, as further stated below, to the fullest extent permitted by the law." <em>[Waive Rights to Jury Trial and to Participate in Class Action or Class Lawsuit]</em></p>
+      </div>
+      
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Info Collected Without Account:</strong> "We also receive information using cookies and similar technologies, like the Meta Pixel or Social Plugins, when you visit other websites and apps that use our or other Meta Products." <em>[Direct Collection - Sites that Use Meta Products and Business Tools]</em></p>
+        <p><strong>Public Information Off Meta Platforms:</strong> "We use data about the connections you make, the choices and settings you select, and what you share and do on and off our Products - to personalize your experience." <em>[Third-Party Sources]</em></p>
+        <p><strong>Scanning Private Messages:</strong> "We collect your activity across our Products and information you provide[6], such as messages you send and receive, including their content, subject to applicable law." <em>[Direct Collection - Private Messaging]</em></p>
+        <p><strong>Location Data:</strong> "We also receive and use some location-related information even if Location Services is turned off. This incudes IP addresses, check-ins and events, and current city on your profile or Marketplace." <em>[Direct Collection]</em></p>
+        <p><strong>Cookies:</strong> "We may place cookies on your computer or device and receive information stored in cookies when you use or visit Meta Products; products provided by other members of the Meta Companies; and websites and apps provided by other companies that use the Meta Products, including companies that incorporate Meta technologies into their websites and apps. Meta uses cookies and receives information when you visit those sites and apps, including device information and information about your activity, without any further action from you. This occurs whether or not you have a Facebook or Instagram account or are logged in." <em>[Direct Collection]</em></p>
+        <p><strong>Device Information:</strong> "Device information we collect and receive includes: (1) device and software you’re using, and other device characteristics (GPS, Bluetooth signals, nearby Wi-Fi access points, beacons and cell towers), (2) what you’re doing on your device, like whether our app is in the foreground or if your mouse is moving (which can help tell humans from bots), (3) identifiers that tell your device apart from other users’, including Family Device IDs, (4) signals from your device (IP addresses), (5) information you’ve shared with us through device settings, like GPS location, camera access, photos and related metadata, (6) information about the network you connect your device to and your connection, (7) some location-related information, even if Location Services is turned off in your device settings, (8) information about our Products’ performance on your device, and (9) information from cookies and similar technologies."</p>
+      </div>
+      
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>Model Training for Content Generation:</strong> "We also share information with Meta Companies to support innovation. For example, your videos can help train our products to recognize objects, like trees, or activities, like when a dog chases a ball. They can also help train tools that let people and businesses create content, like images and videos. This technology is used to help us offer new products or features in the future." <em>[Direct Collection - Audiovisual Media]</em></p>
+        <p><strong>Personalization:</strong> "We use information we have to provide and improve our Products. This includes personalizing features, content and recommendations, such as your Facebook Feed, Instagram Feed, Stories and ads. " <em>[Advertising]</em></p>
+      </div>
+
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Types of Information Received:</strong> "We collect and receive information from partners, measurement vendors, marketing vendors and other third parties about a variety of your information and activities on and off our Products. Here are some examples of information we receive about you: (1) your device information, (2) websites you visit and cookie data, like through Social Plugins or the Meta, (3) Pixel, (4) apps you use, (5) games you play, (6) purchases and transactions you make off of our Products using non-Meta, (7) checkout experiences, (8) the ads you see and how you interact with them (if we show you ads on Meta Products), and (9) how you use our partners’ products and services, online or in person. Partners also share information like your email address, cookies and advertising device ID with us. This helps us match your activities with your account, if you have one. We receive this information whether or not you’re logged in or have an account on our Products." <em>[Information Received]</em></p>
+        <p><strong>Integrated Partners:</strong> "Integrated partners can always access information that’s public on our Products. Sometimes these integrated partners ask you for permission to access certain additional information from your Facebook, Instagram or Messenger account. In their request, they’ll explain what information they’d like to access and let you choose whether to share it. On Facebook, this includes things like your email address, hometown or birthday. On Instagram, this includes content, like photos and videos, that you’ve shared from your account when the account was set to private. Apps or websites you’ve logged into using Facebook Login or connected to your Instagram account can access your nonpublic information on Meta Products unless it appears to us that you haven’t used the app or website in 90 days. Note that even if an app’s access to your information has expired, it can still retain information you shared with it previously." <em>[Public & Private Information Sharing]</em></p>
+        <p><strong>Measurement Vendors:</strong> "We don’t create every measurement and analytics report ourselves. We share information (like whether people saw an ad or engaged with it) with our measurement vendors, who aggregate or compile it to provide their reports." <em>[Aggregate Reports]</em></p>
+        <p><strong>Marketing Vendors:</strong> "We share information about you with marketing vendors. For example, we share your device identifier or other identifiers with marketing vendors to help us serve you ads most relevant to your interests. Marketing vendors support our marketing and advertising efforts by serving our advertisements across the internet, including on mobile, desktop and connected television devices, tracking and categorizing your online and mobile app activity, and providing us information about your interests and community and advertising interactions. We advertise our own products and services on non-Meta ad platforms. We use marketing vendors to deliver these ads. If we use your activity on our Products to tailor these ads, you can opt out of this type of use." <em>[Aggregate Reports]</em></p>
+      </div>
+    `
+  },
+  
+  "microsoft": {
+    name: "Microsoft",
+    description: "Software and cloud computing company with enterprise and consumer data collection.",
+    privacyPolicyUrl: "https://privacy.microsoft.com/privacystatement",
+    termsUrl: "https://www.microsoft.com/en-us/servicesagreement",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "You accept these Terms by creating a Microsoft account, through your use of the Services, or by continuing to use the Services after being notified of a change to these Terms." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Binding Arbitration and Class Action Waiver:</strong> "The Microsoft Services Agreement contains binding arbitration and class action waiver terms that apply to U.S. residents. You and we agree to submit disputes to a neutral arbitrator and not to sue in court in front of a judge or jury, except in small claims court." <em>[Waive to Access Service]</em></p>
+        <p><strong>Limitation of Liability:</strong> "If you have any basis for recovering damages (including breach of these Terms), you agree that your exclusive remedy is to recover, from Microsoft or any affiliates, resellers, distributors, Third-Party Apps and Services providers, and vendors, direct damages up to an amount equal to your Services fee for the month during which the loss or breach occurred (or up to $10.00 if the Services are free)." <em>[Maximum Liability Amount]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Combining Third Party Data for Product Personalization & Advertising:</strong> "In carrying out these purposes, we combine data we collect from different contexts (for example, from your use of two Microsoft products) or obtain from third parties to give you a more seamless, consistent, and personalized experience, to make informed business decisions, and for other legitimate purposes." <em>[Third Party Data Collection]</em></p>
+      </div>
+
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>AI Model:</strong> "As part of our efforts to improve and develop our products, we may use your data to develop and train our AI models. To provide a relevant response, Microsoft Copilot will use this prompt, along with your location, language, and similar settings, as well as other data you might input into the service (for example, files, images, and visual media) to formulate a helpful response. In some markets, Microsoft Copilot can use your prior conversation history to better personalize the product for you based on the information you shared – such as your interests and goals. You can opt-out of personalization at any time. Microsoft Copilot also uses your prompts and related information (like location and language) to provide and improve the Copilot services, including to provide relevant advertising." <em>[Direct Collection]</em></p>
+      </div>
+
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Third Party Cookies:</strong> "Microsoft provides the list below of third parties that set cookies on our websites. These third parties include service providers acting on our behalf. On some of our websites, a list of third parties is available directly on the site. The third parties on these sites may not be included in the list:<br>
+          (1) Social Media cookies (Pinterest, Twitch, Facebook, Dtillery, Rocketfuel, Social27, Twitter, YouTube),<br>
+          (2) Analytics cookies (Clicktale/Contentsquare, Google Universal Analytics, Exponential Interactive, icims, Twitter, Optimizely, Adobe, WebTrends, YouTube),<br>
+          (3) Adveritisng cookies (Clicktale/Contentsquare, Sonobi, Lotame, Google, liadm, Marin Software, 33 Across, Yahoo, Neustar, Media6degrees, adsystem, Amazon, AOL, Outbrain, Fluct, Facebook, spotx, Magnite, bidr, Blue Kai, rubiconproject, Clickagy, Index Exchangeconnexity, Quantcast, Adelphic, Adobe, Twitter, Smartclip, Demdex, exelator, Rocketfuel, everestthemes, Flashtalking, Bidtellect, Baidu, YouTube, Pubmatic, Eyeota, Dataxu, Quantserve, Demdex, iponweb, Nativo, OwnerIQ, pulsepoint, cloudflare, Sizmek, Liveramp, StackAdapt, Samba.tv, Semasio, OwnerIQ, Sitescout, taboola, tapad, Tealium, TheTradeDesk, DoubleClick, smartadserver, Kantar, TripleLift, Teads, bidswitch, Undertone, freewheel, sharethis, Marketo, Media.net, Vimeo, w55c.net, zeotap, Zemanta), and<br>
+          (4) Required cookies (CloudFlare, Amazon, F5, CodeIgniter, Demandware, LivePerson, icims, Stripe.com, ninthdecimal, VitalSource, PHP, HAProxy, crazyegg, PayPal, on24, riverbed)." <em>[Third Party Data Collection]</em></p>
+      </div>`
+  },
+
+  "netflix": {
+    name: "Netflix",
+    description: "Streaming entertainment service with detailed viewing behavior analysis.",
+    privacyPolicyUrl: "https://help.netflix.com/legal/privacy",
+    termsUrl: "https://help.netflix.com/legal/termsofuse",
+    logoUrl: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "Your continued use of the Netflix service after any such updates take effect will constitute acknowledgement and (as applicable) acceptance of those changes. If you do not want to acknowledge or accept any updates to this Privacy Statement, you may cancel your account." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Arbitration Agreement and Class Action Waiver:</strong> "You agree to the arbitration agreement and class action waiver described in section 7 to resolve any disputes with netflix (except for matters that may be taken to small claims court)." <em>[Arbitration Agreement and Class Action Waiver]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Cookies:</strong> "We use other technologies such as browser storage and plugins (for example, HTML5, IndexedDB, and WebSQL). Like cookies, these other technologies may store small amounts of data on a device." <em>[Cookies and Similar Technologies, Pixel Tags, Hashed Identifiers, and Resettable Device Identifiers]</em></p>    
+        <p><strong>US Resident-Specific</strong> "We collect or have collected in the preceding twelve months, the following categories of personal information from consumers: audio, electronic, visual, thermal, olfactory or similar information (“audio/visual information”) such as voice recording when you contact our customer support team, and images collected in connection with Netflix games that have user-generated content (for example, drawings); inferences we may make using the categories of personal information above in the context of the Netflix service." <em>[Audiovisual Information & Inferences]</em></p>
+        <p><strong>Advertising:</strong> "We may collect advertising information about you from other sources to support Advertisements, including the following (collectively referred to as “Advertising Companies”):<br>
+          Advertisers that run Advertisements on Netflix (“Advertisers”) may provide us with unique identifiers (for example, cookies or resettable device identifiers), demographic information and other information (such as information about your likely interests they have collected or inferred based on your activities online) in order to deliver Advertisements;<br>
+          service providers that facilitate the sale, operations, and management of Advertisements (“Ad Service Providers”);<br>
+          ad measurement companies that support Netflix and Advertisers in understanding the effectiveness of Advertisements (“Ad Measurement Companies”); and<br>
+          online and offline information providers to support Advertisements (for example, they may provide us your general location information based on your device’s IP address, such as city, state, and postal code or supplementing information we may have about you with demographic data, or provide us information about your likely interests they have collected or inferred based on your activities online)." <em>[Information Collected]</em></p>
+      </div>
+
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Personal Information Disclosed for Business Purposes:</strong> "We disclose and have disclosed in the past twelve months, the following categories of personal information for business purposes (see the section “Who We Disclose Personal Information To”): identifiers, California Customer Records, characteristics of protected classifications, commercial information, internet activity information, geolocation data, audio/visual information and inferences. We disclose these categories of personal information to the following recipients: the Netflix family of companies; Service Providers; Partners; Netflix Marketing Providers; Advertising Companies; and entities engaged in connection with promotional collaborations, corporate transactions (if any), safety, security and fraud prevention, or for purposes of compliance with law and enforcing the Netflix Terms of Use." <em>[Sharing Information to Third Parties]</em></p>
+        <p><strong>Personal Information Sold:</strong> "Our use of identifiers for Netflix marketing activities may be considered a “sale” under CCPA. Additionally, we use identifiers for marketing activities (such as behavioral advertisements promoting the Netflix service or Netflix content through use of cookies and resettable identifiers) which can be considered “sharing” under CCPA (see section “Communications and Marketing Preferences.” Categories of personal information used for “targeted advertising” (considered “sharing” under CCPA): identifiers and geolocation data (for example, Advertisers may select Advertisements to be displayed to devices in a specific city or state). We allow Advertisers to use these categories of personal information to deliver Advertisements on the Netflix service. Such use may be considered "sharing" under CCPA (see section “Advertising Choices”)." <em>[Selling Personal Information to Third Parties]</em></p>
+     `
+  },
+  
+  "openai": {
+    name: "OpenAI",
+    description: "AI research and deployment company with focus on language models and AI services.",
+    privacyPolicyUrl: "https://openai.com/policies/privacy-policy",
+    termsUrl: "https://openai.com/policies/terms-of-use",
+    termsUrl2: "https://openai.com/policies/usage-policies/",
+    logoUrl: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "By using our Services, you agree to these Terms." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Mandatory Arbitration:</strong> "You and OpenAI agree to resolve any claims arising out of or relating to these Terms or our Services, regardless of when the claim arose, even if it was before these Terms existed (a “Dispute”), through final and binding arbitration. You may opt out of arbitration within 30 days of account creation or of any updates to these arbitration terms within 30 days after the update has taken effect by filling out this form. If you opt out of an update, the last set of agreed upon arbitration terms will apply." <em>[Arbitration Agreement]</em></p>
+        <p><strong>Class Waiver:</strong> "You and OpenAI agree that Disputes must be brought on an individual basis only, and may not be brought as a plaintiff or class member in any purported class, consolidated, or representative proceeding." <em>Class Waiver Agreement</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+          <p><strong>AI Model Training:</strong> "OpenAI’s foundation models, including the models that power ChatGPT, are developed using three primary sources of information: (1) information that is publicly available on the internet, (2) information that we partner with third parties to access, and (3) information that our users, human trainers, and researchers provide or generate." <em>[AI Model Training Data]</em></p>
+        <p><strong>Information Collected:</strong> "We collect the following information, as described above:<br>
+          Identifiers, such as your name, contact details, IP address, and other device identifiers<br>
+          Commercial information, such as your transaction history<br>
+          Network activity information, such as Content and how you interact with our Services<br>
+          Communication information, such as your contact information when you send us email<br>
+          Geolocation data, such as the general area from which your device accesses our Services based on information like its IP address, or precise location information you choose to provide<br>
+          Your account credentials and payment information." <em>[Direct Collection]</em></p>
+      </div>
+
+      <h4>Information Storage</h4>
+      <div class="highlight">
+        <p><strong>Legal or Security Data Retention:</strong> "When you delete a chat (or your account), the chat is removed from your account immediately and scheduled for permanent deletion from OpenAI systems within 30 days, unless we are required to retain it for legal or security reasons or as described here⁠(opens in a new window)." <em>[Deleted Unless In Case of Legal or Security Concerns]</em></p>
+      </div>
+
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Third Parties:</strong> "We may disclose this information in the following circumstances, as described above:<br>
+          Vendors, service providers, and affiliates to process in accordance with our instructions<br>
+          Government authorities or other third parties for the legal reasons described above<br>
+          Parties involved in Transactions<br>
+          Business account administrators for the reasons described above<br>
+          Other users and third parties you interact or share information with" <em>[Third Parties]</em></p>
+      </div>
+    `
+  },
+  
+  "spotify": {
+    name: "Spotify",
+    description: "Music streaming service with detailed listening behavior tracking.",
+    privacyPolicyUrl: "https://www.spotify.com/us/legal/privacy-policy/",
+    termsUrl: "https://www.spotify.com/us/legal/end-user-agreement/",
+    termsUrl2: "https://www.spotify.com/us/legal/cookies-policy/",
+    logoUrl: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "By signing up for, or otherwise using, the Spotify Service, you agree to these Terms. If you do not agree to these Terms, then you must not use the Spotify Service or access any Content." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>Arbitration & Class Action Clause:</strong> "These terms contain a mandatory arbitration provision that, as further set forth in section 6 below, requires the use of arbitration on an individual basis to resolve disputes, rather than jury trials or any other court proceedings, or class actions of any kind." <em>[Arbitration & Class Action Waiver]</em></p>
+      </div>
+
+      <h4>Waiving Moral Rights</h4>
+      <div class="highlight">
+        <p><strong>Royal-free Worldwide License to User Content</strong> "You retain ownership of your User Content when you post it to the Spotify Service. However, in order for us to make your User Content available on the Spotify Service and to provide you with certain features and functions, we do need a limited license from you to that User Content. Accordingly, you hereby grant to Spotify a non-exclusive, transferable, sublicensable, royalty-free, fully paid, irrevocable, worldwide license to reproduce, make available, perform and display, translate, modify, create derivative works from, distribute, and otherwise use any such User Content through any medium, whether alone or in combination with other Content or materials, in any manner and by any means, method or technology, whether now known or hereafter created, in connection with the Spotify Service. Where applicable and to the extent permitted under applicable law, you also agree to waive, and not to enforce, any "moral rights" or equivalent rights, such as your right to be identified as the author of any User Content, including Feedback, and your right to object to derogatory treatment of such User Content." <em>[Waiving Moral Rights to User Content]</em></p>
+      </div>
+
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>Algorithmic & Machine Learning Model Training:</strong> "Purpose for processing your data include to evaluate and develop new features, technologies, and improvements to the Spotify Service. This includes development and training of algorithmic and machine learning models, which help us to keep our service safe and enhance our users’ experience." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+    `
+  },
+  
+  "tencent": {
+    name: "Tencent",
+    description: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    privacyPolicyUrl: "https://www.tencent.com/en-us/privacy-policy.html",
+    termsUrl: "https://www.tencent.com/en-us/service-agreement.html",
+    termsUrl2: "https://www.tencentcloud.com/document/product/301/74049",
+    logoUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "If you do not agree to the processing of your personal information in the way this Privacy Policy describes, please do not provide your information when requested and stop using the Webpage." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Information Storage:</strong> "Your personal information is processed by our servers located in the People’s Republic of China. Our web maintenance and operation team, and our technical team, are located in the People’s Republic of China." <em>[Data Storage in China]</em></p>
+      </div>
+      
+      <h4>Information Usage</h4>
+      <div class="highlight">
+        <p><strong>AI Model Training:</strong> "Tencent Cloud may use User Input and AI Output to train AI models unless you indicate your objection and opt-out of model training in the relevant AI Service. Such objection may limit AI Service functionality." <em>[AI Model Training]</em></p>
+      </div>
+      
+      <h4>Information Sharing</h4>
+      <div class="highlight">
+        <p><strong>Regulators, judicial authorities and law enforcement agencies, and other third parties for safety, security, or compliance with the law:</strong> "There are circumstances in which we are legally required to disclose information about you to authorities, such as to comply with a legal obligation or processes, enforce our terms, address issues relating to security or fraud, or protect our users. These disclosures may be made with or without your consent, and with or without notice, in compliance with the terms of valid legal process such as a subpoena, court order, or search warrant. We are usually prohibited from notifying you of any such disclosures by the terms of the legal process. We may seek your consent to disclose information in response to a governmental entity’s request when that governmental entity has not provided the required subpoena, court order, or search warrant. We may also disclose your information to: enforce our terms and conditions and other agreements, including investigation of any potential violation thereof; detect, prevent or otherwise address security, fraud or technical issues; or protect the rights, property or safety of us, our users, a third party or the public as required or permitted by law (exchanging information with other companies and organisations for the purposes of fraud protection and credit risk reduction)." <em>[Third Parties - Government]</em></p>
+        <p><strong>Sharing User Output:</strong> "You acknowledge and agree that Tencent Cloud may share User Input and AI Output with its service providers, affiliates, and authorised third parties where necessary to provide the AI Services or to comply with Law." <em>[Sharing User Input and AI Output]</em></p>
+      </div>
+  `
+  },
+    
+  "tiktok": {
+    "name": "TikTok",
+    "description": "Social media platform for creating, sharing, and discovering short-form video content with advanced AI-powered recommendation algorithms.",
+    "privacyPolicyUrl": "https://www.tiktok.com/legal/privacy-policy",
+    "termsUrl": "https://www.tiktok.com/legal/terms-of-service",
+    "logoUrl": "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
+    
+    "policyText": `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "By accessing or using our Services, you confirm that you can form a binding contract with TikTok, that you accept these Terms and that you agree to comply with them." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Waiving User Content Moral Rights</h4>
+      <div class="highlight">
+        <p><strong>Content Waiver:</strong> "By posting User Content to or through the Services, you waive any rights to prior inspection or approval of any marketing or promotional materials related to such User Content. You also waive any and all rights of privacy, publicity, or any other rights of a similar nature in connection with your User Content, or any portion thereof. To the extent any moral rights are not transferable or assignable, you hereby waive and agree never to assert any and all moral rights, or to support, maintain or permit any action based on any moral rights that you may have in or with respect to any User Content you Post to or through the Services." <em>[Moral Rights Waiver Agreement]</em></p>
+      </div>
+
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Algorithmic & Machine Learning Models for Developing Partner Platform:</strong> "We use the information we have to understand how people are using the Partner Platform and to develop and improve the Partner Platform, including to train, develop, and improve our technology such as our machine learning models and algorithms. We also use this information to better understand and promote the Partner Platform. For example, we review chats with our virtual assistant functionality as well as chats between sellers and buyers to improve technologies supporting such functions and to provide you with a more helpful service." <em>[AI Model Training Data]</em></p>
+      </div>
+
+      <h4>Information Storage</h4>
+      <div class="highlight">
+        <p><strong>Legal or Security Data Retention:</strong> " We may also retain certain information in backup for a limited period of time or as required by law." <em>[Retention for Legal or Security Concerns]</em></p>
+      </div>
+    `
+  },  
+
+  "xiaohongshu": {
+    name: "Xiaohongshu (Little Red Book)",
+    description: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
+    privacyPolicyUrl: "https://agree.xiaohongshu.com/h5/terms/-1/419",
+    termsUrl: "https://agree.xiaohongshu.com/h5/terms/ZXXY20250119002/-1",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png",
+    
+    policyText: `
+      <h4>Acceptance of Terms</h4>
+      <div class="highlight">
+        <p><strong>Agreement for Any Access:</strong> "If you do not agree to this Privacy Policy, Xiaohongshu Services may not function properly or achieve the results we intend to provide, in which case you should immediately stop accessing/using Xiaohongshu Services." <em>[Acceptance Required for Accessing Service]</em></p>
+      </div>
+
+      <h4>Problems or Disagreements</h4>
+      <div class="highlight">
+        <p><strong>People's Republic of China-specific Disclaimer:</strong> "Unless otherwise expressly stipulated by applicable laws, under no circumstances shall we be liable for any indirect, consequential, punitive, incidental, special, or criminal damages, including but not limited to loss of profits incurred by you as a result of your use of the xiaohongshu platform or xiaohongshu platform services. Unless otherwise expressly stipulated by applicable laws, our total liability to you, regardless of the cause or form of action, shall not exceed the fees (if any) you paid to us during your use of the xiaohongshu platform or xiaohongshu platform services." <em>[China-Specific Liability Disclaimer]</em></p>
+        <p><strong>Opt Out Arbitration Clause if Located in USA:</strong> "You may opt out of this Arbitration Provision for all purposes by sending an arbitration opt out notice to shuduizhang@xiaohongshu.com, within 45 days of the date of your electronic acceptance of these Terms." <em>[Arbitration Clause]</em></p>
+      </div>
+      
+      <h4>Information Collected</h4>
+      <div class="highlight">
+        <p><strong>Technical Information Collected:</strong> "To ensure the safe operation of software and services, prevent your personal information from being illegally obtained, prevent fraud and protect the account security, we will collect your device information [Including: device model, device name, SIM card serial number, device unique identifier (Including: IMEI, IMSI, Android ID, IDFA, OAID)], browser type and setting, language setting, sensor, operating system and application version, installed apps, network device hardware address (MAC Address), login IP Address, way of accessing network, network quality data, mobile network information (including operator name), product version number, storage (albums, media and other files) and software usage record information." <em>[Direct Collection]</em></p>
+      </div>
+      
+      <h4>Government Compliance</h4>
+      <div class="highlight">
+        <p><strong>Improper Information:</strong> "You must comply with all applicable laws and regulations when publishing content through the Xiaohongshu Platform, and shall not use the Xiaohongshu Platform to produce, copy, publish, disseminate, or store any information that violates laws or regulations, jeopardizes national security of the People’s Republic of China, may cause damage to users’ property or information security, marketing information, vulgar and inappropriate information or other information that we consider to be objectionable, Improper Information and inaccurate information etc.<br>
+          violating the basic principles established by the Constitution of the People’s Republic of China, inciting resistance or undermining the implementation of the Constitution of the People’s Republic of China and other laws and regulations;<br>
+          endangering national unity, the integrity of the sovereignty and territory of the People’s Republic of China, leaking state secrets of the People’s Republic of China, endangering national security of the People’s Republic of China, damaging national dignity, honor, and interests of the People’s Republic of China, and promoting terrorism and extremism;<br>
+          defaming the excellent Chinese cultural traditions, inciting ethnic hatred and discrimination, infringing on Chinese ethnic customs and habits, distorting Chinese ethnic history and historical figures, hurting ethnic feelings, and undermining ethnic unity;<br>
+          inciting the destruction of national religious policies of the People’s Republic of China, promoting religious fanaticism, endangering religious harmony, undermining the feelings of religious citizens, undermining the unity between religious and non-religious citizens, and promoting cults and superstitions;<br>
+          endangering social morality of the People’s Republic of China, disrupting social order of the People’s Republic of China, undermining social stability of the People’s Republic of China, promoting obscenity, gambling, drug abuse, depicting violence and terror, inciting crime or teaching criminal methods;<br>
+          infringing on the legitimate rights and interests of minors or harming their physical and mental health;<br>
+          insulting or defaming other people, or disseminating the private information of other people, infringing on others' legitimate rights and interests;<br>
+          violating the "Seven Baselines" requirements, namely, the legal and regulatory baseline, the Chinese socialist system baseline, the Chinese national interest baseline, the Chinese citizens' legitimate rights and interests baseline, the Chinese social and public order baseline, the moral customs baseline, the truthful information baseline; and<br>
+          other content prohibited by laws and regulations." <em>[Banned Content]</em></p>
+      </div>
+    `
+  }
+};
+
+function loadSelectedCompany() {
+  try {
+    let selectedCompany = null;
+    let companyId = null;
+    let companyName = null;
+    
+    console.log("Checking localStorage for company data...");
+    
+    const singleCompany = localStorage.getItem('selectedCompany');
+    console.log("Found in 'selectedCompany':", singleCompany);
+    
+    if (singleCompany) {
+      try {
+        selectedCompany = JSON.parse(singleCompany);
+        console.log("Parsed as JSON:", selectedCompany);
+      } catch (e) {
+        console.log("Not JSON, treating as string:", singleCompany);
+        selectedCompany = singleCompany;
+      }
+    }
+    
+    if (!selectedCompany) {
+      const companiesArrayStr = localStorage.getItem('selectedCompaniesData');
+      console.log("Found in 'selectedCompaniesData':", companiesArrayStr);
+      
+      if (companiesArrayStr) {
+        try {
+          const companiesArray = JSON.parse(companiesArrayStr);
+          if (companiesArray && companiesArray.length > 0) {
+            selectedCompany = companiesArray[0];
+            console.log("Using first company from array:", selectedCompany);
+          }
+        } catch (e) {
+          console.log("Error parsing selectedCompaniesData:", e);
+        }
+      }
+    }
+    
+    if (!selectedCompany) {
+      const companiesAltStr = localStorage.getItem('selectedCompanies');
+      console.log("Found in 'selectedCompanies':", companiesAltStr);
+      
+      if (companiesAltStr) {
+        try {
+          const companiesAlt = JSON.parse(companiesAltStr);
+          if (companiesAlt && companiesAlt.length > 0) {
+            selectedCompany = companiesAlt[0];
+            console.log("Using first company from selectedCompanies:", selectedCompany);
+          }
+        } catch (e) {
+          console.log("Error parsing selectedCompanies:", e);
+        }
+      }
+    }
+    
+    console.log("Final selectedCompany value:", selectedCompany);
+    console.log("Type of selectedCompany:", typeof selectedCompany);
+    
+    if (selectedCompany) {
+      if (typeof selectedCompany === 'string') {
+        companyId = selectedCompany.toLowerCase();
+        companyName = selectedCompany;
+      } else if (selectedCompany && typeof selectedCompany === 'object') {
+        companyId = (selectedCompany.id || selectedCompany.name || '').toLowerCase();
+        companyName = selectedCompany.name || selectedCompany.id || 'Unknown Company';
+      }
+    }
+    
+    console.log("Extracted companyId:", companyId);
+    console.log("Extracted companyName:", companyName);
+    
+    const companyDetails = document.querySelector('.company-details');
+    
+    if (!selectedCompany || !companyId) {
+      companyDetails.innerHTML = `
+        <div class="no-company-message">
+          <h3>No Company Selected</h3>
+          <p>You haven't selected any company to analyze yet.</p>
+          <p>Please go back to the company selection page and choose a company to review their terms and conditions.</p>
+          <p style="color: #ff6666; margin-top: 20px; font-size: 0.9rem;">
+            Debug info: No company data found in localStorage.<br>
+            Checked keys: selectedCompany, selectedCompaniesData, selectedCompanies
+          </p>
+          <div style="margin-top: 30px;">
+            <button class="action-btn" id="goBackToSelectionBtn" style="background: linear-gradient(to right, #0066cc, #0099ff);">
+              ← Go Back to Company Selection
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('goBackToSelectionBtn').addEventListener('click', () => {
+        window.history.back();
+      });
+      
+      return;
+    }
+    
+    const companyInfo = PolicyTexts[companyId];
+    
+    if (!companyInfo) {
+      companyDetails.innerHTML = `
+        <div class="company-card">
+          <div class="company-logo-container">
+            <div class="company-logo-placeholder">${companyName.charAt(0)}</div>
+            <div>
+              <h2 class="company-name">${companyName}</h2>
+              <p class="company-description">Company selected from previous step</p>
+            </div>
+          </div>
+          
+          <div class="policy-section">
+            <div class="section-header">
+            </div>
+            <div class="section-content">
+              <div class="policy-text-display">
+                <p>This company's privacy policy is not available in our local database.</p>
+                <p>To view their terms and conditions, please visit their official website:</p>
+                <p style="margin-top: 20px;">
+                  <a href="https://www.${companyId}.com/privacy" target="_blank" style="color: #66aaff; text-decoration: none; font-weight: bold;">
+                    🔗 Visit ${companyName}'s Privacy Policy
+                  </a>
+                </p>
+              </div>
+              <div class="policy-meta">
+                <div class="policy-url">
+                  <a href="https://www.${companyId}.com/privacy" target="_blank" rel="noopener noreferrer">
+                    🔗 View Full Privacy Policy
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+    
+    const mainContent = `
+      <div class="company-card">
+        <div class="company-logo-container">
+          ${companyInfo.logoUrl ? 
+            `<img src="${companyInfo.logoUrl}" alt="${companyInfo.name} Logo" class="company-logo">` : 
+            `<div class="company-logo-placeholder">${companyInfo.name.charAt(0)}</div>`
+          }
+          <div>
+            <h2 class="company-name">${companyInfo.name}</h2>
+            <p class="company-description">${companyInfo.description}</p>
+          </div>
+        </div>
+        
+        <div class="policy-section">
+          <div class="section-content">
+            <div class="policy-text-display" id="policyTextDisplay">
+              ${companyInfo.policyText}
+            </div>
+            <div class="policy-meta">
+          <div class="policy-url">
+            <a href="${companyInfo.privacyPolicyUrl}" target="_blank" rel="noopener noreferrer">
+              🔗 View Full Privacy Policy on Official Site
+            </a>
+            ${companyInfo.termsUrl && companyInfo.termsUrl !== '#' ? 
+              ` | <a href="${companyInfo.termsUrl}" target="_blank" rel="noopener noreferrer">View Terms of Service</a>` : 
+              ''
+            }
+            ${companyInfo.termsUrl2 && companyInfo.termsUrl2 !== '#' ? 
+              ` | <a href="${companyInfo.termsUrl2}" target="_blank" rel="noopener noreferrer">View Additional Terms</a>` : 
+              ''
+            }
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    companyDetails.innerHTML = mainContent;
+    
+    setupDataCollectionClickHandlers(companyInfo);
+    
+  } catch (error) {
+    console.error('Error loading selected company:', error);
+    document.querySelector('.company-details').innerHTML = `
+      <div class="no-company-message">
+        <h3>Error Loading Company Data</h3>
+        <p>There was an error loading the company information. Please try again.</p>
+        <p>Error details: ${error.message}</p>
+        <p style="color: #ff6666; margin-top: 20px; font-size: 0.9rem;">
+          Full error: ${error.toString()}<br>
+          Stack: ${error.stack}
+        </p>
+      </div>
+    `;
+  }
+}
+
+function setupDataCollectionClickHandlers(companyInfo) {
+  const dataItems = document.querySelectorAll('.collection-item');
+  const policyDisplay = document.getElementById('policyTextDisplay');
+}
+
+
+function showFinalRemarks() {
+  const companyView = document.getElementById('companyView');
+  const finalRemarks = document.getElementById('finalRemarks');
+  
+  companyView.style.display = 'none';
+  finalRemarks.style.display = 'flex';
+  finalRemarks.style.opacity = '1';
+  
+  const paragraphs = finalRemarks.querySelectorAll('p');
+  paragraphs.forEach((p, index) => {
+    setTimeout(() => {
+      p.classList.add('visible');
+    }, index * 1500);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('viewCompanyTermsLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('.main-content').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('companyView').classList.add('active');
+      loadSelectedCompany();
+    }, 500);
+  });
+  
+  document.getElementById('endRemarksBtn').addEventListener('click', () => {
+    const btn = document.getElementById('endRemarksBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ Loading...';
+    btn.disabled = true;
+    
+    showFinalRemarks();
+  });
+});
+
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+class Particle {
+  constructor(){ 
+    this.x=Math.random()*pCanvas.width; 
+    this.y=Math.random()*pCanvas.height; 
+    this.size=Math.random()*1.5+0.5;
+    const angle=Math.random()*Math.PI*2; 
+    const speed=Math.random()*0.7+0.2;
+    this.speedX=Math.cos(angle)*speed; 
+    this.speedY=Math.sin(angle)*speed;
+    this.alpha = Math.random()*0.5+0.3;
+  }
+  update(){ 
+    this.x+=this.speedX; 
+    this.y+=this.speedY;
+    if(this.x>pCanvas.width) this.x=0; 
+    if(this.x<0) this.x=pCanvas.width;
+    if(this.y>pCanvas.height) this.y=0; 
+    if(this.y<0) this.y=pCanvas.height;
+  }
+  draw(){ 
+    pCtx.fillStyle=`rgba(255,255,255,${this.alpha})`; 
+    pCtx.beginPath(); 
+    pCtx.arc(this.x,this.y,this.size,0,Math.PI*2); 
+    pCtx.fill(); 
+  }
+}
+const particles=[];
+for(let i=0;i<150;i++) particles.push(new Particle());
+function animateParticles(){ 
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height); 
+  particles.forEach(p=>{p.update();p.draw();}); 
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+const wCanvas=document.getElementById('wordCanvas');
+const wCtx=wCanvas.getContext('2d');
+function resizeWords(){ wCanvas.width=window.innerWidth; wCanvas.height=window.innerHeight; }
+resizeWords();
+window.addEventListener('resize', resizeWords);
+
+const WORDS=[
+  "privacy","policy","terms","conditions","data","collection",
+  "tracking","surveillance","agreement","consent","regulation",
+  "transparency","accountability","protection","rights","control"
+];
+
+const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];}}
+
+async function showWord(word){
+    const off=document.createElement('canvas');
+    const W=wCanvas.width*0.5, H=100; off.width=W; off.height=H;
+    const octx=off.getContext('2d'); octx.font=`bold 80px 'Trebuchet MS', sans-serif`; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillStyle='white'; octx.fillText(word,W/2,H/2);
+
+    const img=octx.getImageData(0,0,W,H).data;
+    const pixels=[];
+    for(let y=0;y<H;y+=pixelSize){for(let x=0;x<W;x+=pixelSize){if(img[(y*W+x)*4+3]>128) pixels.push({x,y});}}
+    shuffle(pixels);
+
+    const side = Math.floor(Math.random() * 4);
+    let randX = 0, randY = 0, rotation = 0;
+    const margin = 10;
+
+    switch(side){
+    case 0: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = margin; rotation = 0; break;
+    case 1: randX = wCanvas.width - margin - W + 200; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    case 2: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = wCanvas.height - margin - H; rotation = 0; break;
+    case 3: randX = margin-270; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    }
+
+    for(const p of pixels){
+      let px=p.x, py=p.y;
+      if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+      else {px+=randX; py+=randY;}
+      wCtx.fillStyle='white'; wCtx.fillRect(px,py,pixelSize,pixelSize);
+      await sleep(revealDelay);
+    }
+
+    await sleep(holdMS);
+
+    const frames=Math.floor(fadeMS/16);
+    for(let f=0;f<frames;f++){
+      wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+      wCtx.globalAlpha=1-f/frames;
+      for(const p of pixels){
+        let px=p.x, py=p.y;
+        if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+        else {px+=randX; py+=randY;}
+        wCtx.fillRect(px,py,pixelSize,pixelSize);
+      }
+      await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function fadeInWords(){
+    for(let alpha=0; alpha<=1; alpha+=0.02){
+        wCtx.globalAlpha = alpha;
+        await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function loopWords() {
+    while(true){
+        const randomIndex = Math.floor(Math.random() * WORDS.length);
+        const word = WORDS[randomIndex];
+        await showWord(word);
+    }
+}
+
+window.addEventListener('load', () => {
+    fadeInWords();
+    loopWords();
+});
+</script>
+</body>
+</html>
