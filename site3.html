@@ -5,7 +5,7 @@
 <title>Terms and Conditions</title>
 <style>
   body {
-    margin:0; font-family:'Trebuchet MS', sans-serif; /* Your font applied globally */
+    margin:0; font-family:'Trebuchet MS', sans-serif;
     background-color:#62001c;
     color:white; overflow:auto; position:relative;
     background-image:
@@ -20,34 +20,6 @@
   }
     
   canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
-
-  /* modal */
-  #modalOverlay { 
-    position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.8); display:flex; justify-content:center; 
-    align-items:center; z-index:10; 
-  }
-  
-  #modal { 
-    background: linear-gradient(135deg, #222, #333);
-    padding:40px 30px; border-radius:15px; text-align:center; 
-    max-width:400px; color:white; border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-  
-  #modal button { 
-    margin-top:20px; padding:12px 25px; border:none; border-radius:8px; 
-    background: linear-gradient(to right, #62001c, #8b0030); 
-    color:white; cursor:pointer; font-size:16px; font-weight:bold;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-  }
-  
-  #modal button:hover { 
-    background: linear-gradient(to right, #8b0030, #a8003a);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(139, 0, 48, 0.4);
-  }
 
   /* main content */
   .main-content { 
@@ -69,10 +41,6 @@
   .main-content.hidden {
     opacity: 0;
     pointer-events: none;
-  }
-  
-  .main-content.show img, .main-content.show .overlay-text { 
-    opacity:1; 
   }
   
   .main-content img { 
@@ -165,14 +133,6 @@
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .gov-column .column-header h2 {
-    color: white;
-  }
-  
-  .business-column .column-header h2 {
-    color: white;
   }
   
   .column-header h2 {
@@ -351,7 +311,7 @@
     background: linear-gradient(to right, #008000, #00a000);
   }
   
-  /* RESULTS SECTION */
+  /* results */
   #resultsContent {
     display: block;
     max-width: 1400px;
@@ -362,7 +322,7 @@
   .results-header {
     text-align: center;
     margin-bottom: 40px;
-    padding: 20px;
+    padding: 30px;
     background: rgba(30, 30, 30, 0.7);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -386,91 +346,124 @@
     line-height: 1.5;
   }
   
-  .comparison-matrix {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-  
-  .matrix-cell {
+  /* alignment Meter */
+  .alignment-meter-container {
+    margin: 30px 0 40px 0;
     background: rgba(30, 30, 30, 0.7);
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 15px;
+    padding: 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  .matrix-header {
-    font-size: 1.2rem;
-    font-weight: bold;
+  .alignment-meter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  .matrix-item {
-    margin-bottom: 10px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 5px;
+  .alignment-meter-header h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
   }
   
-  .gov-selected { color: #6670ff; }
-  .business-selected { color: #00a000; }
-  .both-selected { color: #b5c500; }
-  .neither-selected { color: #ff0055; }
+  .alignment-meter-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: #fff;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: pulse 2s infinite;
+  }
   
-  /* Services Analysis - UPDATED FOR TWO SECTIONS */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  .alignment-meter {
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 0 15px 0;
+  }
+  
+  .alignment-meter-fill {
+    height: 100%;
+    background: linear-gradient(to right, #ff0055, #ffcc00, #00cc66);
+    border-radius: 12px;
+    transition: width 1.5s ease-out;
+    width: 0%;
+  }
+  
+  .alignment-meter-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  .alignment-meter-description {
+    text-align: center;
+    color: #ccc;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  /* service analysis */
   .services-section {
     margin-top: 40px;
     margin-bottom: 30px;
   }
   
   .services-section h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #fff;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
   }
   
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 25px;
     margin-bottom: 30px;
   }
   
   .service-card {
     background: rgba(40, 40, 40, 0.8);
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 12px;
+    padding: 25px;
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .service-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
   }
   
   .service-card:hover::after {
     content: 'Click to analyze alignment';
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 75px;
     background: rgba(98, 0, 28, 0.8);
     color: white;
     padding: 5px 10px;
     border-radius: 15px;
     font-size: 0.8rem;
     animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
   }
   
   .service-header {
@@ -480,9 +473,9 @@
   }
   
   .service-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     margin-right: 15px;
     object-fit: cover;
     border: 2px solid rgba(255,255,255,0.1);
@@ -493,16 +486,53 @@
   .service-name {
     margin: 0;
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   
   .service-category {
     display: inline-block;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 15px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: bold;
     margin-top: 5px;
+  }
+
+  .service-match-badge {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  }
+
+  /* Color coding for match percentages */
+  .service-match-badge.high-match {
+    background: linear-gradient(135deg, #006400, #008000);
+    color: #00ff00;
+    border-color: #00cc66;
+  }
+
+  .service-match-badge.medium-match {
+    background: linear-gradient(135deg, #b5c500, #ffcc00);
+    color: #ffff00;
+    border-color: #ffcc00;
+  }
+
+  .service-match-badge.low-match {
+    background: linear-gradient(135deg, #8b0000, #a8003a);
+    color: #ff6666;
+    border-color: #ff0055;
   }
   
   .gov-aligned { background: rgba(0, 102, 204, 0.2); color: #66aaff; }
@@ -515,6 +545,7 @@
     background: linear-gradient(135deg, #0066cc, #0099ff) !important;
     animation: subtleGlow 2s infinite alternate;
     display: none;
+    margin-top: 40px;
   }
   
   #nextPoemBtn.visible {
@@ -626,25 +657,25 @@
     color: #00cc66;
   }
   
-  /* Service Analysis Modal */
+  /* service analysis modal */
   .service-analysis-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  padding: 20px;
-  box-sizing: border-box;
-  transition: background 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: background 0.3s ease;
   }
 
   .service-analysis-modal.active {
-    display: flex;
+    display: flex !important;
     background: rgba(0, 0, 0, 0.95);
   }
 
@@ -725,7 +756,7 @@
     transform: rotate(90deg);
   }
   
-  /* Alignment Analysis Sections */
+  /* alignment analysis */
   .alignment-section {
     margin-bottom: 30px;
   }
@@ -819,7 +850,7 @@
     color: #aaa;
   }
   
-  /* Summary Statistics */
+  /* summary stats */
   .alignment-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -857,14 +888,17 @@
     font-size: 0.9rem;
   }
   
-  /* Responsive */
+  .service-card * {
+    pointer-events: none;
+  }
+  
   @media (max-width: 1024px) {
     .comparison-container {
       flex-direction: column;
     }
     
     .services-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
   }
   
@@ -892,10 +926,6 @@
     .main-content img {
       width: 100%;
       max-width: 300px;
-    }
-    
-    .comparison-matrix {
-      grid-template-columns: 1fr;
     }
     
     .service-analysis-content {
@@ -934,6 +964,19 @@
     .step-label {
       font-size: 0.8rem;
     }
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .alignment-meter-header h3 {
+      font-size: 1.3rem;
+    }
+    
+    .alignment-meter-value {
+      font-size: 2rem;
+    }
   }
 </style>
 </head>
@@ -947,17 +990,17 @@
 
 <!-- main content -->
 <div class="main-content">
-  <img src="https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/7/21/1437478115100/98b03e87-e1ac-4f67-892c-819b7122ae3e-1020x612.jpeg?width=700&quality=85&auto=format&fit=max&s=88dfa3220296e69522c03333a89b8185" alt="Cognitive Dissonance">
+  <img src="https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/7/21/1437478115100/98b03e87-e1ac-4f67-892c-819b7122ae3e-1020x612.jpeg?width=700&quality=85&auto=format&fit=max&s=88dfa3220296e69522c03333a89b8185" alt="Panopticon">
   <div class="overlay-text">
     <p><mark>the man-made eye never rests<br>
-    the more it knows, the easier it pretends<br>
-    reigning its life above the panopticon<br>
-    immortal, tortured soul on your deathbed<br><br>
-    it’s for the public order<br>
-    this world lasts forever<br>
-    for the dragon, foundation<br>
-    for the eagle, liquidation<br><br>
-    <a id="enterPreferencesLink" href="#">explore your panopticon</a></mark></p>
+      the more it knows, the easier it pretends<br>
+      reigning its life above the panopticon<br>
+      immortal, tortured soul on your deathbed<br><br>
+      it’s for the public order<br>
+      this world lasts forever<br>
+      for the dragon, foundation<br>
+      for the eagle, liquidation<br><br>
+    <a id="enterPreferencesLink" href="#">create your panopticon</a></mark></p>
   </div>
 </div>
 
@@ -1068,7 +1111,7 @@
     </div>
   </div>
   
-  <!-- NEW: Alignment Results View (Step 3) -->
+  <!-- NEW: Alignment Results View (Step 3) - WITH ALIGNMENT METER -->
   <div id="resultsView" class="comparison-view">
     <!-- Progress Steps -->
     <div class="progress-steps">
@@ -1086,40 +1129,24 @@
       </div>
     </div>
     
-    <!-- Results Content -->
+    <!-- Results Content - WITH ALIGNMENT METER -->
     <div id="resultsContent">
-      <div class="results-header">
-        <h2>Surveillance Priorities Analysis</h2>
-        <p>Compare your surveillance preferences against actual practices</p>
-      </div>
-      
-      <div class="comparison-matrix">
-        <div class="matrix-cell">
-          <div class="matrix-header">Your Government Priorities</div>
-          <div id="govPriorityList">
-            <!-- Government priorities will appear here -->
-          </div>
+      <!-- Alignment Meter -->
+      <div class="alignment-meter-container">
+        <div class="alignment-meter-header">
+          <h3>Overall Surveillance Alignment Score</h3>
+          <div class="alignment-meter-value" id="alignmentScore">0%</div>
         </div>
-        
-        <div class="matrix-cell">
-          <div class="matrix-header">Your Business Priorities</div>
-          <div id="businessPriorityList">
-            <!-- Business priorities will appear here -->
-          </div>
+        <div class="alignment-meter">
+          <div class="alignment-meter-fill" id="alignmentMeterFill"></div>
         </div>
-        
-        <div class="matrix-cell">
-          <div class="matrix-header">Common Priorities</div>
-          <div id="commonPriorityList">
-            <!-- Items selected for both will appear here -->
-          </div>
+        <div class="alignment-meter-labels">
+          <span>Low Alignment</span>
+          <span>Moderate</span>
+          <span>High Alignment</span>
         </div>
-        
-        <div class="matrix-cell">
-          <div class="matrix-header">Avoided Surveillance</div>
-          <div id="avoidedPriorityList">
-            <!-- Items selected by neither will appear here -->
-          </div>
+        <div class="alignment-meter-description" id="alignmentDescription">
+          Calculating your average alignment with services you use...
         </div>
       </div>
       
@@ -1156,7 +1183,7 @@
   </div>
 
 <script>
-// Surveillance categories for Government vs Business
+// surveillance categories
 const surveillanceData = {
   government: [
     {
@@ -1285,101 +1312,179 @@ const surveillanceData = {
   ]
 };
 
-// User selections
 let userSelections = {
   government: {},
   business: {}
 };
 
-// All available company data
+// company data
 const companyData = [
   {
     id: "alibaba",
     name: "Alibaba",
-    summary: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
-    surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "purchase-prediction", "location-exploitation", "cross-device-tracking"]
+    summary: "Chinese e-commerce giant with deep government integration for surveillance capitalism.",
+    surveillanceType: "both",
+    surveillancePractices: [
+      // gov
+      "national-security", "location-tracking", "social-graph-analysis", 
+      "financial-surveillance", "employment-monitoring", "travel-monitoring",
+      // business
+      "behavioral-tracking", "personal-profiling", "purchase-prediction", 
+      "location-exploitation", "cross-device-tracking", "data-brokering"
+    ]
   },
   {
     id: "alphabet",
     name: "Alphabet / Google",
-    summary: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    summary: "Search and advertising giant that complies with global government surveillance requests.",
     surveillanceType: "both",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "attention-optimization", "cross-device-tracking", "data-brokering"]
+    surveillancePractices: [
+      // gov
+      "national-security", "location-tracking", "social-graph-analysis", 
+      "financial-surveillance", "travel-monitoring", "protest-monitoring",
+      // business
+      "behavioral-tracking", "personal-profiling", "social-surveillance", 
+      "attention-optimization", "cross-device-tracking", "data-brokering", 
+      "location-exploitation", "dark-patterns", "emotional-manipulation"
+    ]
   },
   {
     id: "apple",
     name: "Apple",
-    summary: "Technology company with a focus on privacy and on-device processing.",
-    surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "location-exploitation", "cross-device-tracking"]
+    summary: "Privacy-focused but complies with government requests and collects significant location data.",
+    surveillanceType: "both",
+    surveillancePractices: [
+      // gov
+      "location-tracking", "financial-surveillance", "travel-monitoring",
+      // business
+      "behavioral-tracking", "location-exploitation", "cross-device-tracking", 
+      "personal-profiling", "attention-optimization"
+    ]
   },
   {
     id: "meta",
     name: "Meta",
-    summary: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, and Threads.",
+    summary: "Social media giant with extensive data collection for ads and government cooperation.",
     surveillanceType: "both",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "attention-optimization", "emotional-manipulation", "data-brokering"]
+    surveillancePractices: [
+      // gov
+      "social-graph-analysis", "protest-monitoring", "location-tracking",
+      "national-security", "predictive-policing",
+      // business
+      "behavioral-tracking", "personal-profiling", "social-surveillance", 
+      "attention-optimization", "emotional-manipulation", "data-brokering",
+      "cross-device-tracking", "location-exploitation", "dark-patterns"
+    ]
   },
   {
     id: "microsoft",
     name: "Microsoft",
-    summary: "Software and cloud computing company with enterprise and consumer data collection.",
+    summary: "Enterprise software leader with government contracts and cloud surveillance capabilities.",
     surveillanceType: "both",
-    surveillancePractices: ["behavioral-tracking", "cross-device-tracking", "data-brokering"]
+    surveillancePractices: [
+      // gov
+      "national-security", "financial-surveillance", "travel-monitoring",
+      "location-tracking", "employment-monitoring",
+      // business
+      "behavioral-tracking", "cross-device-tracking", "data-brokering", 
+      "personal-profiling", "location-exploitation", "attention-optimization"
+    ]
   },
   {
     id: "tencent",
     name: "Tencent",
-    summary: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    summary: "Chinese social media and gaming giant integrated with government surveillance systems.",
     surveillanceType: "both",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "social-surveillance", "financial-surveillance", "location-exploitation"]
+    surveillancePractices: [
+      // gov
+      "national-security", "location-tracking", "social-graph-analysis",
+      "financial-surveillance", "health-data", "protest-monitoring",
+      "employment-monitoring", "biometric-data",
+      // business
+      "behavioral-tracking", "personal-profiling", "social-surveillance", 
+      "attention-optimization", "cross-device-tracking", "data-brokering"
+    ]
   },
   {
     id: "tiktok",
     name: "TikTok",
-    summary: "Social video platform with sophisticated content and behavior tracking (ByteDance).",
+    summary: "Video platform under scrutiny for potential data sharing with Chinese government.",
     surveillanceType: "both",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "attention-optimization", "emotional-manipulation", "dark-patterns"]
+    surveillancePractices: [
+      // gov
+      "national-security", "location-tracking", "social-graph-analysis",
+      "protest-monitoring", "predictive-policing",
+      // business
+      "behavioral-tracking", "personal-profiling", "attention-optimization", 
+      "emotional-manipulation", "dark-patterns", "social-surveillance", 
+      "cross-device-tracking", "location-exploitation"
+    ]
   },
   {
     id: "amazon",
     name: "Amazon",
-    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
-    surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "purchase-prediction", "location-exploitation", "data-brokering"]
+    summary: "E-commerce and cloud provider with government contracts and extensive consumer tracking.",
+    surveillanceType: "both",
+    surveillancePractices: [
+      // gov
+      "national-security", "financial-surveillance", "location-tracking",
+      // business
+      "behavioral-tracking", "purchase-prediction", "location-exploitation", 
+      "data-brokering", "personal-profiling", "cross-device-tracking", 
+      "attention-optimization", "dark-patterns"
+    ]
   },
   {
     id: "netflix",
     name: "Netflix",
-    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    summary: "Streaming service primarily focused on business surveillance for content recommendations.",
     surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "attention-optimization", "personal-profiling"]
+    surveillancePractices: [
+      // business
+      "behavioral-tracking", "attention-optimization", "personal-profiling", 
+      "purchase-prediction", "emotional-manipulation"
+    ]
   },
   {
     id: "openai",
     name: "OpenAI",
-    summary: "AI research and deployment company with focus on language models and AI services.",
+    summary: "AI company with potential for both commercial and government surveillance applications.",
     surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "data-brokering"]
+    surveillancePractices: [
+      // business
+      "behavioral-tracking", "personal-profiling", "data-brokering", 
+      "attention-optimization", "emotional-manipulation"
+    ]
   },
   {
     id: "spotify",
     name: "Spotify",
-    summary: "Music streaming service with detailed listening behavior tracking.",
+    summary: "Music streaming service focused on commercial surveillance for advertising.",
     surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "personal-profiling", "attention-optimization"]
+    surveillancePractices: [
+      // business
+      "behavioral-tracking", "personal-profiling", "attention-optimization", 
+      "emotional-manipulation", "purchase-prediction", "cross-device-tracking"
+    ]
   },
   {
     id: "xiaohongshu",
     name: "Xiaohongshu",
-    summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
-    surveillanceType: "business",
-    surveillancePractices: ["behavioral-tracking", "purchase-prediction", "social-surveillance"]
+    summary: "Chinese social e-commerce platform integrated with government surveillance.",
+    surveillanceType: "both",
+    surveillancePractices: [
+      // gov
+      "national-security", "location-tracking", "social-graph-analysis",
+      "protest-monitoring", "health-data",
+      // business
+      "behavioral-tracking", "purchase-prediction", "social-surveillance", 
+      "personal-profiling", "attention-optimization", "emotional-manipulation", 
+      "location-exploitation", "data-brokering"
+    ]
   }
 ];
 
-// Company logos
+// company logos
 const companyLogos = {
   alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
   alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
@@ -1395,29 +1500,108 @@ const companyLogos = {
   xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png"
 };
 
-// Initialize all as not selected by default
-surveillanceData.government.forEach(item => {
-  userSelections.government[item.id] = true;
-});
+function savePreferencesToLocalStorage() {
+  try {
+    localStorage.setItem('surveillancePreferences', JSON.stringify(userSelections));
+    return true;
+  } catch (error) {
+    console.error('Error saving preferences:', error);
+    return false;
+  }
+}
 
-surveillanceData.business.forEach(item => {
-  userSelections.business[item.id] = true;
-});
+// FIXED: Properly loads both government and business preferences
+function loadPreferencesFromLocalStorage() {
+  try {
+    const savedData = localStorage.getItem('surveillancePreferences');
+    
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      
+      // Check if we have valid data
+      if (parsedData && typeof parsedData === 'object') {
+        // Reset selections
+        userSelections = {
+          government: {},
+          business: {}
+        };
+        
+        // Load government selections if they exist
+        if (parsedData.government && typeof parsedData.government === 'object') {
+          surveillanceData.government.forEach(item => {
+            userSelections.government[item.id] = parsedData.government[item.id] !== undefined 
+              ? parsedData.government[item.id] 
+              : true; // Default to true if not set
+          });
+        } else {
+          // Set default government selections
+          surveillanceData.government.forEach(item => {
+            userSelections.government[item.id] = true;
+          });
+        }
+        
+        // Load business selections if they exist
+        if (parsedData.business && typeof parsedData.business === 'object') {
+          surveillanceData.business.forEach(item => {
+            userSelections.business[item.id] = parsedData.business[item.id] !== undefined 
+              ? parsedData.business[item.id] 
+              : true; // Default to true if not set
+          });
+        } else {
+          // Set default business selections
+          surveillanceData.business.forEach(item => {
+            userSelections.business[item.id] = true;
+          });
+        }
+        
+        console.log('Loaded preferences:', userSelections);
+        return true;
+      }
+    }
+    
+    // If no saved data or invalid data, set defaults
+    console.log('No valid saved data found, setting defaults');
+    setDefaultSelections();
+    savePreferencesToLocalStorage();
+    return false;
+    
+  } catch (error) {
+    console.error('Error loading preferences:', error);
+    setDefaultSelections();
+    savePreferencesToLocalStorage();
+    return false;
+  }
+}
 
-// Enhanced: View management with better transitions
+// FIXED: Proper default selections
+function setDefaultSelections() {
+  userSelections = {
+    government: {},
+    business: {}
+  };
+  
+  // Set all government items to true
+  surveillanceData.government.forEach(item => {
+    userSelections.government[item.id] = true;
+  });
+  
+  // Set all business items to true
+  surveillanceData.business.forEach(item => {
+    userSelections.business[item.id] = true;
+  });
+  
+  console.log('Default selections set:', userSelections);
+}
+
 let currentView = 'gov';
 
 function showView(viewName) {
-  // Don't do anything if we're already on this view
   if (currentView === viewName) return;
   
   const allViews = ['govView', 'businessView', 'resultsView'];
   const viewOrder = { gov: 0, business: 1, results: 2 };
-  
-  // Determine animation direction
-  const direction = viewOrder[viewName] > viewOrder[currentView] ? 'next' : 'prev';
-  
-  // Exit current view with directional animation
+  const direction = viewOrder[viewName] > viewOrder[currentView] ? 'next' : 'prev'; 
+
   const currentViewEl = document.getElementById(`${currentView}View`);
   if (currentViewEl) {
     currentViewEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -1438,13 +1622,11 @@ function showView(viewName) {
     }, 500);
   }
   
-  // Show new view with directional animation
   setTimeout(() => {
     const newViewEl = document.getElementById(`${viewName}View`);
     if (newViewEl) {
       newViewEl.classList.add('active');
       
-      // Set initial state for animation
       newViewEl.style.opacity = '0';
       if (direction === 'next') {
         newViewEl.style.transform = 'translateX(50px)';
@@ -1452,15 +1634,11 @@ function showView(viewName) {
         newViewEl.style.transform = 'translateX(-50px)';
       }
       
-      // Force reflow
       newViewEl.offsetHeight;
-      
-      // Animate in
       newViewEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
       newViewEl.style.opacity = '1';
       newViewEl.style.transform = 'translateX(0)';
       
-      // Remove inline styles after animation
       setTimeout(() => {
         newViewEl.style.opacity = '';
         newViewEl.style.transform = '';
@@ -1469,44 +1647,34 @@ function showView(viewName) {
       
       currentView = viewName;
       
-      // Scroll to top
       const container = document.getElementById('dataPreferencesContainer');
       container.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Initialize grids if needed
       if (viewName === 'gov') {
         generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
       } else if (viewName === 'business') {
         generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
       } else if (viewName === 'results') {
-        // Analyze and show results
         analyzeSurveillance();
       }
     }
   }, 500);
 }
 
-// NEW: Setup progress step click handlers
 function setupProgressStepHandlers() {
   document.querySelectorAll('.step').forEach(step => {
     step.addEventListener('click', (e) => {
       const targetStep = e.currentTarget.dataset.step;
       
-      // Don't allow clicking on current step
       if (targetStep === currentView) return;
-      
-      // Don't allow skipping ahead without completing previous steps
       const stepOrder = { gov: 0, business: 1, results: 2 };
       const currentStepIndex = stepOrder[currentView];
       const targetStepIndex = stepOrder[targetStep];
       
-      // Only allow going back or to the immediate next step
       if (targetStepIndex > currentStepIndex + 1) {
-        // Can't skip ahead more than one step
         return;
       }
       
-      // Special case: can't go to results without having business data
       if (targetStep === 'results' && currentView === 'gov') {
         return;
       }
@@ -1516,7 +1684,7 @@ function setupProgressStepHandlers() {
   });
 }
 
-// Generate surveillance items
+// FIXED: Save preferences immediately when items are clicked
 function generateSurveillanceItems(column, items, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -1541,33 +1709,35 @@ function generateSurveillanceItems(column, items, gridId) {
     itemEl.addEventListener('click', () => {
       userSelections[column][item.id] = !userSelections[column][item.id];
       itemEl.classList.toggle('selected');
+      
+      // Save immediately after change
+      savePreferencesToLocalStorage();
+      console.log(`${column} selection updated:`, userSelections[column]);
     });
     
     grid.appendChild(itemEl);
   });
 }
 
-// Initialize the interface
+// start interface
 function initializeSurveillanceInterface() {
-  // Only initialize gov view initially
+  loadPreferencesFromLocalStorage();
+  
   generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
-  
-  // Setup progress step handlers
   setupProgressStepHandlers();
-  
-  // Setup quick select buttons for gov view
   setupQuickSelectButtons();
-
+  
+  console.log('Interface initialized with:', userSelections);
 }
 
 function setupQuickSelectButtons() {
-  // Government buttons
   document.querySelector('.gov-select-all').addEventListener('click', () => {
     if (currentView !== 'gov') return;
     surveillanceData.government.forEach(item => {
       userSelections.government[item.id] = true;
     });
     generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+    savePreferencesToLocalStorage();
   });
   
   document.querySelector('.gov-clear-all').addEventListener('click', () => {
@@ -1576,15 +1746,16 @@ function setupQuickSelectButtons() {
       userSelections.government[item.id] = false;
     });
     generateSurveillanceItems('government', surveillanceData.government, 'govGrid');
+    savePreferencesToLocalStorage();
   });
   
-  // Business buttons (will work even if business view isn't active yet)
   document.querySelector('.business-select-all').addEventListener('click', () => {
     if (currentView !== 'business') return;
     surveillanceData.business.forEach(item => {
       userSelections.business[item.id] = true;
     });
     generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+    savePreferencesToLocalStorage();
   });
   
   document.querySelector('.business-clear-all').addEventListener('click', () => {
@@ -1593,38 +1764,27 @@ function setupQuickSelectButtons() {
       userSelections.business[item.id] = false;
     });
     generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
+    savePreferencesToLocalStorage();
   });
 }
 
-// Get user's actual selected services
 function getUserSelectedServices() {
   try {
-    // First try to get the full company data that was saved from index.html
     const selectedCompaniesData = JSON.parse(localStorage.getItem('selectedCompaniesData') || '[]');
     
-    console.log('Retrieved company data from localStorage:', selectedCompaniesData);
-    
-    // If we have the full company data with all properties, use it directly
     if (selectedCompaniesData.length > 0 && selectedCompaniesData[0] && selectedCompaniesData[0].dataCollectedDirectly) {
-      console.log('Using full company data from index.html');
       return selectedCompaniesData;
     }
-    
-    // If we only have service IDs, find them in our companyData
+
     const selectedServices = JSON.parse(localStorage.getItem('selectedServices') || '[]');
-    console.log('Retrieved service IDs from localStorage:', selectedServices);
     
     if (selectedServices.length > 0) {
       const services = selectedServices.map(serviceId => {
-        // Find in our comprehensive company data
         const fullCompany = companyData.find(c => c.id === serviceId);
         if (fullCompany) {
-          console.log(`Found service: ${fullCompany.name}`);
           return fullCompany;
         }
         
-        // If not found in our main list, create a basic object
-        console.warn(`Service ${serviceId} not found in companyData`);
         return {
           id: serviceId,
           name: serviceId.charAt(0).toUpperCase() + serviceId.slice(1),
@@ -1634,198 +1794,148 @@ function getUserSelectedServices() {
         };
       }).filter(Boolean);
       
-      console.log(`Returning ${services.length} services`);
       return services;
     }
     
-    // If nothing found, show a warning but still return something for demo
-    console.warn('No services found in localStorage. Using fallback for demonstration.');
     const fallbackServices = [
       companyData.find(c => c.id === "alphabet"),
       companyData.find(c => c.id === "meta"),
       companyData.find(c => c.id === "amazon"),
     ].filter(Boolean);
     
-    console.log(`Using fallback services: ${fallbackServices.map(s => s.name).join(', ')}`);
     return fallbackServices;
     
   } catch (error) {
-    console.error('Error getting user services:', error);
     return [];
   }
 }
 
-// Get all companies that user DOESN'T use
 function getUnusedServices(usedServices) {
   const usedServiceIds = usedServices.map(service => service.id);
   return companyData.filter(company => !usedServiceIds.includes(company.id));
 }
 
-// Analyze surveillance alignment
+// avg alignment score for services used
+function calculateAverageAlignment(usedServices, govPriorities, businessPriorities) {
+  if (usedServices.length === 0) return 0;
+  
+  let totalAlignment = 0;
+  let validServices = 0;
+  
+  usedServices.forEach(service => {
+    const serviceData = companyData.find(c => c.id === service.id) || service;
+    
+    const govPracticeCount = serviceData.surveillancePractices?.filter(practice => {
+      const govItem = surveillanceData.government.find(g => g.id === practice);
+      return govItem && govPriorities.some(gp => gp.id === govItem.id);
+    }).length || 0;
+    
+    const businessPracticeCount = serviceData.surveillancePractices?.filter(practice => {
+      const businessItem = surveillanceData.business.find(b => b.id === practice);
+      return businessItem && businessPriorities.some(bp => bp.id === businessItem.id);
+    }).length || 0;
+    
+    const totalGovPracticesInService = serviceData.surveillancePractices?.filter(practice => 
+      surveillanceData.government.some(g => g.id === practice)
+    ).length || 0;
+    
+    const totalBusinessPracticesInService = serviceData.surveillancePractices?.filter(practice => 
+      surveillanceData.business.some(b => b.id === practice)
+    ).length || 0;
+    
+    let govMatchPercentage = 0;
+    if (totalGovPracticesInService === 0) {
+    govMatchPercentage = 100;
+    } else {
+    govMatchPercentage = Math.round((govPracticeCount / totalGovPracticesInService) * 100);
+    }
+
+    let businessMatchPercentage = 0;
+    if (totalBusinessPracticesInService === 0) {
+    businessMatchPercentage = 100;
+    } else {
+    businessMatchPercentage = Math.round((businessPracticeCount / totalBusinessPracticesInService) * 100);
+    }
+
+    let matchPercentage = 0;
+    if (govMatchPercentage > 0 && businessMatchPercentage > 0) {
+    matchPercentage = Math.round((govMatchPercentage + businessMatchPercentage) / 2);
+    } else if (govMatchPercentage > 0) {
+    matchPercentage = govMatchPercentage;
+    } else if (businessMatchPercentage > 0) {
+    matchPercentage = businessMatchPercentage;
+    }
+    
+    totalAlignment += matchPercentage;
+    validServices++;
+  });
+  
+  return validServices > 0 ? Math.round(totalAlignment / validServices) : 0;
+}
+
+function getAlignmentDescription(score) {
+  if (score >= 80) {
+    return "Excellent alignment! Your surveillance preferences closely match the services you use.";
+  } else if (score >= 60) {
+    return "Good alignment. Your preferences generally align with the services you use.";
+  } else if (score >= 40) {
+    return "Moderate alignment. There's some alignment but also significant differences.";
+  } else if (score >= 20) {
+    return "Low alignment. Your preferences differ significantly from the services you use personally.";
+  } else {
+    return "Very low alignment. Your surveillance preferences are quite different from what you use personally.";
+  }
+}
+
+function updateAlignmentMeter(score) {
+  const meterFill = document.getElementById('alignmentMeterFill');
+  const scoreElement = document.getElementById('alignmentScore');
+  const descriptionElement = document.getElementById('alignmentDescription');
+  
+  setTimeout(() => {
+    meterFill.style.width = `${score}%`;
+  }, 300);
+  
+  let currentScore = 0;
+  const increment = Math.ceil(score / 30);
+  const timer = setInterval(() => {
+    currentScore += increment;
+    if (currentScore >= score) {
+      currentScore = score;
+      clearInterval(timer);
+    }
+    scoreElement.textContent = `${currentScore}%`;
+  }, 50);
+  
+  descriptionElement.textContent = getAlignmentDescription(score);
+}
+
 function analyzeSurveillance() {
-  // Get selected items
   const govPriorities = surveillanceData.government.filter(item => userSelections.government[item.id]);
   const businessPriorities = surveillanceData.business.filter(item => userSelections.business[item.id]);
-  
-  // Find common priorities
-  const commonPriorities = [];
-  const avoidedPriorities = [];
-  
-  // Simple theme-based matching for common priorities
-  surveillanceData.government.forEach(govItem => {
-    const govSelected = userSelections.government[govItem.id];
-    
-    // Find if there's a corresponding business priority
-    const similarBusinessItem = surveillanceData.business.find(bizItem => 
-      govItem.title.toLowerCase().includes('track') && bizItem.title.toLowerCase().includes('track') ||
-      govItem.title.toLowerCase().includes('surveillance') && bizItem.title.toLowerCase().includes('surveillance') ||
-      govItem.title.toLowerCase().includes('monitor') && bizItem.title.toLowerCase().includes('monitor')
-    );
-    
-    const businessSelected = similarBusinessItem ? userSelections.business[similarBusinessItem.id] : false;
-    
-    if (govSelected && businessSelected) {
-      commonPriorities.push({
-        gov: govItem.title,
-        business: similarBusinessItem?.title || 'Similar practice',
-        theme: 'Both prioritize this surveillance'
-      });
-    } else if (!govSelected && !businessSelected && similarBusinessItem && !userSelections.business[similarBusinessItem.id]) {
-      avoidedPriorities.push({
-        item: govItem.title,
-        businessItem: similarBusinessItem.title,
-        reason: 'Avoided by both sectors'
-      });
-    }
-  });
-  
-  // Add additional business-only avoided items
-  surveillanceData.business.forEach(bizItem => {
-    const businessSelected = userSelections.business[bizItem.id];
-    if (!businessSelected) {
-      // Check if there's a corresponding gov item
-      const similarGovItem = surveillanceData.government.find(govItem => 
-        bizItem.title.toLowerCase().includes('track') && govItem.title.toLowerCase().includes('track') ||
-        bizItem.title.toLowerCase().includes('data') && govItem.title.toLowerCase().includes('data')
-      );
-      
-      if (!similarGovItem || !userSelections.government[similarGovItem.id]) {
-        // Avoided by business and not selected in corresponding gov category
-        avoidedPriorities.push({
-          item: bizItem.title,
-          reason: 'Avoided business surveillance'
-        });
-      }
-    }
-  });
-  
-  // Update UI with priorities
-  updatePriorityList('govPriorityList', govPriorities, 'gov-selected');
-  updatePriorityList('businessPriorityList', businessPriorities, 'business-selected');
-  updateCommonList('commonPriorityList', commonPriorities);
-  updateAvoidedList('avoidedPriorityList', avoidedPriorities);
-  
-  // Analyze services - both used and unused
   const usedServices = getUserSelectedServices();
   const unusedServices = getUnusedServices(usedServices);
-  
-  console.log(`Analyzing ${usedServices.length} used services and ${unusedServices.length} unused services`);
-  
-  // Display used services
+    
+  const averageAlignment = calculateAverageAlignment(usedServices, govPriorities, businessPriorities);
+  updateAlignmentMeter(averageAlignment);
   displayServicesAnalysis(usedServices, 'usedServicesGrid', govPriorities, businessPriorities, 'Services You Use');
-  
-  // Display unused services
   displayServicesAnalysis(unusedServices, 'unusedServicesGrid', govPriorities, businessPriorities, 'Services You Don\'t Use');
-  
-  // Show next poem button
   document.getElementById('nextPoemBtn').classList.add('visible');
 }
 
-function updatePriorityList(elementId, items, cssClass) {
-  const element = document.getElementById(elementId);
-  element.innerHTML = '';
-  
-  if (items.length === 0) {
-    element.innerHTML = '<div class="matrix-item neither-selected">No priorities selected</div>';
-    return;
-  }
-  
-  items.forEach(item => {
-    const div = document.createElement('div');
-    div.className = `matrix-item ${cssClass}`;
-    div.textContent = item.title;
-    element.appendChild(div);
-  });
-}
-
-function updateCommonList(elementId, items) {
-  const element = document.getElementById(elementId);
-  element.innerHTML = '';
-  
-  if (items.length === 0) {
-    element.innerHTML = '<div class="matrix-item">No common priorities</div>';
-    return;
-  }
-  
-  // Limit to 5 items for display
-  const displayItems = items.slice(0, 5);
-  
-  displayItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'matrix-item both-selected';
-    div.textContent = `${item.gov} / ${item.business}`;
-    element.appendChild(div);
-  });
-  
-  if (items.length > 5) {
-    const moreDiv = document.createElement('div');
-    moreDiv.className = 'matrix-item';
-    moreDiv.textContent = `+${items.length - 5} more...`;
-    element.appendChild(moreDiv);
-  }
-}
-
-function updateAvoidedList(elementId, items) {
-  const element = document.getElementById(elementId);
-  element.innerHTML = '';
-  
-  if (items.length === 0) {
-    element.innerHTML = '<div class="matrix-item">No avoided surveillance</div>';
-    return;
-  }
-  
-  // Limit to 5 items for display
-  const displayItems = items.slice(0, 5);
-  
-  displayItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'matrix-item neither-selected';
-    div.textContent = item.item || item.businessItem;
-    element.appendChild(div);
-  });
-  
-  if (items.length > 5) {
-    const moreDiv = document.createElement('div');
-    moreDiv.className = 'matrix-item';
-    moreDiv.textContent = `+${items.length - 5} more...`;
-    element.appendChild(moreDiv);
-  }
-}
-
-// Function to get detailed alignment analysis for a service
 function getServiceAlignmentDetails(service, govPriorities, businessPriorities) {
   const matches = [];
   const mismatches = [];
-  const neutral = [];
-  
-  // Get all surveillance practices for this service
-  const allPractices = [];
+  const govPracticesInService = [];
+  const businessPracticesInService = [];
+  const selectedGovPriorityIds = govPriorities.map(p => p.id);
+  const selectedBusinessPriorityIds = businessPriorities.map(p => p.id);
   
   service.surveillancePractices?.forEach(practiceId => {
-    // Check government practices
     const govPractice = surveillanceData.government.find(g => g.id === practiceId);
     if (govPractice) {
-      const isSelected = govPriorities.some(gp => gp.id === govPractice.id);
+      govPracticesInService.push(govPractice);
+      const isSelected = selectedGovPriorityIds.includes(govPractice.id);
       if (isSelected) {
         matches.push({
           ...govPractice,
@@ -1837,13 +1947,13 @@ function getServiceAlignmentDetails(service, govPriorities, businessPriorities) 
           type: 'government'
         });
       }
-      allPractices.push(govPractice);
+      return;
     }
     
-    // Check business practices
     const businessPractice = surveillanceData.business.find(b => b.id === practiceId);
     if (businessPractice) {
-      const isSelected = businessPriorities.some(bp => bp.id === businessPractice.id);
+      businessPracticesInService.push(businessPractice);
+      const isSelected = selectedBusinessPriorityIds.includes(businessPractice.id);
       if (isSelected) {
         matches.push({
           ...businessPractice,
@@ -1855,41 +1965,31 @@ function getServiceAlignmentDetails(service, govPriorities, businessPriorities) 
           type: 'business'
         });
       }
-      allPractices.push(businessPractice);
     }
   });
   
-  // Add other practices not covered by user's selection
-  surveillanceData.government.forEach(practice => {
-    if (!allPractices.some(p => p.id === practice.id) && 
-        !mismatches.some(m => m.id === practice.id) &&
-        !matches.some(m => m.id === practice.id)) {
-      neutral.push({
-        ...practice,
-        type: 'government'
-      });
-    }
-  });
-  
-  surveillanceData.business.forEach(practice => {
-    if (!allPractices.some(p => p.id === practice.id) && 
-        !mismatches.some(m => m.id === practice.id) &&
-        !matches.some(m => m.id === practice.id)) {
-      neutral.push({
-        ...practice,
-        type: 'business'
-      });
-    }
-  });
-  
-  // Calculate statistics
   const govMatchCount = matches.filter(m => m.type === 'government').length;
   const businessMatchCount = matches.filter(m => m.type === 'business').length;
-  const totalPractices = service.surveillancePractices?.length || 0;
-  const overallMatchPercentage = totalPractices > 0 ? 
-    Math.round(((govMatchCount + businessMatchCount) / (totalPractices * 2)) * 100) : 0;
   
-  // Determine category
+  const totalGovPractices = govPracticesInService.length;
+  const totalBusinessPractices = businessPracticesInService.length;
+  
+  let govMatchPercentage = 0;
+    if (totalGovPractices === 0) {
+    govMatchPercentage = 100;
+    } else {
+    govMatchPercentage = Math.round((govMatchCount / totalGovPractices) * 100);
+    }
+
+  let businessMatchPercentage = 0;
+    if (totalBusinessPractices === 0) {
+    businessMatchPercentage = 100;
+    } else {
+    businessMatchPercentage = Math.round((businessMatchCount / totalBusinessPractices) * 100);
+    }
+
+    overallMatchPercentage = Math.round((govMatchPercentage + businessMatchPercentage) / 2);
+    
   let categoryClass = 'neutral';
   let categoryText = 'Neutral Surveillance';
   
@@ -1907,25 +2007,25 @@ function getServiceAlignmentDetails(service, govPriorities, businessPriorities) 
   return {
     matches,
     mismatches,
-    neutral,
     govMatchCount,
     businessMatchCount,
-    totalPractices,
+    totalGovPractices,
+    totalBusinessPractices,
+    govMatchPercentage,
+    businessMatchPercentage,
     overallMatchPercentage,
     categoryClass,
-    categoryText
+    categoryText,
+    govPracticesInService,
+    businessPracticesInService
   };
 }
 
-// Show detailed service analysis modal
-function showServiceAnalysis(service, govPriorities, businessPriorities) {
+function showServiceAnalysis(service, govPriorities, businessPriorities) { 
   const modal = document.getElementById('serviceAnalysisModal');
   const content = document.getElementById('serviceAnalysisContent');
-  
-  // Get alignment details
   const alignmentDetails = getServiceAlignmentDetails(service, govPriorities, businessPriorities);
   
-  // Create detailed HTML
   content.innerHTML = `
     <div class="service-analysis-header">
       <img class="service-analysis-logo" src="${companyLogos[service.id] || ''}" alt="${service.name}" onerror="this.style.display='none'">
@@ -1940,20 +2040,24 @@ function showServiceAnalysis(service, govPriorities, businessPriorities) {
     <!-- Summary Statistics -->
     <div class="alignment-summary">
       <div class="summary-stat gov-match">
-        <div class="summary-stat-value">${alignmentDetails.govMatchCount}/${alignmentDetails.totalPractices}</div>
-        <div class="summary-stat-label">Government Priority Matches</div>
+        <div class="summary-stat-value">${alignmentDetails.govMatchPercentage}%</div>
+        <div class="summary-stat-label">Government Priority Match</div>
+        <div style="font-size: 0.8rem; color: #aaa;">${alignmentDetails.govMatchCount}/${alignmentDetails.totalGovPractices} practices</div>
       </div>
       <div class="summary-stat business-match">
-        <div class="summary-stat-value">${alignmentDetails.businessMatchCount}/${alignmentDetails.totalPractices}</div>
-        <div class="summary-stat-label">Business Priority Matches</div>
+        <div class="summary-stat-value">${alignmentDetails.businessMatchPercentage}%</div>
+        <div class="summary-stat-label">Business Priority Match</div>
+        <div style="font-size: 0.8rem; color: #aaa;">${alignmentDetails.businessMatchCount}/${alignmentDetails.totalBusinessPractices} practices</div>
       </div>
       <div class="summary-stat overall-match">
         <div class="summary-stat-value">${alignmentDetails.overallMatchPercentage}%</div>
         <div class="summary-stat-label">Overall Alignment</div>
+        <div style="font-size: 0.8rem; color: #aaa;">Average of both matches</div>
       </div>
     </div>
     
     <!-- Matches Section -->
+    ${alignmentDetails.matches.length > 0 ? `
     <div class="alignment-section">
       <h3>🔍 Practices That Match Your Preferences</h3>
       <div class="alignment-grid">
@@ -1976,6 +2080,7 @@ function showServiceAnalysis(service, govPriorities, businessPriorities) {
         `).join('')}
       </div>
     </div>
+    ` : '<div class="alignment-section"><h3>🔍 No Matching Practices</h3><p style="color: #888;">None of this service\'s practices match your preferences.</p></div>'}
     
     <!-- Mismatches Section -->
     ${alignmentDetails.mismatches.length > 0 ? `
@@ -2001,93 +2106,36 @@ function showServiceAnalysis(service, govPriorities, businessPriorities) {
       </div>
     </div>
     ` : ''}
-    
-    <!-- Neutral/Other Section -->
-    ${alignmentDetails.neutral.length > 0 ? `
-    <div class="alignment-section">
-      <h3>📊 Other Surveillance Practices</h3>
-      <div class="alignment-grid">
-        ${alignmentDetails.neutral.map(neutral => `
-          <div class="alignment-item neutral">
-            <div class="alignment-header">
-              <div class="alignment-icon">•</div>
-              <h4>${neutral.title}</h4>
-            </div>
-            <div class="alignment-description">${neutral.description}</div>
-            <div class="alignment-examples">
-              <strong>Examples:</strong> ${neutral.examples.join(', ')}
-            </div>
-            <div style="margin-top: 10px; font-size: 0.8rem; color: #888;">
-              • Not in your preferences
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-    ` : ''}
   `;
   
-  // Show modal
   modal.classList.add('active');
-  
-  // Prevent scrolling on background
   document.body.style.overflow = 'hidden';
 }
 
-// Function to close the service analysis modal with animation
 function closeServiceAnalysis() {
   const modal = document.getElementById('serviceAnalysisModal');
   const content = document.getElementById('serviceAnalysisContent');
   
-  // Start fade out animation
   modal.style.background = 'rgba(0, 0, 0, 0)';
   content.style.transform = 'scale(0.9) translateY(20px)';
   content.style.opacity = '0';
   
-  // Wait for animation to complete, then remove active class
   setTimeout(() => {
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
     
-    // Reset styles for next open
     modal.style.background = '';
     content.style.transform = '';
     content.style.opacity = '';
-  }, 300); // Match the CSS transition duration
+  }, 300);
 }
 
-// Close service analysis modal
-document.getElementById('closeAnalysisBtn').addEventListener('click', closeServiceAnalysis);
-
-// Also close modal when clicking outside content
-document.getElementById('serviceAnalysisModal').addEventListener('click', (e) => {
-  // Close if clicking on the modal background (not the content)
-  if (e.target === document.getElementById('serviceAnalysisModal')) {
-    closeServiceAnalysis();
+function displayServicesAnalysis(services, gridId, govPriorities, businessPriorities, sectionTitle) {  
+  const grid = document.getElementById(gridId);  
+  if (!grid) {
+    return;
   }
-});
-
-// Stop click events from bubbling up from content
-const serviceAnalysisContent = document.getElementById('serviceAnalysisContent');
-if (serviceAnalysisContent) {
-  serviceAnalysisContent.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-}
-
-// Close with Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('serviceAnalysisModal');
-    if (modal.classList.contains('active')) {
-      closeServiceAnalysis();
-    }
-  }
-});
-
-// Enhanced function to display services analysis with clickable cards
-function displayServicesAnalysis(services, gridId, govPriorities, businessPriorities, sectionTitle) {
-  const grid = document.getElementById(gridId);
+  
   grid.innerHTML = '';
   
   if (services.length === 0) {
@@ -2101,7 +2149,6 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
     return;
   }
   
-  // Update section title
   const sectionElement = document.getElementById(gridId.replace('Grid', 'Section'));
   if (sectionElement) {
     const h3 = sectionElement.querySelector('h3');
@@ -2110,10 +2157,8 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
     }
   }
   
-  services.forEach(service => {
+  services.forEach((service, index) => {    
     const serviceData = companyData.find(c => c.id === service.id) || service;
-    
-    // Determine alignment
     let alignment = 'neutral';
     let alignmentText = 'Neutral Surveillance';
     
@@ -2128,7 +2173,6 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
       alignmentText = 'Dual-Purpose Surveillance';
     }
     
-    // Count matching surveillance practices
     const govPracticeCount = serviceData.surveillancePractices?.filter(practice => {
       const govItem = surveillanceData.government.find(g => g.id === practice);
       return govItem && govPriorities.some(gp => gp.id === govItem.id);
@@ -2139,31 +2183,54 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
       return businessItem && businessPriorities.some(bp => bp.id === businessItem.id);
     }).length || 0;
     
-    const totalPractices = serviceData.surveillancePractices?.length || 0;
-    const matchPercentage = totalPractices > 0 ? 
-      Math.round(((govPracticeCount + businessPracticeCount) / (totalPractices * 2)) * 100) : 0;
+    const totalGovPracticesInService = serviceData.surveillancePractices?.filter(practice => 
+      surveillanceData.government.some(g => g.id === practice)
+    ).length || 0;
+    
+    const totalBusinessPracticesInService = serviceData.surveillancePractices?.filter(practice => 
+      surveillanceData.business.some(b => b.id === practice)
+    ).length || 0;
+        
+    let govMatchPercentage = 0;
+    if (totalGovPracticesInService === 0) {
+      govMatchPercentage = 100;
+    } else {
+      govMatchPercentage = Math.round((govPracticeCount / totalGovPracticesInService) * 100);
+    }
+    
+    let businessMatchPercentage = 0;
+    if (totalBusinessPracticesInService === 0) {
+      businessMatchPercentage = 100;
+    } else {
+      businessMatchPercentage = Math.round((businessPracticeCount / totalBusinessPracticesInService) * 100);
+    }
+    
+    let matchPercentage = Math.round((govMatchPercentage + businessMatchPercentage) / 2);
     
     const serviceEl = document.createElement('div');
     serviceEl.className = 'service-card';
     serviceEl.dataset.serviceId = serviceData.id;
     
     serviceEl.innerHTML = `
-      <div class="service-header">
-        <img class="service-logo" src="${companyLogos[serviceData.id] || ''}" alt="${serviceData.name}" onerror="this.style.display='none'">
-        <div>
-          <h3 class="service-name">${serviceData.name}</h3>
-          <span class="service-category ${alignment}">${alignmentText}</span>
-        </div>
+    <div class="service-match-badge ${matchPercentage >= 70 ? 'high-match' : matchPercentage >= 40 ? 'medium-match' : 'low-match'}">
+      ${matchPercentage}%
+    </div>
+    <div class="service-header">
+      <img class="service-logo" src="${companyLogos[serviceData.id] || ''}" alt="${serviceData.name}" onerror="this.style.display='none'">
+      <div>
+        <h3 class="service-name">${serviceData.name}</h3>
+        <span class="service-category ${alignment}">${alignmentText}</span>
       </div>
-      <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px;">${serviceData.summary}</p>
-      <div style="font-size: 0.85rem;">
-        <p><strong>Surveillance Focus:</strong> ${serviceData.surveillanceType === 'both' ? 'Government & Business' : serviceData.surveillanceType}</p>
-        <p><strong>Matches Your Govt Priorities:</strong> ${govPracticeCount}/${totalPractices}</p>
-        <p><strong>Matches Your Business Priorities:</strong> ${businessPracticeCount}/${totalPractices}</p>
-        <p><strong>Overall Match:</strong> ${matchPercentage}%</p>
-        <p><small style="color: #666;">${sectionTitle.toLowerCase()}</small></p>
-      </div>
-    `;
+    </div>
+    <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 15px;">${serviceData.summary}</p>
+    <div style="font-size: 0.85rem;">
+      <p><strong>Surveillance Focus:</strong> ${serviceData.surveillanceType === 'both' ? 'Government & Business' : serviceData.surveillanceType}</p>
+      <p><strong>Govt Priority Match:</strong> ${govPracticeCount}/${totalGovPracticesInService} (${govMatchPercentage}%)</p>
+      <p><strong>Business Priority Match:</strong> ${businessPracticeCount}/${totalBusinessPracticesInService} (${businessMatchPercentage}%)</p>
+      <p><strong>Overall Match:</strong> ${matchPercentage}%</p>
+      <p><small style="color: #666;">${sectionTitle.toLowerCase()}</small></p>
+    </div>
+  `;
     
     // Add click event to show detailed analysis
     serviceEl.addEventListener('click', () => {
@@ -2174,9 +2241,7 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
   });
 }
 
-// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-  // Enter preferences link
   document.getElementById('enterPreferencesLink').addEventListener('click', (e) => {
     e.preventDefault();
     document.querySelector('.main-content').classList.add('hidden');
@@ -2186,27 +2251,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   });
   
-  // NEW: Navigation between views
   document.getElementById('nextToBusinessBtn').addEventListener('click', () => {
-    // Initialize business grid before showing
     generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
-    
-    // Setup business quick select buttons
-    document.querySelector('.business-select-all').addEventListener('click', () => {
-      surveillanceData.business.forEach(item => {
-        userSelections.business[item.id] = true;
-      });
-      generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
-    });
-    
-    document.querySelector('.business-clear-all').addEventListener('click', () => {
-      surveillanceData.business.forEach(item => {
-        userSelections.business[item.id] = false;
-      });
-      generateSurveillanceItems('business', surveillanceData.business, 'businessGrid');
-    });
-    
-    // Add button feedback animation
     const btn = document.getElementById('nextToBusinessBtn');
     btn.style.transform = 'scale(0.95)';
     setTimeout(() => {
@@ -2217,17 +2263,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   document.getElementById('calculateBtn').addEventListener('click', () => {
-    // Add button feedback animation
-    const btn = document.getElementById('calculateBtn');
-    btn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-      btn.style.transform = '';
-    }, 200);
-    
-    showView('results');
-  });
+  const btn = document.getElementById('calculateBtn');
+  btn.style.transform = 'scale(0.95)';
+  setTimeout(() => {
+    btn.style.transform = '';
+  }, 200);
   
-  // For back buttons, add a slight delay for better UX
+  savePreferencesToLocalStorage();
+  
+  setTimeout(() => {
+    showView('results');
+  }, 100);
+});
+  
   document.getElementById('backToGovBtn').addEventListener('click', () => {
     const btn = document.getElementById('backToGovBtn');
     btn.style.transform = 'scale(0.95)';
@@ -2246,12 +2294,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
   });
   
-  // Next poem button
+  // next poem button
   document.getElementById('nextPoemBtn').addEventListener('click', () => {
-    // Save user selections
     localStorage.setItem('surveillancePreferences', JSON.stringify(userSelections));
     
-    // Show loading state
     const btn = document.getElementById('nextPoemBtn');
     const originalText = btn.innerHTML;
     btn.innerHTML = '⏳ Loading...';
@@ -2261,9 +2307,32 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'site4.html';
     }, 800);
   });
+  
+  document.getElementById('closeAnalysisBtn').addEventListener('click', closeServiceAnalysis);
+  
+  document.getElementById('serviceAnalysisModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('serviceAnalysisModal')) {
+      closeServiceAnalysis();
+    }
+  });
+  
+  const serviceAnalysisContent = document.getElementById('serviceAnalysisContent');
+  if (serviceAnalysisContent) {
+    serviceAnalysisContent.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('serviceAnalysisModal');
+      if (modal.classList.contains('active')) {
+        closeServiceAnalysis();
+      }
+    }
+  });
 });
 
-/* particle background and pixelated words code */
 const pCanvas = document.getElementById('particleCanvas');
 const pCtx = pCanvas.getContext('2d');
 function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
