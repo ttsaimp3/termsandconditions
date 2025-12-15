@@ -516,7 +516,6 @@
   z-index: 2;
   }
 
-  /* Color coding for match percentages */
   .service-match-badge.high-match {
     background: linear-gradient(135deg, #006400, #008000);
     color: #00ff00;
@@ -540,7 +539,6 @@
   .conflicted { background: rgba(255, 204, 0, 0.2); color: #ffcc00; }
   .neutral { background: rgba(255, 255, 255, 0.1); color: #ccc; }
   
-  /* Next Poem Button */
   #nextPoemBtn {
     background: linear-gradient(135deg, #0066cc, #0099ff) !important;
     animation: subtleGlow 2s infinite alternate;
@@ -564,7 +562,6 @@
     to { box-shadow: 0 5px 25px rgba(0, 102, 204, 0.5); }
   }
   
-  /* ====== NEW: View Transitions ====== */
   .comparison-view {
     opacity: 0;
     transform: translateX(50px);
@@ -583,14 +580,12 @@
     display: flex;
   }
   
-  /* Single column mode */
   .single-column .comparison-column {
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
   }
   
-  /* NEW: Progress Steps - Updated to match your aesthetic */
   .progress-steps {
     display: flex;
     justify-content: center;
@@ -657,7 +652,6 @@
     color: #00cc66;
   }
   
-  /* service analysis modal */
   .service-analysis-modal {
     position: fixed;
     top: 0;
@@ -756,7 +750,6 @@
     transform: rotate(90deg);
   }
   
-  /* alignment analysis */
   .alignment-section {
     margin-bottom: 30px;
   }
@@ -850,7 +843,6 @@
     color: #aaa;
   }
   
-  /* summary stats */
   .alignment-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1510,45 +1502,34 @@ function savePreferencesToLocalStorage() {
   }
 }
 
-// FIXED: Properly loads both government and business preferences
 function loadPreferencesFromLocalStorage() {
   try {
     const savedData = localStorage.getItem('surveillancePreferences');
-    
     if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      
-      // Check if we have valid data
+      const parsedData = JSON.parse(savedData);      
       if (parsedData && typeof parsedData === 'object') {
-        // Reset selections
         userSelections = {
           government: {},
           business: {}
         };
-        
-        // Load government selections if they exist
-        if (parsedData.government && typeof parsedData.government === 'object') {
+          if (parsedData.government && typeof parsedData.government === 'object') {
           surveillanceData.government.forEach(item => {
             userSelections.government[item.id] = parsedData.government[item.id] !== undefined 
               ? parsedData.government[item.id] 
-              : true; // Default to true if not set
+              : true;
           });
         } else {
-          // Set default government selections
           surveillanceData.government.forEach(item => {
             userSelections.government[item.id] = true;
           });
         }
-        
-        // Load business selections if they exist
         if (parsedData.business && typeof parsedData.business === 'object') {
           surveillanceData.business.forEach(item => {
             userSelections.business[item.id] = parsedData.business[item.id] !== undefined 
               ? parsedData.business[item.id] 
-              : true; // Default to true if not set
+              : true;
           });
         } else {
-          // Set default business selections
           surveillanceData.business.forEach(item => {
             userSelections.business[item.id] = true;
           });
@@ -1559,7 +1540,6 @@ function loadPreferencesFromLocalStorage() {
       }
     }
     
-    // If no saved data or invalid data, set defaults
     console.log('No valid saved data found, setting defaults');
     setDefaultSelections();
     savePreferencesToLocalStorage();
@@ -1573,19 +1553,16 @@ function loadPreferencesFromLocalStorage() {
   }
 }
 
-// FIXED: Proper default selections
 function setDefaultSelections() {
   userSelections = {
     government: {},
     business: {}
   };
   
-  // Set all government items to true
   surveillanceData.government.forEach(item => {
     userSelections.government[item.id] = true;
   });
   
-  // Set all business items to true
   surveillanceData.business.forEach(item => {
     userSelections.business[item.id] = true;
   });
@@ -1684,7 +1661,6 @@ function setupProgressStepHandlers() {
   });
 }
 
-// FIXED: Save preferences immediately when items are clicked
 function generateSurveillanceItems(column, items, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -1710,7 +1686,6 @@ function generateSurveillanceItems(column, items, gridId) {
       userSelections[column][item.id] = !userSelections[column][item.id];
       itemEl.classList.toggle('selected');
       
-      // Save immediately after change
       savePreferencesToLocalStorage();
       console.log(`${column} selection updated:`, userSelections[column]);
     });
@@ -2232,7 +2207,6 @@ function displayServicesAnalysis(services, gridId, govPriorities, businessPriori
     </div>
   `;
     
-    // Add click event to show detailed analysis
     serviceEl.addEventListener('click', () => {
       showServiceAnalysis(serviceData, govPriorities, businessPriorities);
     });
