@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terms and Conditions</title>
+<style>
+  body {
+    margin:0; font-family:'Trebuchet MS', sans-serif;
+    background-color:#62001c;
+    color:white; overflow:auto; position:relative;
+    background-image:
+      repeating-linear-gradient(10deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(20deg, rgba(0,0,0,0.025) 0px, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 5px),
+      repeating-linear-gradient(-10deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(4deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-2deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(79deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 5px);
+    background-size: 5px 5px;
+    min-height: 100vh;
+  }
+    
+  canvas { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; }
+
+  /* main content */
+  .main-content { 
+    position:fixed; 
+    top:51%; 
+    left:38%; 
+    transform:translate(-50%, -50%); 
+    width:70vw; 
+    height:70vh; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:1; 
+    text-align:center; 
+    transition: opacity 0.8s ease;
+  }
+  
+  .main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .main-content img { 
+    opacity: 20;
+    width: 400px;
+    border-radius:8px; 
+    transition: opacity 2s ease-in; 
+  }
+  
+  .overlay-text { 
+    position:absolute; 
+    top:18%; 
+    left:27%; 
+    transform:translate(0%, 0%); 
+    width:50vw; 
+    color:white; 
+    font-size:1.2rem; 
+    line-height:1.4; 
+    pointer-events:auto; 
+    text-align: right;
+    opacity: 20;
+    transition: opacity 2s ease-in;
+  }
+  
+  .overlay-text mark { 
+    background:black; 
+    color:white; 
+    padding:0; 
+    border-radius:0; 
+  }
+  
+  .overlay-text a { 
+    color:rgb(0, 157, 18); 
+    text-decoration:underline; 
+    cursor:pointer; 
+  }
+  
+  .overlay-text a:hover {
+    color:rgb(0, 200, 23);
+  }
+
+  /* data preferences */
+  #dataPreferencesContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    z-index: 5;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(10px);
+    scroll-behavior: smooth;
+  }
+  
+  #dataPreferencesContainer.active {
+    display: flex;
+    animation: fadeIn 0.8s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* categories */
+  #categoriesContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .category-section {
+    display: none;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .category-section.active {
+    display: block;
+    animation: slideIn 0.5s ease;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .category-header {
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .category-header h2 {
+    color: #fff;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #00ff9d, #62001c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .category-header p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* cyborg identity section */
+  .cyborg-identity {
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  
+  /* cyborg level */
+  .cyborg-level {
+    text-align: center;
+    margin: 40px 0;
+    padding: 30px;
+    background: rgba(40, 40, 40, 0.6);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .meter-label {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  
+  .cyborg-meter {
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .cyborg-fill {
+    height: 100%;
+    background: linear-gradient(to right, #00ff9d, #62001c);
+    border-radius: 15px;
+    transition: width 1s ease;
+    width: 0%;
+  }
+  
+  .cyborg-labels {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+    margin: 10px auto;
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  
+  .cyborg-percentage {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 20px 0;
+    background: linear-gradient(to right, #00ff9d, #62001c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* services used */
+  .services-used {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  
+  .service-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(60, 60, 60, 0.6);
+    border-radius: 20px;
+    padding: 8px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .service-badge img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: contain;
+    background: white;
+    padding: 2px;
+  }
+  
+  .service-badge span {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  
+  /* data categories grid */
+  .data-categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  @media (max-width: 1024px) {
+    .data-categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .data-category {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .category-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .category-header-row h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .category-header-row h3.direct {
+    color: #00ff9d;
+  }
+  
+  .category-header-row h3.inferred {
+    color: #ff0055;
+  }
+  
+  .category-header-row h3.shared {
+    color: #0099ff;
+  }
+  
+  .select-all-btn {
+    padding: 6px 12px;
+    background: rgba(98, 0, 28, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family:'Trebuchet MS', sans-serif;
+    transition: all 0.3s ease;
+  }
+  
+  .select-all-btn:hover {
+    background: rgba(98, 0, 28, 0.5);
+    color: #fff;
+  }
+  
+  .data-items-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+  
+  .data-items-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .data-items-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+  
+  .data-items-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 157, 0.3);
+    border-radius: 3px;
+  }
+  
+  /* data item selectable */
+  .data-item-selectable {
+    background: rgba(60, 60, 60, 0.5);
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .data-item-selectable:hover {
+    background: rgba(80, 80, 80, 0.7);
+    transform: translateY(-2px);
+  }
+  
+  .data-item-selectable.selected {
+    background: rgba(0, 255, 157, 0.1);
+    border-left-color: #00ff9d !important;
+  }
+  
+  .data-item-selectable.direct {
+    border-left-color: #00ff9d;
+  }
+  
+  .data-item-selectable.inferred {
+    border-left-color: #ff0055;
+  }
+  
+  .data-item-selectable.shared {
+    border-left-color: #0099ff;
+  }
+  
+  .data-item-selectable p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding-right: 30px;
+  }
+  
+  .data-item-selectable.selected p {
+    color: #fff;
+  }
+  
+  .item-checkbox {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .data-item-selectable.selected .item-checkbox {
+    background: #00ff9d;
+    border-color: #00ff9d;
+  }
+  
+  .data-item-selectable.selected .item-checkbox::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .data-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  
+  .data-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+  
+  .tag-personal {
+    background: rgba(0, 255, 157, 0.2);
+    color: #00ff9d;
+  }
+  
+  .tag-gov {
+    background: rgba(255, 0, 85, 0.2);
+    color: #ff0055;
+  }
+  
+  .tag-business {
+    background: rgba(0, 153, 255, 0.2);
+    color: #0099ff;
+  }
+  
+  .service-tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px 3px 6px;
+  }
+  
+  .service-tag img {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    object-fit: contain;
+    background: white;
+  }
+  
+  .service-tag span {
+    font-size: 0.6rem;
+  }
+  
+  .no-data {
+    color: #ccc;
+    text-align: center;
+    padding: 40px 20px;
+    font-style: italic;
+  }
+  
+  /* final reflection */
+  .results-content {
+    background: rgba(30, 30, 30, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .aligned-company {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(40, 40, 40, 0.6);
+    border-radius: 15px;
+    border: 2px solid rgba(0, 255, 157, 0.2);
+  }
+  
+  .company-logo-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    object-fit: contain;
+    background: white;
+    padding: 10px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .company-name-large {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .company-match {
+    font-size: 1.2rem;
+    color: #00ff9d;
+    margin-bottom: 20px;
+  }
+  
+  .company-summary {
+    color: #ccc;
+    font-size: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .final-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .metric-box {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .metric-box h3 {
+    color: #ccc;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .metric-value {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 20px 0;
+    background: linear-gradient(to right, #00ff9d, #62001c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .metric-label {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+  
+  .metric-desc {
+    color: #ccc;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  /* next poem */
+  #nextPoemBtn {
+    padding: 12px 30px;
+    background: linear-gradient(to right, rgb(0, 200, 23), #00ff9d) !important;
+    color: #111 !important;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 168, 107, 0.3);
+    letter-spacing: normal;
+    animation: none;
+    display: inline-block;
+  }
+
+  #nextPoemBtn:hover {
+    background: linear-gradient(to right, #00ff9d, #4dffb8) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 255, 157, 0.4);
+  }
+
+  #nextPoemBtn.visible {
+    display: inline-block !important;
+  }
+
+  #nextPoemBtn {
+    display: none;
+  }
+  
+  /* navigation buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .nav-btn {
+    padding: 12px 25px;
+    background: linear-gradient(to right, #62001c, #8b0030);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .nav-btn:hover:not(:disabled) {
+    background: linear-gradient(to right, #8b0030, #a8003a);
+    transform: translateY(-2px);
+  }
+  
+  .nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  #nextBtn {
+    background: linear-gradient(to right, #006400, #008000);
+  }
+  
+  #nextBtn:hover:not(:disabled) {
+    background: linear-gradient(to right, #008000, #00a000);
+  }
+  
+  /* responsive adjustments */
+  @media (max-width: 1024px) {
+    .final-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .services-used {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .service-badge {
+      width: 80%;
+      justify-content: center;
+    }
+    
+    .service-tag {
+      flex-direction: column;
+      gap: 2px;
+      padding: 3px 6px;
+    }
+    
+    .service-tag img {
+      width: 10px;
+      height: 10px;
+    }
+    
+    .service-tag span {
+      font-size: 0.5rem;
+    }
+    
+    .category-header-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .category-header-row h3 {
+      width: 100%;
+    }
+    
+    .select-all-btn {
+      align-self: flex-end;
+    }
+  }
+
+  .surveillance-section {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .surveillance-categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+  }
+  
+  @media (max-width: 1024px) {
+    .surveillance-categories {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .surveillance-category {
+    background: rgba(40, 40, 40, 0.8);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .surveillance-category.gov {
+    border-top: 5px solid #ff0055;
+  }
+  
+  .surveillance-category.business {
+    border-top: 5px solid #0099ff;
+  }
+  
+  .surveillance-category h3 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .surveillance-category.gov h3 {
+    color: #ff0055;
+  }
+  
+  .surveillance-category.business h3 {
+    color: #0099ff;
+  }
+  
+  .surveillance-item {
+    background: rgba(60, 60, 60, 0.5);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+  }
+  
+  .surveillance-item:hover {
+    background: rgba(80, 80, 80, 0.7);
+    transform: translateY(-2px);
+  }
+  
+  .surveillance-item.selected {
+    background: rgba(98, 0, 28, 0.3);
+    border-left-color: #62001c;
+  }
+  
+  .surveillance-item.gov.selected {
+    background: rgba(255, 0, 85, 0.1);
+    border-left-color: #ff0055;
+  }
+  
+  .surveillance-item.business.selected {
+    background: rgba(0, 153, 255, 0.1);
+    border-left-color: #0099ff;
+  }
+  
+  .surveillance-item h4 {
+    color: #fff;
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .surveillance-item p {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+  
+  .surveillance-item .examples {
+    font-size: 0.8rem;
+    color: #aaa;
+    font-style: italic;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .item-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+  
+  .surveillance-item.selected .item-checkbox {
+    background: #62001c;
+    border-color: #62001c;
+  }
+  
+  .surveillance-item.gov.selected .item-checkbox {
+    background: #ff0055;
+    border-color: #ff0055;
+  }
+  
+  .surveillance-item.business.selected .item-checkbox {
+    background: #0099ff;
+    border-color: #0099ff;
+  }
+  
+  .surveillance-item.selected .item-checkbox::after {
+    content: '✓';
+    display: block;
+    text-align: center;
+    line-height: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- particle background -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- pixelated words -->
+<canvas id="wordCanvas"></canvas>
+
+<!-- main content -->
+<div class="main-content">
+  <img src="https://medias.artmajeur.com/standard/16043266_11.jpg?v=1738597460" alt="Cyborg">
+  <div class="overlay-text">
+    <p><mark>we train the mind how you train machines<br>
+        machines of minds of you and me<br>
+        the print you have read has bound us in red<br>
+        your body won’t live on<br>
+        your mind lives with me instead<br><br>
+        censor yourself, or else we suspend<br>
+        you are not your likeness but affinity<br>
+        you are not your presence but technology<br>
+        together we transgress<br>
+        together we transcend<br><br>
+    <a id="enterPreferencesLink" href="#">how cyborg are you?</a></mark></p>
+  </div>
+</div>
+
+<!-- data preferences -->
+<div id="dataPreferencesContainer">
+  <div id="categoriesContainer">
+    <!-- pt1: cyborg identity -->
+    <div class="category-section active" id="category1">
+      <div class="cyborg-identity">
+        <div class="category-header">
+          <h2>How Much of a Cyborg Are You?</h2>
+          <p>See the dissonance between your personal preferences, government surveillance, business policies, and the services you use.</p>
+        </div>
+        
+        <!-- Services Used -->
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 20px;">Services You Use</h3>
+          <div class="services-used" id="servicesUsed">
+            <!-- Services will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <!-- SURVEILLANCE PREFERENCES SECTION -->
+        <div class="surveillance-section">
+          <h3 style="color: #fff; font-size: 1.5rem; text-align: center; margin: 40px 0 30px 0;">
+            Your Surveillance Preferences
+          </h3>
+          <div class="surveillance-categories" id="surveillanceCategories">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+        
+        <!-- Current Cyborg Level -->
+        <div class="cyborg-level">
+          <div class="meter-label">Your Current Cyborg Level</div>
+          <div class="cyborg-meter">
+            <div class="cyborg-fill" id="cyborgFill"></div>
+          </div>
+          <div class="cyborg-labels">
+            <span>Human</span>
+            <span>Hybrid</span>
+            <span>Cyborg</span>
+          </div>
+          <div class="cyborg-percentage" id="cyborgPercentage">0%</div>
+        </div>
+        
+        <!-- Data Categories (Direct, Inferred, 3rd Parties) -->
+        <div class="data-categories-grid" id="dataCategories">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn1" disabled>
+          <span>←</span> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn1">
+          See Alignment<span>→</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- pt2: final reflection -->
+    <div class="category-section" id="category2">
+      <div class="category-header">
+        <h2>Your Best Match</h2></div>
+      
+      <div class="results-content">
+        <!-- Most Aligned Company -->
+        <div class="aligned-company" id="alignedCompanyDisplay">
+          <!-- Most aligned company will be shown here -->
+        </div>
+        
+        <!-- Final Metrics -->
+        <div class="final-metrics">
+          <div class="metric-box">
+            <h3>Initial Cyborg Level</h3>
+            <div class="metric-value" id="initialCyborgLevel">0%</div>
+            <div class="metric-label">Before adjustments</div>
+            <div class="metric-desc">Your starting integration with technology</div>
+          </div>
+          
+          <div class="metric-box">
+            <h3>Final Cyborg Level</h3>
+            <div class="metric-value" id="finalCyborgLevel">0%</div>
+            <div class="metric-label">After adjustments</div>
+            <div class="metric-desc">Your chosen integration level</div>
+          </div>
+        </div>
+        
+        <!-- read next poem button -->
+        <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.1); text-align: center;">
+          <button id="nextPoemBtn" style="padding: 18px 40px; font-size: 1.2rem; background: linear-gradient(135deg, #0066cc, #0099ff); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3);">
+            Continue to Next Poem →
+          </button>
+        </div>
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn2">
+          <span>←</span> Edit Identity
+        </button>
+        <button class="nav-btn" id="restartBtn">
+          Start Over
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// company logos
+const companyLogos = {
+  alibaba: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREXxWppPgNoDOukU_2RHGUnoU-_i664iBN5w&s",
+  alphabet: "https://logos-world.net/wp-content/uploads/2022/05/Alphabet-Emblem.png",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
+  apple: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg",
+  meta: "https://static.dezeen.com/uploads/2021/11/meta-facebook-rebranding-name-news_dezeen_2364_col_hero2.jpg",
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+  netflix: "https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940",
+  openai: "https://cdn.worldvectorlogo.com/logos/openai-2.svg",
+  spotify: "https://www.citypng.com/public/uploads/preview/square-black-green-spotify-app-icon-png-701751694969849j7wtxvnrgo.png",
+  tencent: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f357271-2c36-460a-b3f5-e7d1719417f4_600x450.jpeg",
+  tiktok: "https://cdn.mos.cms.futurecdn.net/DgtQSxAYAHv52vo69JGcKB.jpg",
+  xiaohongshu: "https://upload.wikimedia.org/wikipedia/commons/c/c1/XiaohongshuLOGO.png",
+};
+
+// company data
+const companyData = [
+  {
+    id: "alibaba",
+    name: "Alibaba",
+    summary: "E-commerce and technology conglomerate with extensive data collection across its platforms.",
+    dataCollectedDirectly: [
+      "Personal info (name, phone number, address)",
+      "Payment data",
+      "Transaction history",
+      "Device identifiers",
+      "Browsing behavior",
+      "Search history",
+      "Purchase patterns",
+      "App-activity logs"
+    ],
+    dataInferred: [
+      "Creditworthiness",
+      "Purchasing power",
+      "Spending habits",
+      "Behavioral patterns",
+      "Interest categories",
+      "Ad-targeting segments"
+    ],
+    dataFromThirdParties: [
+      "Logistics partners",
+      "Merchants",
+      "Payment processors",
+      "Advertising networks",
+      "Government-verified identity checks (in certain regions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Logistics partners",
+      "Advertising partners",
+      "Data analytics vendors",
+      "Fraud-prevention services",
+      "Cloud service providers"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "alphabet",
+    name: "Alphabet / Google",
+    summary: "Search, advertising, and technology giant with extensive cross-platform data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Search queries",
+      "Location data (active + passive)",
+      "Browsing history (Chrome sync)",
+      "App usage",
+      "Device identifiers",
+      "Voice recordings (if enabled)",
+      "Emails metadata in Gmail",
+      "YouTube watch history",
+      "Android device telemetry"
+    ],
+    dataInferred: [
+      "Interests",
+      "Behavioral profiles",
+      "Demographic predictions",
+      "Purchasing likelihood",
+      "Movement patterns",
+      "Ad segments"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Sites using Google Analytics",
+      "Apps using Google SDKs",
+      "Merchant partners",
+      "YouTube partners"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers (aggregated/personalized ads)",
+      "Analytics partners",
+      "App developers via APIs",
+      "Cloud partners when relevant",
+      "Legal/government requests"
+    ],
+    thirdPartyCategories: "5–8"
+  },
+  {
+    id: "apple",
+    name: "Apple",
+    summary: "Technology company with a focus on privacy and on-device processing.",
+    dataCollectedDirectly: [
+      "Apple ID info",
+      "Device diagnostics",
+      "App usage",
+      "App Store activity",
+      "iCloud-synced data (if enabled)",
+      "Purchase history",
+      "Siri queries (with privacy filtering)",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Device performance patterns",
+      "App usage trends",
+      "Personalized content preferences (on-device when possible)"
+    ],
+    dataFromThirdParties: [
+      "Optional app integrations",
+      "Apple Pay merchant data",
+      "HealthKit and HomeKit partners (only with permissions)"
+    ],
+    sharesWithThirdParties: [
+      "Payment processors",
+      "Telecom partners (activation)",
+      "iCloud storage vendors",
+      "Developer APIs (in limited ways)",
+      "Regulatory compliance"
+    ],
+    thirdPartyCategories: "2–5"
+  },
+  {
+    id: "amazon",
+    name: "Amazon",
+    summary: "E-commerce, cloud computing, and AI company with vast consumer behavior data.",
+    dataCollectedDirectly: [
+      "Purchase history",
+      "Search queries",
+      "Browsing history",
+      "Wish lists",
+      "Product reviews",
+      "Alexa voice recordings",
+      "Prime Video watch history",
+      "Device usage data (Kindle, Echo)"
+    ],
+    dataInferred: [
+      "Shopping preferences",
+      "Price sensitivity",
+      "Household composition",
+      "Lifestyle patterns",
+      "Product affinity scores"
+    ],
+    dataFromThirdParties: [
+      "Marketplace sellers",
+      "Advertising partners",
+      "Delivery/logistics partners",
+      "Payment processors",
+      "Smart home device manufacturers"
+    ],
+    sharesWithThirdParties: [
+      "Third-party sellers",
+      "Advertising networks",
+      "Cloud service customers",
+      "Delivery partners",
+      "Analytics providers"
+    ],
+    thirdPartyCategories: "7–11"
+  },
+  {
+    id: "meta",
+    name: "Meta",
+    summary: "Social media conglomerate with extensive data collection across Facebook, Instagram, WhatsApp, and Threads.",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Contact lists (if granted)",
+      "Social graph",
+      "Messages metadata",
+      "Content you post",
+      "Browsing behavior via Facebook Pixel",
+      "Engagement patterns",
+      "Device/browser data"
+    ],
+    dataInferred: [
+      "Personality traits",
+      "Political tendencies",
+      "Interests",
+      "Relationships",
+      "Purchasing intent",
+      "Behavioral predictions"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Partners using Meta Pixel",
+      "E-commerce integrations",
+      "Business API data from WhatsApp"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics partners",
+      "Business APIs",
+      "Service vendors",
+      "Cloud vendors",
+      "Law enforcement"
+    ],
+    thirdPartyCategories: "8–12"
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    summary: "Software and cloud computing company with enterprise and consumer data collection.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Windows telemetry (varies by settings)",
+      "Office activity",
+      "Cloud-sync files metadata",
+      "Xbox usage",
+      "Browsing data via Edge (if synced)"
+    ],
+    dataInferred: [
+      "Productivity patterns",
+      "Device performance",
+      "Interest categories for ads (less aggressive than Google/Meta)"
+    ],
+    dataFromThirdParties: [
+      "Enterprise vendors",
+      "Developers using Microsoft services",
+      "Data from LinkedIn partners"
+    ],
+    sharesWithThirdParties: [
+      "Enterprise partners",
+      "Cloud infrastructure",
+      "Payment processors",
+      "Analytics vendors",
+      "Ad partners (limited for consumer apps)"
+    ],
+    thirdPartyCategories: "4–7"
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    summary: "Streaming entertainment service with detailed viewing behavior analysis.",
+    dataCollectedDirectly: [
+      "Viewing history",
+      "Search queries",
+      "Ratings (thumbs up/down)",
+      "Device information",
+      "Playback technical data",
+      "Account details",
+      "Interaction with UI elements"
+    ],
+    dataInferred: [
+      "Content preferences",
+      "Viewing patterns",
+      "Taste clusters",
+      "Mood-based viewing habits",
+      "Binge-watching tendencies"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Internet service providers",
+      "Device manufacturers",
+      "Content partners",
+      "Marketing partners"
+    ],
+    sharesWithThirdParties: [
+      "Content creators/studios",
+      "Analytics partners",
+      "Marketing agencies",
+      "Payment processors",
+      "CDN providers"
+    ],
+    thirdPartyCategories: "4–7"
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    summary: "AI research and deployment company with focus on language models and AI services.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Prompts you type",
+      "Model responses",
+      "Interaction metadata (timestamps, features used)",
+      "Device/browser info",
+      "Payment data for subscriptions"
+    ],
+    dataInferred: [
+      "Usage patterns",
+      "Feature preferences",
+      "Model improvement signals (depending on your privacy settings)"
+    ],
+    dataFromThirdParties: [
+      "Payment processors",
+      "Identity-verification vendors (if applicable)",
+      "Optional integrations you enable"
+    ],
+    sharesWithThirdParties: [
+      "Cloud providers (to host/serve models)",
+      "Payment processors",
+      "Email/communication vendors",
+      "Security vendors",
+      "Analytics (non-identifying, depending on settings)"
+    ],
+    thirdPartyCategories: "3–6"
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    summary: "Music streaming service with detailed listening behavior tracking.",
+    dataCollectedDirectly: [
+      "Account info",
+      "Listening history",
+      "Playlist data",
+      "Search queries",
+      "Engagement time",
+      "Device identifiers",
+      "Subscription/billing info"
+    ],
+    dataInferred: [
+      "Music taste profile",
+      "Mood clusters",
+      "Social connection patterns",
+      "Genre affinity",
+      "Ad segmentation"
+    ],
+    dataFromThirdParties: [
+      "Connected devices (car systems, speakers)",
+      "Social platforms",
+      "Advertisers"
+    ],
+    sharesWithThirdParties: [
+      "Ad networks",
+      "Analytics vendors",
+      "Payment processors",
+      "Device integration partners",
+      "Music label reporting systems"
+    ],
+    thirdPartyCategories: "5–7"
+  },
+  {
+    id: "tencent",
+    name: "Tencent",
+    summary: "Chinese technology conglomerate with extensive ecosystem data collection (WeChat, QQ, games).",
+    dataCollectedDirectly: [
+      "Identity info",
+      "Device IDs",
+      "Chat metadata",
+      "Payment data (WeChat Pay)",
+      "Social circles",
+      "Content uploaded",
+      "App usage",
+      "Location (varies by service)"
+    ],
+    dataInferred: [
+      "Social graph patterns",
+      "Spending power",
+      "Behavioral clusters",
+      "Ad preferences"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Mini-program developers",
+      "Advertisers",
+      "Logistics/delivery partners"
+    ],
+    sharesWithThirdParties: [
+      "Mini-program partners",
+      "Payment processors",
+      "Advertisers",
+      "Cloud vendors",
+      "Enterprise partners",
+      "Government requests (China-specific)"
+    ],
+    thirdPartyCategories: "7–12"
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    summary: "Social video platform with sophisticated content and behavior tracking (ByteDance).",
+    dataCollectedDirectly: [
+      "Personal info",
+      "Device identifiers",
+      "Keystroke patterns (for security/typing)",
+      "Browsing behavior inside app",
+      "Content watched",
+      "Engagement timing",
+      "Location (if allowed)",
+      "Contacts (if synced)"
+    ],
+    dataInferred: [
+      "Interest graph",
+      "Behavioral clusters",
+      "Demographic predictions",
+      "Ad targeting segments",
+      "Content preference trajectory"
+    ],
+    dataFromThirdParties: [
+      "Advertisers",
+      "Creators",
+      "Linked apps (CapCut, Douyin environment)",
+      "Ad networks"
+    ],
+    sharesWithThirdParties: [
+      "Advertisers",
+      "Analytics services",
+      "Content-delivery networks",
+      "Cloud infrastructure vendors",
+      "Business partners"
+    ],
+    thirdPartyCategories: "6–10"
+  },
+  {
+    id: "xiaohongshu",
+    name: "Xiaohongshu",
+    summary: "Chinese social e-commerce platform focused on lifestyle and shopping (RED).",
+    dataCollectedDirectly: [
+      "Account info",
+      "Browsing history",
+      "Content interactions",
+      "Purchase behavior",
+      "Device identifiers",
+      "Location (if enabled)"
+    ],
+    dataInferred: [
+      "Lifestyle clusters",
+      "Fashion/beauty preferences",
+      "Shopping intent",
+      "Social influence metrics"
+    ],
+    dataFromThirdParties: [
+      "Merchants",
+      "Advertisers",
+      "Brand partners",
+      "Influencers"
+    ],
+    sharesWithThirdParties: [
+      "Merchant partners",
+      "Analytics/ads networks",
+      "Payment processors",
+      "Logistics (for RED Mall)",
+      "Regulatory entities"
+    ],
+    thirdPartyCategories: "5–9"
+  }
+];
+
+const allDataItems = {
+  collected: [],
+  inferred: [],
+  shared: []
+};
+
+companyData.forEach(company => {
+  // data collected directly
+  company.dataCollectedDirectly.forEach(item => {
+    if (!allDataItems.collected.includes(item)) {
+      allDataItems.collected.push(item);
+    }
+  });
+  
+  // data inferred
+  company.dataInferred.forEach(item => {
+    if (!allDataItems.inferred.includes(item)) {
+      allDataItems.inferred.push(item);
+    }
+  });
+  
+  // data shared with third parties
+  company.sharesWithThirdParties.forEach(item => {
+    if (!allDataItems.shared.includes(item)) {
+      allDataItems.shared.push(item);
+    }
+  });
+});
+
+// user preferences
+let userPreferences = {
+  collected: {},
+  inferred: {},
+  shared: {},
+  selectedCompany: null,
+  initialCyborgLevel: 50,
+  finalCyborgLevel: 50
+};
+
+let displayedItems = {
+  collected: [],
+  inferred: [],
+  shared: []
+};
+
+//dom
+const mainContent = document.querySelector('.main-content');
+const enterPreferencesLink = document.getElementById('enterPreferencesLink');
+const dataPreferencesContainer = document.getElementById('dataPreferencesContainer');
+const categorySections = document.querySelectorAll('.category-section');
+
+/* particle background */
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+function resizeParticles(){ pCanvas.width=window.innerWidth; pCanvas.height=window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+class Particle {
+  constructor(){ 
+    this.x=Math.random()*pCanvas.width; 
+    this.y=Math.random()*pCanvas.height; 
+    this.size=Math.random()*1.5+0.5;
+    const angle=Math.random()*Math.PI*2; 
+    const speed=Math.random()*0.7+0.2;
+    this.speedX=Math.cos(angle)*speed; 
+    this.speedY=Math.sin(angle)*speed;
+    this.alpha = Math.random()*0.5+0.3;
+  }
+  update(){ 
+    this.x+=this.speedX; 
+    this.y+=this.speedY;
+    if(this.x>pCanvas.width) this.x=0; 
+    if(this.x<0) this.x=pCanvas.width;
+    if(this.y>pCanvas.height) this.y=0; 
+    if(this.y<0) this.y=pCanvas.height;
+  }
+  draw(){ 
+    pCtx.fillStyle=`rgba(255,255,255,${this.alpha})`; 
+    pCtx.beginPath(); 
+    pCtx.arc(this.x,this.y,this.size,0,Math.PI*2); 
+    pCtx.fill(); 
+  }
+}
+const particles=[];
+for(let i=0;i<150;i++) particles.push(new Particle());
+function animateParticles(){ 
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height); 
+  particles.forEach(p=>{p.update();p.draw();}); 
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* pixelated words */
+const wCanvas=document.getElementById('wordCanvas');
+const wCtx=wCanvas.getContext('2d');
+function resizeWords(){ wCanvas.width=window.innerWidth; wCanvas.height=window.innerHeight; }
+resizeWords();
+window.addEventListener('resize', resizeWords);
+
+const WORDS=[
+  "privacy","dissonance","preference","reality","cognitive","conflict",
+  "data collection","tracking","profiling","inference","sharing",
+  "contradiction","awareness","choice","control","consent","transparency",
+  "digital footprint","behavioral data","personal information","metadata",
+  "algorithm","bias","manipulation","surveillance","autonomy","agency",
+  "cyborg","identity","integration","technology","human","machine",
+  "digital self","footprint","tracking","behavior","patterns","choice"
+];
+
+const pixelSize=6, revealDelay=10, holdMS=1000, fadeMS=3000, margin=150;
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];}}
+
+async function showWord(word){
+    const off=document.createElement('canvas');
+    const W=wCanvas.width*0.5, H=100; off.width=W; off.height=H;
+    const octx=off.getContext('2d'); octx.font=`bold 80px sans-serif`; octx.textAlign='center'; octx.textBaseline='middle'; octx.fillStyle='white'; octx.fillText(word,W/2,H/2);
+
+    const img=octx.getImageData(0,0,W,H).data;
+    const pixels=[];
+    for(let y=0;y<H;y+=pixelSize){for(let x=0;x<W;x+=pixelSize){if(img[(y*W+x)*4+3]>128) pixels.push({x,y});}}
+    shuffle(pixels);
+
+    const side = Math.floor(Math.random() * 4);
+    let randX = 0, randY = 0, rotation = 0;
+    const margin = 10;
+
+    switch(side){
+    case 0: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = margin; rotation = 0; break;
+    case 1: randX = wCanvas.width - margin - W + 200; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    case 2: randX = margin + Math.random() * (wCanvas.width - margin - W); randY = wCanvas.height - margin - H; rotation = 0; break;
+    case 3: randX = margin-270; randY = margin + Math.random() * (wCanvas.height - 5*margin - H); rotation = 90; break;
+    }
+
+    for(const p of pixels){
+      let px=p.x, py=p.y;
+      if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+      else {px+=randX; py+=randY;}
+      wCtx.fillStyle='white'; wCtx.fillRect(px,py,pixelSize,pixelSize);
+      await sleep(revealDelay);
+    }
+
+    await sleep(holdMS);
+
+    const frames=Math.floor(fadeMS/16);
+    for(let f=0;f<frames;f++){
+      wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+      wCtx.globalAlpha=1-f/frames;
+      for(const p of pixels){
+        let px=p.x, py=p.y;
+        if(rotation===90){ const cx=randX+W/2; const cy=randY+H/2; px=cx+(p.y-H/2); py=cy-(p.x-W/2);}
+        else {px+=randX; py+=randY;}
+        wCtx.fillRect(px,py,pixelSize,pixelSize);
+      }
+      await sleep(16);
+    }
+    wCtx.globalAlpha=1;
+}
+
+async function fadeInWords(){
+    for(let alpha=0; alpha<=1; alpha+=0.02){
+        wCtx.globalAlpha = alpha;
+        await sleep(16);
+    }
+    wCtx.globalAlpha = 1;
+}
+
+async function loopWords() {
+    while(true){
+        const randomIndex = Math.floor(Math.random() * WORDS.length);
+        const word = WORDS[randomIndex];
+        await showWord(word);
+    }
+}
+
+// get all localStorage data from previous sites
+function getAllLocalStorageData() {
+  const data = {};
+  
+  // collect all localStorage items
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    try {
+      data[key] = JSON.parse(localStorage.getItem(key));
+    } catch (e) {
+      data[key] = localStorage.getItem(key);
+    }
+  }
+  
+  return data;
+}
+
+// calculate cyborg level based on stored data
+function calculateCyborgLevel(storageData) {
+  let score = 50;
+  
+  // selected services contribute to cyborg level
+  if (storageData.selectedServices && Array.isArray(storageData.selectedServices)) {
+    score += storageData.selectedServices.length * 5;
+  }
+  
+  // data preferences - more data accepted = more cyborg
+  if (storageData.dataPreferences) {
+    const prefs = storageData.dataPreferences;
+    let acceptedItems = 0;
+    let totalItems = 0;
+    
+    // count accepted items
+    ['collected', 'inferred', 'shared'].forEach(category => {
+      if (prefs[category]) {
+        Object.values(prefs[category]).forEach(value => {
+          totalItems++;
+          if (value === true) acceptedItems++;
+        });
+      }
+    });
+    
+    if (totalItems > 0) {
+      const acceptanceRate = (acceptedItems / totalItems) * 100;
+      score += (acceptanceRate - 50) / 2;
+    }
+  }
+  
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function mapGovernmentKeyToItem(key) {
+  const governmentMappings = {
+    'national-security': 'Personal info (name, phone number, address)',
+    'location-tracking': 'Location data (active + passive)',
+    'biometric-data': 'Biometric identifiers',
+    'financial-surveillance': 'Payment data',
+    'social-graph-analysis': 'Social graph',
+    'predictive-policing': 'Behavioral patterns',
+    'health-data': 'Health information',
+    'travel-monitoring': 'Movement patterns',
+    'protest-monitoring': 'Engagement patterns',
+    'employment-monitoring': 'Employment information'
+  };
+  return governmentMappings[key] || key.replace(/-/g, ' ');
+}
+
+function mapBusinessKeyToItem(key) {
+  const businessMappings = {
+    'behavioral-tracking': 'Browsing behavior',
+    'personal-profiling': 'Behavioral profiles',
+    'social-surveillance': 'Social graph',
+    'purchase-prediction': 'Purchasing likelihood',
+    'attention-optimization': 'Engagement patterns',
+    'location-exploitation': 'Location data (active + passive)',
+    'emotional-manipulation': 'Mood clusters',
+    'cross-device-tracking': 'Device identifiers',
+    'data-brokering': 'Data analytics vendors',
+    'dark-patterns': 'Ad-targeting segments'
+  };
+  return businessMappings[key] || key.replace(/-/g, ' ');
+}
+
+function displayServicesUsed(storageData) {
+  const servicesContainer = document.getElementById('servicesUsed');
+  
+  const selectedServices = storageData.selectedServices || [];
+  
+  const servicesHTML = selectedServices
+    .map(serviceId => {
+      const company = companyData.find(c => c.id === serviceId);
+      return company ? {
+        id: serviceId,
+        name: company.name,
+        logo: companyLogos[serviceId] || ''
+      } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(service => `
+      <div class="service-badge">
+        <img src="${service.logo}" alt="${service.name}">
+        <span>${service.name}</span>
+      </div>
+    `)
+    .join('');
+  
+  servicesContainer.innerHTML = servicesHTML || '<p style="color: #ccc;">No services selected</p>';
+}
+
+function displayCyborgLevel(level) {
+  const cyborgFill = document.getElementById('cyborgFill');
+  const cyborgPercentage = document.getElementById('cyborgPercentage');
+  
+  cyborgFill.style.width = `${level}%`;
+  cyborgPercentage.textContent = `${level}%`;
+}
+
+function calculateCurrentCyborgLevel() {
+  let acceptedItems = 0;
+  let totalItems = 0;
+  
+  ['collected', 'inferred', 'shared'].forEach(category => {
+    Object.values(userPreferences[category]).forEach(value => {
+      totalItems++;
+      if (value === true) acceptedItems++;
+    });
+  });
+  
+  if (totalItems > 0) {
+    const acceptanceRate = (acceptedItems / totalItems) * 100;
+    
+    let currentLevel = Math.round(acceptanceRate);
+    
+    const storageData = getAllLocalStorageData();
+    if (storageData.selectedServices && Array.isArray(storageData.selectedServices)) {
+      currentLevel += storageData.selectedServices.length * 2;
+    }
+    
+    currentLevel = Math.max(0, Math.min(100, currentLevel));
+    
+    return currentLevel;
+  }
+  
+  return userPreferences.initialCyborgLevel;
+}
+
+function updateCyborgLevel() {
+  const currentLevel = calculateCurrentCyborgLevel();
+  userPreferences.finalCyborgLevel = currentLevel;
+  displayCyborgLevel(currentLevel);
+  savePreferences();
+}
+
+function handleItemSelection(item, category, isSelected) {
+  if (!userPreferences[category]) {
+    userPreferences[category] = {};
+  }
+  userPreferences[category][item] = isSelected;
+  updateCyborgLevel();
+  updateSelectAllButtonText();
+}
+
+function selectAllInCategory(category) {
+  const items = displayedItems[category] || [];
+  
+  items.forEach(item => {
+    userPreferences[category][item] = true;
+  });
+  
+  updateCategoryItemsSelection(category, true);
+  updateCyborgLevel();
+  updateSelectAllButtonText();
+}
+
+function deselectAllInCategory(category) {
+  const items = displayedItems[category] || [];
+  
+  items.forEach(item => {
+    userPreferences[category][item] = false;
+  });
+  
+  updateCategoryItemsSelection(category, false);
+  updateCyborgLevel();
+  updateSelectAllButtonText();
+}
+
+function updateCategoryItemsSelection(category, selected) {
+  const selector = `.data-item-selectable[data-category="${category}"]`;
+  document.querySelectorAll(selector).forEach(item => {
+    if (selected) {
+      item.classList.add('selected');
+    } else {
+      item.classList.remove('selected');
+    }
+  });
+}
+
+function displayDataCategories(storageData) {
+  const categoriesContainer = document.getElementById('dataCategories');
+  
+  let surveillancePrefs = { government: {}, business: {} };
+  if (storageData.surveillancePreferences) {
+    try {
+      if (typeof storageData.surveillancePreferences === 'string') {
+        surveillancePrefs = JSON.parse(storageData.surveillancePreferences);
+      } else {
+        surveillancePrefs = storageData.surveillancePreferences;
+      }
+    } catch (e) {
+      console.error('Error parsing surveillancePreferences:', e);
+    }
+  }
+  
+  const personalPrefs = storageData.dataPreferences || { collected: {}, inferred: {}, shared: {} };
+  const selectedServices = storageData.selectedServices || [];
+  
+  const governmentMappings = {
+    // gov direct
+    'national-security': {
+      item: 'Communication content',
+      category: 'collected',
+      description: 'Communication content'
+    },
+    'location-tracking': {
+      item: 'Physical movements',
+      category: 'collected',
+      description: 'Physical movements'
+    },
+    'biometric-data': {
+      item: 'Biological identifiers',
+      category: 'collected',
+      description: 'Biological identifiers'
+    },
+    'health-data': {
+      item: 'Medical information',
+      category: 'collected',
+      description: 'Medical information'
+    },
+    'travel-monitoring': {
+      item: 'Itinerary data',
+      category: 'collected',
+      description: 'Itinerary data'
+    },
+    'protest-monitoring': {
+      item: 'Assembly participation',
+      category: 'collected',
+      description: 'Assembly participation'
+    },
+    'employment-monitoring': {
+      item: 'Career/education records',
+      category: 'collected',
+      description: 'Career/education records'
+    },
+    
+    // gov, inferred
+    'social-graph-analysis': {
+      item: 'Relationships from patterns',
+      category: 'inferred',
+      description: 'Relationships from patterns'
+    },
+    'predictive-policing': {
+      item: 'Criminal risk from data',
+      category: 'inferred',
+      description: 'Criminal risk from data'
+    },
+    
+    // gov, shared w/ 3rd parties
+    'financial-surveillance': {
+      item: 'Banks/financial institutions',
+      category: 'shared',
+      description: 'Banks/financial institutions'
+    }
+  };
+  
+  const businessMappings = {
+    // business, direct
+    'behavioral-tracking': {
+      item: 'Interaction metrics',
+      category: 'collected',
+      description: 'Interaction metrics'
+    },
+    'location-exploitation': {
+      item: 'Physical movements',
+      category: 'collected',
+      description: 'Physical movements'
+    },
+    'cross-device-tracking': {
+      item: 'Device usage patterns',
+      category: 'collected',
+      description: 'Device usage patterns'
+    },
+    
+    // business, inferred
+    'personal-profiling': {
+      item: 'Psychological traits',
+      category: 'inferred',
+      description: 'Psychological traits'
+    },
+    'social-surveillance': {
+      item: 'Relationship strength/influence',
+      category: 'inferred',
+      description: 'Relationship strength/influence'
+    },
+    'purchase-prediction': {
+      item: 'Future buying behavior',
+      category: 'inferred',
+      description: 'Future buying behavior'
+    },
+    'emotional-manipulation': {
+      item: 'Emotional states',
+      category: 'inferred',
+      description: 'Emotional states'
+    },
+    'attention-optimization': {
+      item: 'Engagement patterns',
+      category: 'inferred',
+      description: 'Engagement patterns'
+    },
+    
+    // business, shared w/ 3rd parties
+    'data-brokering': {
+      item: 'Aggregated data sale',
+      category: 'shared',
+      description: 'Aggregated data sale'
+    },
+    'dark-patterns': {
+      item: 'Design patterns for manipulation',
+      category: 'shared',
+      description: 'Design patterns for manipulation'
+    }
+  };
+  
+  const governmentAccepted = {
+    collected: [],
+    inferred: [],
+    shared: []
+  };
+  
+  if (surveillancePrefs.government) {
+    Object.entries(surveillancePrefs.government).forEach(([key, value]) => {
+      if (value === true && governmentMappings[key]) {
+        const mapping = governmentMappings[key];
+        governmentAccepted[mapping.category].push({
+          item: mapping.item,
+          originalKey: key,
+          description: mapping.description
+        });
+      }
+    });
+  }
+  
+  const businessAccepted = {
+    collected: [],
+    inferred: [],
+    shared: []
+  };
+  
+  if (surveillancePrefs.business) {
+    Object.entries(surveillancePrefs.business).forEach(([key, value]) => {
+      if (value === true && businessMappings[key]) {
+        const mapping = businessMappings[key];
+        businessAccepted[mapping.category].push({
+          item: mapping.item,
+          originalKey: key,
+          description: mapping.description
+        });
+      }
+    });
+  }
+  
+  const servicesByItem = {};
+  selectedServices.forEach(serviceId => {
+    const company = companyData.find(c => c.id === serviceId);
+    if (company) {
+      // data collected directly
+      company.dataCollectedDirectly.forEach(item => {
+        if (!servicesByItem[item]) servicesByItem[item] = [];
+        if (!servicesByItem[item].includes(company.id)) {
+          servicesByItem[item].push(company.id);
+        }
+      });
+      
+      // data inferred
+      company.dataInferred.forEach(item => {
+        if (!servicesByItem[item]) servicesByItem[item] = [];
+        if (!servicesByItem[item].includes(company.id)) {
+          servicesByItem[item].push(company.id);
+        }
+      });
+      
+      // data shared
+      company.sharesWithThirdParties.forEach(item => {
+        if (!servicesByItem[item]) servicesByItem[item] = [];
+        if (!servicesByItem[item].includes(company.id)) {
+          servicesByItem[item].push(company.id);
+        }
+      });
+    }
+  });
+  
+  if (Object.keys(userPreferences.collected).length === 0) {
+    userPreferences.collected = { ...personalPrefs.collected };
+    userPreferences.inferred = { ...personalPrefs.inferred };
+    userPreferences.shared = { ...personalPrefs.shared };
+    
+    allDataItems.collected.forEach(item => {
+      if (userPreferences.collected[item] === undefined) {
+        userPreferences.collected[item] = true;
+      }
+    });
+    
+    allDataItems.inferred.forEach(item => {
+      if (userPreferences.inferred[item] === undefined) {
+        userPreferences.inferred[item] = true;
+      }
+    });
+    
+    allDataItems.shared.forEach(item => {
+      if (userPreferences.shared[item] === undefined) {
+        userPreferences.shared[item] = true;
+      }
+    });
+  }
+  
+  Object.values(governmentAccepted).forEach(items => {
+    items.forEach(({ item }) => {
+      let category = 'collected';
+      for (const [key, mapping] of Object.entries(governmentMappings)) {
+        if (mapping.item === item) {
+          category = mapping.category;
+          break;
+        }
+      }
+      
+      if (userPreferences[category] && userPreferences[category][item] === undefined) {
+        userPreferences[category][item] = true;
+      }
+    });
+  });
+  
+  Object.values(businessAccepted).forEach(items => {
+    items.forEach(({ item }) => {
+      let category = 'collected';
+      for (const [key, mapping] of Object.entries(businessMappings)) {
+        if (mapping.item === item) {
+          category = mapping.category;
+          break;
+        }
+      }
+      
+      if (userPreferences[category] && userPreferences[category][item] === undefined) {
+        userPreferences[category][item] = true;
+      }
+    });
+  });
+  
+  const filteredCollected = allDataItems.collected.filter(item => {
+    const hasPersonal = personalPrefs.collected && personalPrefs.collected[item] === true;
+    const hasGov = governmentAccepted.collected.some(govItem => govItem.item === item);
+    const hasBusiness = businessAccepted.collected.some(bizItem => bizItem.item === item);
+    const hasService = servicesByItem[item] && servicesByItem[item].length > 0;
+    return hasPersonal || hasGov || hasBusiness || hasService;
+  });
+  
+  const filteredInferred = allDataItems.inferred.filter(item => {
+    const hasPersonal = personalPrefs.inferred && personalPrefs.inferred[item] === true;
+    const hasGov = governmentAccepted.inferred.some(govItem => govItem.item === item);
+    const hasBusiness = businessAccepted.inferred.some(bizItem => bizItem.item === item);
+    const hasService = servicesByItem[item] && servicesByItem[item].length > 0;
+    return hasPersonal || hasGov || hasBusiness || hasService;
+  });
+  
+  const filteredShared = allDataItems.shared.filter(item => {
+    const hasPersonal = personalPrefs.shared && personalPrefs.shared[item] === true;
+    const hasGov = governmentAccepted.shared.some(govItem => govItem.item === item);
+    const hasBusiness = businessAccepted.shared.some(bizItem => bizItem.item === item);
+    const hasService = servicesByItem[item] && servicesByItem[item].length > 0;
+    return hasPersonal || hasGov || hasBusiness || hasService;
+  });
+  
+  const addSurveillanceItems = (category, acceptedItems) => {
+    acceptedItems.forEach(({ item, description }) => {
+      if (!filteredCollected.includes(item) && 
+          !filteredInferred.includes(item) && 
+          !filteredShared.includes(item)) {
+        if (category === 'collected' && !filteredCollected.includes(item)) {
+          filteredCollected.push(item);
+        } else if (category === 'inferred' && !filteredInferred.includes(item)) {
+          filteredInferred.push(item);
+        } else if (category === 'shared' && !filteredShared.includes(item)) {
+          filteredShared.push(item);
+        }
+        
+        if (userPreferences[category] && userPreferences[category][item] === undefined) {
+          userPreferences[category][item] = true;
+        }
+      }
+    });
+  };
+  
+  Object.entries(governmentAccepted).forEach(([category, items]) => {
+    addSurveillanceItems(category, items);
+  });
+  
+  Object.entries(businessAccepted).forEach(([category, items]) => {
+    addSurveillanceItems(category, items);
+  });
+  
+  displayedItems.collected = filteredCollected;
+  displayedItems.inferred = filteredInferred;
+  displayedItems.shared = filteredShared;
+  
+  categoriesContainer.innerHTML = `
+    <div class="data-category">
+      <div class="category-header-row">
+        <h3 class="direct">Data Collected Directly</h3>
+        <button class="select-all-btn" data-category="collected">Select All</button>
+      </div>
+      <div class="data-items-list">
+        ${filteredCollected.length > 0 ? 
+          filteredCollected.map(item => {
+            const isSelected = userPreferences.collected[item] === true;
+            const personalTag = personalPrefs.collected && personalPrefs.collected[item] === true;
+            const govTag = governmentAccepted.collected.some(govItem => govItem.item === item);
+            const businessTag = businessAccepted.collected.some(bizItem => bizItem.item === item);
+            const serviceTags = servicesByItem[item] || [];
+            
+            let description = item;
+            if (govTag) {
+              const govItem = governmentAccepted.collected.find(g => g.item === item);
+              if (govItem) description = govItem.description;
+            } else if (businessTag) {
+              const bizItem = businessAccepted.collected.find(b => b.item === item);
+              if (bizItem) description = bizItem.description;
+            }
+            
+            return `
+              <div class="data-item-selectable direct ${isSelected ? 'selected' : ''}" 
+                   data-item="${item}" 
+                   data-category="collected">
+                <p>${description}</p>
+                <div class="data-tags">
+                  ${personalTag ? '<span class="data-tag tag-personal">Your Personal Usage</span>' : ''}
+                  ${govTag ? '<span class="data-tag tag-gov">Your Government</span>' : ''}
+                  ${businessTag ? '<span class="data-tag tag-business">Your Business</span>' : ''}
+                  ${serviceTags.map(serviceId => {
+                    const company = companyData.find(c => c.id === serviceId);
+                    return company ? `
+                      <span class="service-tag">
+                        <img src="${companyLogos[serviceId] || ''}" alt="${company.name}">
+                        <span>${company.name}</span>
+                      </span>
+                    ` : '';
+                  }).join('')}
+                </div>
+                <div class="item-checkbox"></div>
+              </div>
+            `;
+          }).join('') : 
+          '<div class="no-data">No tagged items in this category</div>'
+        }
+      </div>
+    </div>
+    
+    <div class="data-category">
+      <div class="category-header-row">
+        <h3 class="inferred">Data Inferred</h3>
+        <button class="select-all-btn" data-category="inferred">Select All</button>
+      </div>
+      <div class="data-items-list">
+        ${filteredInferred.length > 0 ? 
+          filteredInferred.map(item => {
+            const isSelected = userPreferences.inferred[item] === true;
+            const personalTag = personalPrefs.inferred && personalPrefs.inferred[item] === true;
+            const govTag = governmentAccepted.inferred.some(govItem => govItem.item === item);
+            const businessTag = businessAccepted.inferred.some(bizItem => bizItem.item === item);
+            const serviceTags = servicesByItem[item] || [];
+            
+            let description = item;
+            if (govTag) {
+              const govItem = governmentAccepted.inferred.find(g => g.item === item);
+              if (govItem) description = govItem.description;
+            } else if (businessTag) {
+              const bizItem = businessAccepted.inferred.find(b => b.item === item);
+              if (bizItem) description = bizItem.description;
+            }
+            
+            return `
+              <div class="data-item-selectable inferred ${isSelected ? 'selected' : ''}" 
+                   data-item="${item}" 
+                   data-category="inferred">
+                <p>${description}</p>
+                <div class="data-tags">
+                  ${personalTag ? '<span class="data-tag tag-personal">Your Personal Usage</span>' : ''}
+                  ${govTag ? '<span class="data-tag tag-gov">Your Government</span>' : ''}
+                  ${businessTag ? '<span class="data-tag tag-business">Your Business</span>' : ''}
+                  ${serviceTags.map(serviceId => {
+                    const company = companyData.find(c => c.id === serviceId);
+                    return company ? `
+                      <span class="service-tag">
+                        <img src="${companyLogos[serviceId] || ''}" alt="${company.name}">
+                        <span>${company.name}</span>
+                      </span>
+                    ` : '';
+                  }).join('')}
+                </div>
+                <div class="item-checkbox"></div>
+              </div>
+            `;
+          }).join('') : 
+          '<div class="no-data">No tagged items in this category</div>'
+        }
+      </div>
+    </div>
+    
+    <div class="data-category">
+      <div class="category-header-row">
+        <h3 class="shared">Shared with 3rd Parties</h3>
+        <button class="select-all-btn" data-category="shared">Select All</button>
+      </div>
+      <div class="data-items-list">
+        ${filteredShared.length > 0 ? 
+          filteredShared.map(item => {
+            const isSelected = userPreferences.shared[item] === true;
+            const personalTag = personalPrefs.shared && personalPrefs.shared[item] === true;
+            const govTag = governmentAccepted.shared.some(govItem => govItem.item === item);
+            const businessTag = businessAccepted.shared.some(bizItem => bizItem.item === item);
+            const serviceTags = servicesByItem[item] || [];
+            
+            let description = item;
+            if (govTag) {
+              const govItem = governmentAccepted.shared.find(g => g.item === item);
+              if (govItem) description = govItem.description;
+            } else if (businessTag) {
+              const bizItem = businessAccepted.shared.find(b => b.item === item);
+              if (bizItem) description = bizItem.description;
+            }
+            
+            return `
+              <div class="data-item-selectable shared ${isSelected ? 'selected' : ''}" 
+                   data-item="${item}" 
+                   data-category="shared">
+                <p>${description}</p>
+                <div class="data-tags">
+                  ${personalTag ? '<span class="data-tag tag-personal">Your Personal Usage</span>' : ''}
+                  ${govTag ? '<span class="data-tag tag-gov">Your Government</span>' : ''}
+                  ${businessTag ? '<span class="data-tag tag-business">Your Business</span>' : ''}
+                  ${serviceTags.map(serviceId => {
+                    const company = companyData.find(c => c.id === serviceId);
+                    return company ? `
+                      <span class="service-tag">
+                        <img src="${companyLogos[serviceId] || ''}" alt="${company.name}">
+                        <span>${company.name}</span>
+                      </span>
+                    ` : '';
+                  }).join('')}
+                </div>
+                <div class="item-checkbox"></div>
+              </div>
+            `;
+          }).join('') : 
+          '<div class="no-data">No tagged items in this category</div>'
+        }
+      </div>
+    </div>
+  `;
+  
+  document.querySelectorAll('.data-item-selectable').forEach(item => {
+    item.addEventListener('click', function() {
+      const itemName = this.dataset.item;
+      const category = this.dataset.category;
+      const isSelected = this.classList.contains('selected');
+      this.classList.toggle('selected');
+      handleItemSelection(itemName, category, !isSelected);
+    });
+  });
+  
+  document.querySelectorAll('.select-all-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const category = this.dataset.category;
+      const allSelected = areAllItemsSelected(category);
+      
+      if (allSelected) {
+        deselectAllInCategory(category);
+        this.textContent = 'Select All';
+      } else {
+        selectAllInCategory(category);
+        this.textContent = 'Deselect All';
+      }
+    });
+  });
+  
+  updateSelectAllButtonText();
+}
+
+function areAllItemsSelected(category) {
+  const items = displayedItems[category] || [];
+  if (items.length === 0) return false;
+  return items.every(item => userPreferences[category][item] === true);
+}
+
+function updateSelectAllButtonText() {
+  ['collected', 'inferred', 'shared'].forEach(category => {
+    const button = document.querySelector(`.select-all-btn[data-category="${category}"]`);
+    if (button) {
+      const allSelected = areAllItemsSelected(category);
+      button.textContent = allSelected ? 'Deselect All' : 'Select All';
+    }
+  });
+}
+
+function calculateCompanyAlignment(company) {
+  let totalSelected = 0;
+  let totalItems = 0;
+  
+  // check data collected directly
+  company.dataCollectedDirectly.forEach(item => {
+    totalItems++;
+    if (userPreferences.collected[item] === true) {
+      totalSelected++;
+    }
+  });
+  
+  // check data inferred
+  company.dataInferred.forEach(item => {
+    totalItems++;
+    if (userPreferences.inferred[item] === true) {
+      totalSelected++;
+    }
+  });
+  
+  // check data shared
+  company.sharesWithThirdParties.forEach(item => {
+    totalItems++;
+    if (userPreferences.shared[item] === true) {
+      totalSelected++;
+    }
+  });
+  
+  if (totalItems === 0) return 50;
+  
+  return (totalSelected / totalItems) * 100;
+}
+
+function findMostAlignedCompany() {
+  const storageData = getAllLocalStorageData();
+  const selectedServices = storageData.selectedServices || [];
+  
+  if (selectedServices.length === 0) {
+    return { company: null, score: 0 };
+  }
+  
+  let bestCompany = null;
+  let bestScore = -1;
+  
+  selectedServices.forEach(serviceId => {
+    const company = companyData.find(c => c.id === serviceId);
+    if (company) {
+      const score = calculateCompanyAlignment(company);
+      if (score > bestScore) {
+        bestScore = score;
+        bestCompany = company;
+      }
+    }
+  });
+  
+  return { company: bestCompany, score: bestScore || 0 };
+}
+
+function showFinalReflection() {
+  const alignedCompany = findMostAlignedCompany();
+  const alignedCompanyDisplay = document.getElementById('alignedCompanyDisplay');
+  
+  if (alignedCompany.company) {
+    const alignmentScore = Math.round(alignedCompany.score);
+    
+    alignedCompanyDisplay.innerHTML = `
+      <img src="${companyLogos[alignedCompany.company.id] || ''}" alt="${alignedCompany.company.name}" class="company-logo-large">
+      <div class="company-name-large">${alignedCompany.company.name}</div>
+      <div class="company-match">${alignmentScore}% aligned with your preferences</div>
+      <div class="company-summary">${alignedCompany.company.summary}</div>
+    `;
+    
+    userPreferences.selectedCompany = alignedCompany.company.id;
+    userPreferences.alignmentScore = alignmentScore;
+    
+  } else {
+    alignedCompanyDisplay.innerHTML = `
+      <div style="color: #ccc; text-align: center; padding: 40px;">
+        <p>No aligned company found.</p>
+      </div>
+    `;
+  }
+  
+  document.getElementById('initialCyborgLevel').textContent = `${userPreferences.initialCyborgLevel}%`;
+  document.getElementById('finalCyborgLevel').textContent = `${userPreferences.finalCyborgLevel}%`;
+  savePreferences();
+  updateNextPoemButton();
+}
+
+function savePreferences() {
+  localStorage.setItem('dataPreferences', JSON.stringify(userPreferences));
+  
+  if (userPreferences.selectedCompany) {
+    localStorage.setItem('selectedCompany', userPreferences.selectedCompany);
+  }
+  
+  if (userPreferences.alignmentScore) {
+    localStorage.setItem('alignmentScore', userPreferences.alignmentScore.toString());
+  }
+  
+  localStorage.setItem('initialCyborgLevel', userPreferences.initialCyborgLevel.toString());
+  localStorage.setItem('finalCyborgLevel', userPreferences.finalCyborgLevel.toString());
+  
+  if (userPreferences.selectedCompany && userPreferences.alignmentScore) {
+    const companyData = {
+      name: userPreferences.selectedCompany,
+      alignment: userPreferences.alignmentScore,
+      initialCyborgLevel: userPreferences.initialCyborgLevel,
+      finalCyborgLevel: userPreferences.finalCyborgLevel
+    };
+    localStorage.setItem('companyAlignmentData', JSON.stringify(companyData));
+  }
+}
+
+function goToStep(stepNumber) {
+  categorySections.forEach(section => {
+    if (section.id === `category${stepNumber}`) {
+      section.classList.add('active');
+    } else {
+      section.classList.remove('active');
+    }
+  });
+  
+  const container = document.getElementById('dataPreferencesContainer');
+  if (container) {
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  if (stepNumber === 2) {
+    showFinalReflection();
+  }
+  
+  updateNextPoemButton();
+}
+
+function updateNextPoemButton() {
+  const nextPoemBtn = document.getElementById('nextPoemBtn');
+  const finalSection = document.getElementById('category2');
+  
+  if (finalSection && finalSection.classList.contains('active')) {
+    setTimeout(() => {
+      nextPoemBtn.style.display = 'block';
+      nextPoemBtn.classList.add('visible');
+    }, 500);
+  } else {
+    nextPoemBtn.style.display = 'none';
+    nextPoemBtn.classList.remove('visible');
+  }
+}
+
+function initializeDataPreferences() {
+  const storageData = getAllLocalStorageData();
+  const initialCyborgLevel = calculateCyborgLevel(storageData);
+  userPreferences.initialCyborgLevel = initialCyborgLevel;
+  userPreferences.finalCyborgLevel = initialCyborgLevel;
+  
+  displayServicesUsed(storageData);
+  displayCyborgLevel(initialCyborgLevel);
+  displayDataCategories(storageData);
+}
+
+enterPreferencesLink.addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  mainContent.classList.add('hidden');
+  
+  setTimeout(() => {
+    dataPreferencesContainer.classList.add('active');
+    initializeDataPreferences();
+    goToStep(1);
+  }, 500);
+});
+
+// navigation buttons
+document.getElementById('nextBtn1').addEventListener('click', () => goToStep(2));
+document.getElementById('prevBtn2').addEventListener('click', () => goToStep(1));
+document.getElementById('restartBtn').addEventListener('click', () => {
+  if (confirm('Start over? This will reset your current selections.')) {
+    userPreferences = {
+      collected: {},
+      inferred: {},
+      shared: {},
+      selectedCompany: null,
+      initialCyborgLevel: 50,
+      finalCyborgLevel: 50
+    };
+    
+    initializeDataPreferences();
+    goToStep(1);
+  }
+});
+
+document.getElementById('nextPoemBtn').addEventListener('click', () => {
+  savePreferences();
+  
+  const originalText = document.getElementById('nextPoemBtn').innerHTML;
+  document.getElementById('nextPoemBtn').innerHTML = 'Loading Next Poem...';
+  document.getElementById('nextPoemBtn').disabled = true;
+  
+  setTimeout(() => {
+    window.location.href = 'site5.html';
+  }, 800);
+});
+
+window.addEventListener('load', () => {
+  fadeInWords();
+  loopWords();
+});
+
+function preloadLogos() {
+  Object.values(companyLogos).forEach(logoUrl => {
+    const img = new Image();
+    img.src = logoUrl;
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  preloadLogos();
+});
+</script>
+</body>
+</html>
